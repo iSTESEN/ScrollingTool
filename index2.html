@@ -8,6 +8,18 @@
 <script>
   // 当前版本号
   var toolVersion = 'RELEASE_4 (2023-12-28)';
+  // 数据库名
+  var datasourceName = '';
+  // 数据库版本
+  var datasourceVer = '';
+  // 读取数据库版本
+  function getDatasourceInfo() {
+      datasourceName = localStorage.getItem('STdataName') || '';
+      if (datasourceName!='') {
+          datasourceVer = localStorage.getItem('STdataVer') || '';
+      }
+  }
+  getDatasourceInfo();
   // 检查更新事件
   function checkUpdateEvent(event) {
       try {
@@ -66,6 +78,7 @@
 </h1>
 <p><b>STESEN</b></p>
 <p id="versionTag" onclick="releaseTip()"></p>
+<p id="dataversionTag"></p>
 <p style="font-size: 13px;">【本版本数据库有修正，请再次点击“一键导入”。注意：自己录的题会消失，如果有自行录入题目，一键导入前请先导出】</p>
 <p><b>数据贡献：</b>k3-411、A9-303-2、一杯橙C美少女、Aurora</p>
 <button onclick="showQuiz()">刷题</button>
@@ -254,7 +267,10 @@
             verEle.innerHTML = toolVersion;
             // 存储版本号
             localStorage.setItem('toolVersion', toolVersion);
-
+            // 显示数据库版本号
+            verEle = document.getElementById('dataversionTag');
+            verEle.innerHTML = '';
+            verEle.innerHTML = datasourceName+ '_' +datasourceVer;
             // 设置定时检查更新
             setInterval(function() {
                 var iframe = document.getElementById('updateiFrame');
