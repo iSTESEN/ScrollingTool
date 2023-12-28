@@ -24,7 +24,18 @@
   function checkUpdateEvent(event) {
       try {
           var receivedData = JSON.parse(event.data);
-          checkVersionUpdate(receivedData);
+          // 检查事件类型
+          if(receivedData.type=='update') {
+              // 如果为更新消息
+              checkVersionUpdate(receivedData);
+          } else if(receivedData.type=='loaddata') {
+              // 如果为数据库载入消息
+              if(receivedData.updateData) {
+                  // 数据库导入完毕
+                  var iframe = document.getElementById('updateDataSourceiFrame');
+                  iframe.src = '';
+              }
+          }
       } catch (error) {
           console.error('解析JSON时出错:', error);
       }
@@ -32,12 +43,27 @@
   window.addEventListener('message', checkUpdateEvent, false);
   // 检查是否更新
   function checkVersionUpdate(updateObj) {
+      // 检查工具版本更新
     if(updateObj.version!=toolVersion) {
         var userResponse = window.confirm(`发现新版本${updateObj.version}，\n是否立即刷新页面？`);
         if (userResponse) {
             window.location.reload();
         } else {
             console.log('用户取消更新');
+        }
+    }
+      // 检查数据库版本更新
+    if(datasourceName!='') {
+        var newVer = updateObj.dataSource[datasourceName] || '';
+        if(newVer!='' && datasourceVer!=newVer) {
+            // 发现数据库新版本
+            var userResponse = window.confirm(`数据库更新${newVer}，\n是否立即更新？\n注意：自己录的题会消失，如果有自行录入题目，更新前请先导出`);
+            if (userResponse) {
+                // 开始更新数据库
+                updateDatasource(datasourceName);
+            } else {
+                console.log('用户取消更新数据库');
+            }
         }
     }
   }
@@ -232,7 +258,7 @@
 
 <!-- Update -->
 <iframe id="updateiFrame" src="/ScrollingTool/update.html" width="0" height="0"></iframe>
-
+<iframe id="updateDataSourceiFrame" src="" width="0" height="0"></iframe>
 
 
 
@@ -240,6 +266,18 @@
 
     
     <script>
+        // 数据库标志 临时补丁，只有一个数据库时适用
+        function tempPatch() {
+            if(datasourceName=='' && dataNumObj.singleNums>250) {
+                  // 数据库名
+                  datasourceName = 'JSHistory';
+                  // 数据库版本
+                  datasourceVer = 'DATA_1（2023-12-28）';
+                    localStorage.setItem('STdataName', datasourceName);
+                    localStorage.setItem('STdataVer', datasourceVer);
+            }
+        }
+        
         // 初始化函数
         function initTool() {
             getTrueFalseNums();
@@ -251,6 +289,10 @@
             list = JSON.parse(localStorage.getItem('blankQuestion')) || [];
             dataNumObj.blankNums = list.length;
             list = [];
+            
+            // 临时补丁
+            tempPatch();
+            
             // 显示页面数据
             var docEle = document.getElementById('singleNumsTag');
             docEle.innerHTML = '';
@@ -288,7 +330,14 @@
             blankNums: 0
         };
 
-        
+        // 更新数据库
+        function updateDatasource(datasourceName) {
+            // 判断是更新那个数据库
+            var src = datasourceName=='JSHistory' ? '/ScrollingTool/JSHistorydata.html' : '';
+            // 开始加载更新
+            var iframe = document.getElementById('updateDataSourceiFrame');
+            iframe.src = src;
+        }
 
         // 回到顶端
         function toTop() {
