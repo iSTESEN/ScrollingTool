@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通用刷题工具</title>
+</head>
+<script>
+  // 当前版本号
+  var toolVersion = 'RELEASE_4 (2023-12-28)';
+  // 检查更新事件
+  function checkUpdateEvent(event) {
+      try {
+          var receivedData = JSON.parse(event.data);
+          checkVersionUpdate(receivedData);
+      } catch (error) {
+          console.error('解析JSON时出错:', error);
+      }
+  }
+  window.addEventListener('message', checkUpdateEvent, false);
+  // 检查是否更新
+  function checkVersionUpdate(updateObj) {
+    if(updateObj.version!=toolVersion) {
+        var userResponse = window.confirm(`发现新版本${updateObj.version}，\n是否立即刷新页面？`);
+        if (userResponse) {
+            window.location.reload();
+        } else {
+            console.log('用户取消更新');
+        }
+    }
+  }
+  // 版本说明
+  function releaseTip() {
+            alert(`
+            RELEASE_4 (2023-12-28)
+            -引入检查更新机制
+            -修正部分数据
+
+            RELEASE_3 (2023-12-28)
+            -增加题目来源限制
+            -修正部分数据
+
+            RELEASE_2 (2023-12-28)
+            -完善1-10章题库
+            -感谢大家的贡献
+
+            RELEASE_1 (2023-12-27)
+            -实现单选题、多选题、填空题刷题
+            -实现题库录入与导入
+            -实现题库导出
+            -实现计数板
+            -显示数据库数量
+            -背景改护眼颜色
+            -内置农林金山数据1-8
+            `);
+        }
+</script>
+<body style="background-color: #c7d6c7">
+
+
+
+
+
+<h1>通用刷题工具
+     <span id="totalTrueNum" class="trueText" style="font-size: 140px;">0</span>:<span id="totalFalseNum" class="falseText"  style="font-size: 15px;">0</span>
+</h1>
+<p><b>STESEN</b></p>
+<p id="versionTag" onclick="releaseTip()"></p>
+<p style="font-size: 13px;">【本版本数据库有修正，请再次点击“一键导入”。注意：自己录的题会消失，如果有自行录入题目，一键导入前请先导出】</p>
+<p><b>数据贡献：</b>k3-411、A9-303-2、一杯橙C美少女、Aurora</p>
+<button onclick="showQuiz()">刷题</button>
+<button onclick="showImportQuestions()">设置</button>
+<button onclick="thank()">特别鸣谢</button>
+
+<hr>
+
+<!-- 刷题部分 -->
+<div id="quiz" style="display: none;">
+    <p>刷 <input type="text" value="20" id="quesnums"> 题（刷全部请输入0）</p>
+    <p>限制<input type="text" id="quesSource" value="">题目来源（如“第一章”，不限制则放空）</p>
+    <button onclick="showSingleQuestions()">刷单选题</button><button onclick="showMultiQuestions()">刷多选题</button><button onclick="showBlankQuestions()">刷填空题</button>
+
+    <hr>
+
+    <div id="singleExam" style="display: none;">
+        <h3>单选题</h3>
+        <div id="singleExamDiv">
+            <!-- 我是单选题区域 -->
+        </div>
+    </div>
+
+    <div id="multiExam" style="display: none;">
+        <h3>多选题</h3>
+        <p><span class="trueText">绿色</span><span>表示正确答案，</span><span class="falseText">红色</span><span>表示选错了</span></p>
+        <div id="multiExamDiv">
+            <!-- 我是多选题区域 -->
+            <!-- <div class="danxuan" >
+                <p>张艺谋执导的电影《活着》中有这样一个场景:20世纪50年代末，一个小孩找出父亲用的铁皮包的箱子要交给街道干部用来炼钢。这个场景所描绘的事件应该发生在( )。</p>
+                <hr style="border: 1px solid white;">
+                <label class="trueText" id="multiLabel_0_0"><input type="checkbox" id="multi_0_0">土地改革运动时期</label>
+                <br>
+                <label class="falseText"><input type="checkbox" id="">土地改革运动时期</label>
+                <br>
+                <label><input type="checkbox" id="">土地改革运动时期</label>
+                <br>
+                <label><input type="checkbox" id="">土地改革运动时期</label>
+                <br>
+                <button style="margin-top: 20px;" onclick="checkMultiOpt(0)">检查答案</button>
+            </div> -->
+        </div>
+        
+    </div>
+
+    <div id="blankExam" style="display: none;">
+        <h3>填空题</h3>
+        <p>推荐使用<span class="trueText">回车</span>来检查答案，使用<span></span><span class="trueText">Tab键</span><span>切换到下一题</span></p>
+        <div id="blankExamDiv">
+       <!-- <div class="danxuan" >
+                <p>张艺谋执导的电影《活着》中有这样一个场景:20世纪50年代末，一个小孩找出父亲用的铁皮包的箱子要交给街道干部用来炼钢。这个场景所描绘的事件应该发生在( )。</p>
+                <hr style="border: 1px solid white;">
+                <p id="blankAnswer_0">正确答案：</p>
+                <p id="blankInputTag_0">你的答案：<input type="text" name="blankInput_0" id="blankInput_0"></p>
+                <button style="margin-top: 20px;" onclick="checkMultiOpt(0)">检查答案</button>
+            </div> -->
+            <!-- <p id="blankInputTag_0">你的答案：<input type="text" name="blankInput_0" id="blankInput_0" onsubmit=""></p> -->
+        </div>
+    </div>
+
+    <!-- 回到顶端 -->
+    <button onclick="toTop()">回到顶端</button>
+
+
+</div>
+
+<!-- 导入题目部分 -->
+<div id="importQuestions" style="display: none;">
+    <!-- 数据 -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>当前数据库</h3>
+        <h5>单选题：<span id="singleNumsTag">0</span>题；多选题：<span id="multiNumsTag">0</span>题；填空题：<span id="blankNumsTag">0</span>题</h5>
+    </div>
+
+    <!-- 一键导入题库 -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>一键导入，好朋友给的题库</h3>
+        <label for="importedSingleQuestions">导入单选题数据：</label>
+        <textarea id="importedSingleQuestions"></textarea>
+        <button onclick="importData('singleQuestion', 'importedSingleQuestions')">导入单选题</button>
+        <hr>
+        <label for="importedMultiQuestions">导入多选题数据：</label>
+        <textarea id="importedMultiQuestions"></textarea>
+        <button onclick="importData('multiQuestion', 'importedMultiQuestions')">导入多选题</button>
+        <hr>
+        <label for="importedBlankQuestions">导入填空题数据：</label>
+        <textarea id="importedBlankQuestions"></textarea>
+        <button onclick="importData('blankQuestion', 'importedBlankQuestions')">导入填空题</button>
+        <br>
+        <hr>
+        <button onclick="inportJSExam()">导入福建农林大学金山学院史纲期末考客观题 1-10章</button>
+    </div>
+
+
+    <!-- 手动导入选择题（单选多选） -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>题目录入（单选or多选），没人给我自己动手录题目（使用前请详细了解用法！！）</h3>
+        <label for="source">题目来源标记：</label>
+        <input type="text" id="source">
+        <hr style="border: 1px solid white;">
+        <label for="description">题目描述：</label>
+        <textarea id="description"></textarea>
+        <hr style="border: 1px solid white;">
+        <label for="options">选项（每行一个），用<input type="text" id="splitTag" value="">分割选项：</label>
+        <textarea id="options"></textarea>
+        <hr style="border: 1px solid white;">
+        <label for="correctAnswer">正确答案（行号，多选用逗号分隔）：</label>
+        <input type="text" id="correctAnswer">
+        <hr style="border: 1px solid white;">
+        <button onclick="saveQuestion()">保存题目</button>
+    </div>
+
+    <!-- 导入填空题 -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>题目录入（填空题）（使用前请详细了解用法！！）</h3>
+        <label for="sourceBlank">题目来源标记：</label>
+        <input type="text" id="sourceBlank">
+        <hr style="border: 1px solid white;">
+        <label for="descriptionBlank">题目描述：</label>
+        <textarea id="descriptionBlank"></textarea>
+        <hr style="border: 1px solid white;">
+        <label for="correctAnswerBlank">正确答案：</label>
+        <input type="text" id="correctAnswerBlank">
+        <hr style="border: 1px solid white;">
+        <button onclick="saveQuestionBlank()">保存题目</button>
+    </div>
+
+    <!-- 导出题库 -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>导出题库，分享给好朋友</h3>
+        <!-- 文本区域用于显示导出的数据 -->
+        <textarea id="exportedData" rows="10"></textarea><button onclick="copyExportedData()">复制</button>
+        <hr style="border: 1px solid white;">
+        <button onclick="exportData('singleQuestion')">导出单选题</button>
+        <button onclick="exportData('multiQuestion')">导出多选题</button>
+        <button onclick="exportData('blankQuestion')">导出填空题</button>
+    </div>
+
+    <!-- 清空题库 -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>我的题库太乱了，清空一下</h3>
+        <button onclick="clearQuestionBank('singleQuestion')">清空单选题库</button>
+        <button onclick="clearQuestionBank('multiQuestion')">清空多选题库</button>
+        <button onclick="clearQuestionBank('blankQuestion')">清空填空题库</button>
+    </div>
+
+
+
+    
+</div>
+
+<!-- Update -->
+<iframe id="updateiFrame" src="/ScrollingTool/update.html" width="0" height="0"></iframe>
+
+
+
+
+<!--  -->
+
+    
+    <script>
+        // 初始化函数
+        function initTool() {
+            getTrueFalseNums();
+            // 统计数据库数量
+            var list = JSON.parse(localStorage.getItem('singleQuestion')) || [];
+            dataNumObj.singleNums = list.length;
+            list = JSON.parse(localStorage.getItem('multiQuestion')) || [];
+            dataNumObj.multiNums = list.length;
+            list = JSON.parse(localStorage.getItem('blankQuestion')) || [];
+            dataNumObj.blankNums = list.length;
+            list = [];
+            // 显示页面数据
+            var docEle = document.getElementById('singleNumsTag');
+            docEle.innerHTML = '';
+            docEle.innerHTML = dataNumObj.singleNums;
+            docEle = document.getElementById('multiNumsTag');
+            docEle.innerHTML = '';
+            docEle.innerHTML = dataNumObj.multiNums;
+            docEle = document.getElementById('blankNumsTag');
+            docEle.innerHTML = '';
+            docEle.innerHTML = dataNumObj.blankNums;
+            // 显示版本号
+            var verEle = document.getElementById('versionTag');
+            verEle.innerHTML = '';
+            verEle.innerHTML = toolVersion;
+            // 存储版本号
+            localStorage.setItem('toolVersion', toolVersion);
+
+            // 设置定时检查更新
+            setInterval(function() {
+                var iframe = document.getElementById('updateiFrame');
+                iframe.contentWindow.location.reload();
+            }, 5 * 60 * 1000); // 10分钟
+        }
+
+        // 全局题目
+        var liveQuestions = [];
+        
+        // 当前数据库数据
+        var dataNumObj = {
+            singleNums: 0,
+            multiNums: 0,
+            blankNums: 0
+        };
+
+        
+
+        // 回到顶端
+        function toTop() {
+            document.body.scrollTop = 0; // 兼容旧版本浏览器
+            document.documentElement.scrollTop = 0; // 现代浏览器
+        }
+
+        // 获取全局true、false次数，写到对应位置
+        function getTrueFalseNums() {
+            var num = localStorage.getItem('trueNums') || 0;
+            var spanTag = document.getElementById('totalTrueNum');
+            var num2 = localStorage.getItem('falseNums') || 0;
+            var spanTag2 = document.getElementById('totalFalseNum');
+            spanTag.textContent = num;
+            spanTag2.textContent = num2;
+            // 计算大小
+            var size1_outrange = num>140 ?  (num-140)%140 : 0;
+            var size1 = num>140 ? 140 : (num<15 ? 15 : num);
+            var size2_outrange = num2>140 ?  (num2-140)%140 : 0;
+            var size2 = num2>140 ? 140 : (num2<15 ? 15 : num2);
+            if(size1_outrange > size2_outrange) {
+                size2 = (size2-(size1_outrange-size2_outrange)) >= 140 ? 140 : ((size2-(size1_outrange-size2_outrange)) < 15 ? 15 : (size2-(size1_outrange-size2_outrange)));
+            } else {
+                size1 = (size1-(size2_outrange-size1_outrange)) >= 140 ? 140 : ((size1-(size2_outrange-size1_outrange)) < 15 ? 15 : (size1-(size2_outrange-size1_outrange)));
+            }
+            spanTag.style = '';
+            spanTag2.style = '';
+            spanTag.style.fontSize = size1 + 'px';
+            spanTag2.style.fontSize = size2 + 'px';
+        }
+        // 追加正确错误次数
+        function setTrueFalseNums(isTrue) {
+            if(isTrue) {
+                var num = localStorage.getItem('trueNums') || 0;
+                var spanTag = document.getElementById('totalTrueNum');
+                num++;
+                localStorage.setItem('trueNums', num);
+                spanTag.textContent = num;
+            } else {
+                var num = localStorage.getItem('falseNums') || 0;
+                var spanTag = document.getElementById('totalFalseNum');
+                num++;
+                localStorage.setItem('falseNums', num);
+                spanTag.textContent = num;
+            }
+        }
+
+        // 加载题库到liveQuestions
+        function loadQuestion(dataSource) {
+            liveQuestions = JSON.parse(localStorage.getItem(dataSource)) || [];
+        }
+
+        function thank() {
+            alert("吃水不忘挖井人，考试挂科都很难！\n特别感谢\nk3-411\nA9-303-2\n一杯橙C美少女\nAurora\n的数据贡献！");
+        }
+
+        // 根据quesSource过滤题目
+        function filteQues() {
+            var tag = document.getElementById('quesSource').value;
+            if(tag!='') {
+              liveQuestions = liveQuestions.filter(function (ques){
+                  if(ques.source==tag) {
+                    return ques;
+                  }
+              });
+            }
+        }
+
+
+        // 显示单选题
+        function showSingleQuestions()
+        {
+            examDisplay('singleExam');
+            loadQuestion('singleQuestion');
+            filteQues();
+            if(liveQuestions.length==0) {
+                alert("题库内没有内容哦，请先导入！");
+            }
+            var nums = document.getElementById('quesnums').value;
+            var examDiv = document.getElementById('singleExamDiv');
+            examDiv.innerHTML = '';
+            // 洗牌
+            for (let i = liveQuestions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [liveQuestions[i], liveQuestions[j]] = [liveQuestions[j], liveQuestions[i]];
+            }
+            // 取前nums条数据
+            if(nums!=0) {
+                liveQuestions = liveQuestions.slice(0, nums);
+            }
+            // 转换答案形式
+            var qIndex = 0;
+            liveQuestions = liveQuestions.map(function (ques) {
+                var answerArr = ques.correctAnswer.map(function (index) {
+                    return ques.options[index-1]; // 导入时序号要-1
+                });
+                ques.correctAnswer = answerArr.join(",");
+                // 打乱选项
+                for (let i = ques.options.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [ques.options[i], ques.options[j]] = [ques.options[j], ques.options[i]];
+                }
+                // 输出屏幕
+                var quesDiv = document.createElement('div');
+                var htmlText = `
+                    <div class="danxuan" >
+                        <p>${qIndex+1}（${ques.source}）${ques.description}</p>
+                        <hr style="border: 1px solid white;">
+                `;
+                // 加载选项
+                var opIndex = 0;
+                ques.options.forEach(function (op) {
+                    htmlText += `
+                        <p id="sing_opt_${qIndex}_${opIndex}" onclick="checkSingleOpt(${qIndex}, ${opIndex});"><button onclick="checkSingleOpt(${qIndex}, ${opIndex});">@</button>${op}</p>
+                    `;
+                    opIndex++;
+                });
+                htmlText += `</div>`;
+                quesDiv.innerHTML = htmlText;
+                examDiv.appendChild(quesDiv);
+                qIndex++;
+                return ques;
+            });
+        }
+        // 单选题检查对错
+        function checkSingleOpt(questionNum, optNum) {
+
+            var ques = liveQuestions[questionNum];
+            // console.log(liveQuestions);
+            // console.log(ques);
+            var optDoc = document.getElementById('sing_opt_'+questionNum+'_'+optNum);
+            optDoc.className = '';
+            if(ques.correctAnswer.includes(ques.options[optNum])) {
+                optDoc.classList.add('trueText');
+                setTrueFalseNums(1);
+            } else {
+                optDoc.classList.add('falseText');
+                setTrueFalseNums(0);
+            }
+        }
+
+        // 显示多选题
+        function showMultiQuestions() {
+            examDisplay('multiExam');
+            loadQuestion('multiQuestion');
+            filteQues();
+            if(liveQuestions.length==0) {
+                alert("题库内没有内容哦，请先导入！");
+            }
+            var nums = document.getElementById('quesnums').value;
+            var examDiv = document.getElementById('multiExamDiv');
+            examDiv.innerHTML = '';
+            // 洗牌
+            for (let i = liveQuestions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [liveQuestions[i], liveQuestions[j]] = [liveQuestions[j], liveQuestions[i]];
+            }
+            // 取前nums条数据
+            if(nums!=0) {
+                liveQuestions = liveQuestions.slice(0, nums);
+            }
+            // 转换答案形式
+            var qIndex = 0;
+            liveQuestions = liveQuestions.map(function (ques) {
+                var answerArr = ques.correctAnswer.map(function (index) {
+                    return ques.options[index-1]; // 导入时序号要-1
+                });
+                ques.correctAnswer = answerArr.join(",");
+                // 打乱选项
+                for (let i = ques.options.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [ques.options[i], ques.options[j]] = [ques.options[j], ques.options[i]];
+                }
+                // 输出屏幕
+                var quesDiv = document.createElement('div');
+                var htmlText = `
+                    <div class="danxuan" >
+                        <p>${qIndex+1}（${ques.source}）${ques.description}</p>
+                        <hr style="border: 1px solid white;">
+                `;
+                // 加载选项
+                var opIndex = 0;
+                ques.options.forEach(function (op) {
+                    htmlText += `
+                        <label id="multiLabel_${qIndex}_${opIndex}"><input type="checkbox" id="multi_${qIndex}_${opIndex}">${op}</label>
+                        <br>
+                    `;
+                    opIndex++;
+                });
+                htmlText += `
+                    <button style="margin-top: 20px;" onclick="checkMultiOpt(${qIndex})">检查答案</button>
+                </div>`;
+                quesDiv.innerHTML = htmlText;
+                examDiv.appendChild(quesDiv);
+                qIndex++;
+                return ques;
+            });
+        }
+        // 检查多选题对错
+        function checkMultiOpt(questionNum) {
+            var ques = liveQuestions[questionNum];
+            // 遍历选项
+            for(let i=0; i<ques.options.length; i++) {
+                var checkBoxOpt = document.getElementById('multi_'+questionNum+'_'+i);
+                var labelEle = document.getElementById('multiLabel_'+questionNum+'_'+i);
+                labelEle.className = '';
+                if(ques.correctAnswer.includes(ques.options[i])) {
+                    labelEle.classList.add('trueText');
+                    if(checkBoxOpt.checked) {
+                        // 计数正确与否
+                        setTrueFalseNums(1);
+                    } else {
+                        setTrueFalseNums(0);
+                    }
+                } else {
+                    // i不是正确答案
+                    if(checkBoxOpt.checked ) {
+                        // 如果选中，显示正确颜色
+                        labelEle.classList.add('falseText');
+                        setTrueFalseNums(0);
+                    }
+                }
+            }
+        }
+
+        // 显示填空题
+        function showBlankQuestions() {
+            examDisplay('blankExam');
+            loadQuestion('blankQuestion');
+            filteQues();
+            if(liveQuestions.length==0) {
+                alert("题库内没有内容哦，请先导入！");
+            }
+            var nums = document.getElementById('quesnums').value;
+            var examDiv = document.getElementById('blankExamDiv');
+            examDiv.innerHTML = '';
+            // 洗牌
+            for (let i = liveQuestions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [liveQuestions[i], liveQuestions[j]] = [liveQuestions[j], liveQuestions[i]];
+            }
+            // 取前nums条数据
+            if(nums!=0) {
+                liveQuestions = liveQuestions.slice(0, nums);
+            }
+            // 转换答案形式
+            var qIndex = 0;
+            liveQuestions = liveQuestions.map(function (ques) {
+                
+                // 输出屏幕
+                var quesDiv = document.createElement('div');
+                var htmlText = `
+                    <div class="danxuan" >
+                        <p>${qIndex+1}（${ques.source}）${ques.description}</p>
+                        <hr style="border: 1px solid white;">
+                `;
+                htmlText += `
+                    <p style="display: none;" id="blankAnswer_${qIndex}">正确答案：${ques.correctAnswer}</p>
+                    <p id="blankInputTag_${qIndex}">你的答案：<input type="text" name="blankInput_${qIndex}" id="blankInput_${qIndex}" onkeydown="checkEnter(event, ${qIndex})"/></p>
+                    <button style="margin-top: 5px;" onclick="checkBlankOpt(${qIndex})">检查答案</button>
+                </div>`;
+                quesDiv.innerHTML = htmlText;
+                examDiv.appendChild(quesDiv);
+                qIndex++;
+                return ques;
+            });
+        }
+        function checkBlankOpt(questionNum) {
+            var ques = liveQuestions[questionNum];
+            var tag = document.getElementById('blankInputTag_'+questionNum);
+            var tagAnswar = document.getElementById('blankAnswer_'+questionNum);
+            var input = document.getElementById('blankInput_'+questionNum).value;
+            tagAnswar.style.display = "block";
+            tag.className = '';
+            if(ques.correctAnswer==input && input!='') {
+                tag.classList.add('trueText');
+                setTrueFalseNums(1);
+            } else {
+                tag.classList.add('falseText');
+                setTrueFalseNums(0);
+            }
+        }
+        // 填空题，检查是否按下的是回车键的键码
+        function checkEnter(event, qIndex) {
+            if (event.key === "Enter") {
+                checkBlankOpt(qIndex);
+            }
+        }
+
+        // tag: 数据库名   docId：输入框id
+        function importData(dataSource, docId) {
+            var Questions = JSON.parse(localStorage.getItem(dataSource)) || [];
+            var importedData = document.getElementById(docId).value.trim();
+            if (importedData !== '') {
+                var parsedData = JSON.parse(importedData);
+                Questions = Questions.concat(parsedData);
+                localStorage.setItem(dataSource, JSON.stringify(Questions));
+                alert('已导入！');
+            }
+        }
+        
+        function exportData(dataSource)
+        {
+            var singleQuestions = JSON.parse(localStorage.getItem(dataSource)) || [];
+            var exportedData = JSON.stringify(singleQuestions, null, 2);
+            document.getElementById('exportedData').value = exportedData;
+            alert("已经完成导出，点击“复制”就行");
+        }
+
+        // 复制导出的数据
+        function copyExportedData() {
+            var textarea = document.getElementById('exportedData');
+            textarea.select();
+            document.execCommand("copy");
+            alert('已复制全部内容，快去分享给好朋友吧！');
+        }
+
+
+        function clearQuestionBank(dataSource) {
+            localStorage.removeItem(dataSource);
+            alert('题库已清空！');
+        }
+
+        function showQuiz() {
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('importQuestions').style.display = 'none';
+        }
+
+        function showImportQuestions() {
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('importQuestions').style.display = 'block';
+        }
+
+        function examDisplay(tag) {
+            document.getElementById('singleExam').style.display = 'none';
+            document.getElementById('multiExam').style.display = 'none';
+            document.getElementById('blankExam').style.display = 'none';
+            document.getElementById(tag).style.display = 'block';
+        }
+
+
+
+        function saveQuestion() {
+            // 获取输入值
+            var splitTag = document.getElementById('splitTag').value;
+            var source = document.getElementById('source').value;
+            var description = document.getElementById('description').value;
+            var options = document.getElementById('options').value.split('\n').filter(function(option) {
+                return option.trim() !== ''; // 排除空的选项
+            });
+            options = options.map(function (str) {
+                if(splitTag!='') {
+                    var parts = str.split('.');
+                    return parts.length > 1 ? parts[1] : str; // 如果有右侧部分则返回，否则返回原字符串
+                } else {
+                    return str;
+                }
+            });
+            var correctAnswerInput = document.getElementById('correctAnswer').value;
+
+            // 转换输入的行号为正确答案数组
+            var correctAnswerArray = correctAnswerInput.split(',').map(function(item) {
+                var parsedItem = parseInt(item.trim(), 10);
+                return !isNaN(parsedItem) ? parsedItem : null;
+            }).filter(function(item) {
+                return item !== null;
+            });
+
+            // 获取已保存的题目数组，如果没有则初始化为空数组
+            var savedSingleQuestions = JSON.parse(localStorage.getItem('singleQuestion')) || [];
+            var savedMultiQuestions = JSON.parse(localStorage.getItem('multiQuestion')) || [];
+
+            // 构建题目对象
+            var newQuestion = {
+                source: source,
+                description: description,
+                options: options,
+                correctAnswer: correctAnswerArray
+            };
+
+            // 决定存储到 singleQuestion 还是 multiQuestion
+            if (correctAnswerArray.length === 1) {
+                // 存储到 singleQuestion
+                savedSingleQuestions.push(newQuestion);
+                localStorage.setItem('singleQuestion', JSON.stringify(savedSingleQuestions));
+            } else if (correctAnswerArray.length > 1) {
+                // 存储到 multiQuestion
+                savedMultiQuestions.push(newQuestion);
+                localStorage.setItem('multiQuestion', JSON.stringify(savedMultiQuestions));
+            }
+
+            // 清空输入框
+            // document.getElementById('source').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('options').value = '';
+            document.getElementById('correctAnswer').value = '';
+
+            alert('题目已保存！');
+        }
+
+        function saveQuestionBlank() {
+            // 获取输入值
+            var source = document.getElementById('sourceBlank').value;
+            var description = document.getElementById('descriptionBlank').value;
+            var correctAnswerInput = document.getElementById('correctAnswerBlank').value;
+
+
+            // 获取已保存的题目数组，如果没有则初始化为空数组
+            var savedBlankQuestions = JSON.parse(localStorage.getItem('blankQuestion')) || [];
+
+
+            // 构建题目对象
+            var newQuestion = {
+                source: source,
+                description: description,
+                correctAnswer: correctAnswerInput
+            };
+            // ==========================
+            savedBlankQuestions.push(newQuestion);
+            localStorage.setItem('blankQuestion', JSON.stringify(savedBlankQuestions));
+
+            // 清空输入框
+            // document.getElementById('source').value = '';
+            document.getElementById('descriptionBlank').value = '';
+            document.getElementById('correctAnswerBlank').value = '';
+
+            alert('题目已保存！');
+        }
+
+        initTool();
+
+    </script>
+    <style>
+        /* 单选题单题样式 */
+        .danxuan {
+            border: 1px solid rgb(174, 171, 171);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        /* 正确的选项样式 */
+        .trueText {
+            color: rgb(0, 156, 0);
+        }
+        /* 错误的选项样式 */
+        .falseText {
+            color: rgb(185, 3, 3);
+        }
+    </style>
+</body>
+</html>
