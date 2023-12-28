@@ -4,6 +4,62 @@
 - 2023-12-27
 - 没搞UI挺丑的，将就用下
 
+## 更新机制
+- 是的，本项目支持检测“工具版本”更新、“数据库版本”更新，而且是在Github托管的纯前端项目！
+
+### 实现原理
+- 在同一个项目内，每个页面是同源的，我们可以制作一个update.html专门来推送版本更新
+- 在index.html里面嵌入一个iframe，src指向update.html
+- index每5分钟刷新iframe，即可得到最新的update数据！
+
+### 本项目更新关键词
+- `update.html`
+在此页面，有一个更新消息对象，这个消息对象存储的版本号，会被客户端拿来比对，以此检查更新
+```html
+var toolUpdate = {
+      type: 'update', // 消息的类型，更新消息则是'update'
+      version: 'RELEASE_5 (2023-12-28)', // tool最新版本
+      dataSource: { // 个性化数据库
+          JSHistory: 'DATA_5（2023-12-28）'
+          // JSHistory：农林金山史纲数据库名，确定后不能改
+          // 'DATA_5（2023-12-28）'：对应数据库最新版本号
+      }
+}
+```
+- `index.html`
+客户端中，有一个checkUpdateEvent函数，用来接受update消息，同时使用checkVersionUpdate函数来判断是否为版本更新或数据库更新
+
+### 更新工具版本
+- 为什么需要推送更新？用户可能长时间不刷新页面，导致无法展示最新功能
+- 更新版本就是`刷新页面`，所以接受到更新通知，就可以弹出来让用户点击刷新
+- 工具版本存储在localstorage，版本名key：toolVersion
+
+### 更新数据库版本
+- 就像我们自己学校的题库，我们导入完了，总有修改数据库的时候，所以需要更新
+- 之前版本是直接将数据库嵌入到index，但是导致加载速度缓慢
+- 从RELEASE_5版本开始，数据库解耦，单独存放，我们学校题库存放在JSHistorydata.html
+- **如何更新数据库？**
+- 将JSHistorydata.html嵌入到index的iframe，JSHistorydata被加载后，会第一时间载入数据库
+- 并将版本号写入到localstorage，数据库名key：STdataName，数据库版本key：STdataVer
+- 做完以上操作，会发送通知到index，index的checkUpdateEvent函数检测到数据库载入完毕的消息，则会更新页面数据
+```html
+// 导入完毕后事件对象
+var updateObj = {
+    type: 'loaddata', // 因为是数据库载入消息，所以类型是loaddata
+    updateData: true // 数据库载入结果
+};
+```
+
+### 如何推送更新
+- **工具版本更新**
+- 先更改index.html的`toolVersion`变量，提交pages部署
+- 在更改update.html的`toolUpdate.version`，两者要一模一样！
+- 将update提交pages部署后，静待客户端接受更新提醒（默认5分钟检测一次）
+- **数据库更新**
+- 先更改JSHistorydata.html的`datasourceVer`变量，提交pages部署
+- 在更改update.html的`toolUpdate.dataSource.[datasourceName] = datasourceVer`，两者ver要一模一样！
+- 将update提交pages部署后，静待客户端接受更新提醒（默认5分钟检测一次）
+
 ## 设置
 
 ### 手动录入选择题/多选题
