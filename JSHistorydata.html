@@ -26,7 +26,11 @@
 
 // 农林金山史纲导入
 function importJSExam() {
-            
+            // 数据库标记 =======================
+            var datasourceName = 'JSHistory';
+            var datasourceVer = 'DATA_1（2023-12-28）';
+            // =================================
+    
             localStorage.removeItem('singleQuestion');
             localStorage.removeItem('blankQuestion');
             localStorage.removeItem('multiQuestion');
@@ -6356,7 +6360,10 @@ function importJSExam() {
             
             localStorage.setItem('blankQuestion', JSON.stringify(dataJson));
 
-            alert("全部导入完毕！开冲");
+            // 保存数据库版本
+            localStorage.setItem('STdataName', datasourceName);
+            localStorage.setItem('STdataVer', datasourceVer);
+            alert(`${datasourceName}_${datasourceVer}数据库导入完毕！`);
         }
 
 
