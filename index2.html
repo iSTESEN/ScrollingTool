@@ -34,7 +34,8 @@
                   // 数据库导入完毕
                   var iframe = document.getElementById('updateDataSourceiFrame');
                   iframe.src = '';
-                  initTool();
+                  getDatasourceInfo(); // 读数据库版本
+                  initTool(); // 初始化数据库数据
               }
           }
       } catch (error) {
@@ -317,7 +318,7 @@
             setInterval(function() {
                 var iframe = document.getElementById('updateiFrame');
                 iframe.contentWindow.location.reload();
-            }, 1 * 60 * 1000); // 10分钟
+            }, 5 * 60 * 1000); // 5分钟
         }
 
         // 全局题目
