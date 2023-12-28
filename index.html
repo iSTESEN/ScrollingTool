@@ -1,0 +1,7060 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通用刷题工具</title>
+</head>
+<script>
+  // 当前版本号
+  var toolVersion = 'RELEASE_4 (2023-12-28)';
+  // 检查更新事件
+  function checkUpdateEvent(event) {
+      try {
+          var receivedData = JSON.parse(event.data);
+          checkVersionUpdate(receivedData);
+      } catch (error) {
+          console.error('解析JSON时出错:', error);
+      }
+  }
+  window.addEventListener('message', checkUpdateEvent, false);
+  // 检查是否更新
+  function checkVersionUpdate(updateObj) {
+    if(updateObj.version!=toolVersion) {
+        var userResponse = window.confirm(`发现新版本${updateObj.version}，\n是否立即刷新页面？`);
+        if (userResponse) {
+            window.location.reload();
+        } else {
+            console.log('用户取消更新');
+        }
+    }
+  }
+  // 版本说明
+  function releaseTip() {
+            alert(`
+            RELEASE_4 (2023-12-28)
+            -引入检查更新机制
+            -修正部分数据
+
+            RELEASE_3 (2023-12-28)
+            -增加题目来源限制
+            -修正部分数据
+
+            RELEASE_2 (2023-12-28)
+            -完善1-10章题库
+            -感谢大家的贡献
+
+            RELEASE_1 (2023-12-27)
+            -实现单选题、多选题、填空题刷题
+            -实现题库录入与导入
+            -实现题库导出
+            -实现计数板
+            -显示数据库数量
+            -背景改护眼颜色
+            -内置农林金山数据1-8
+            `);
+        }
+</script>
+<body style="background-color: #c7d6c7">
+
+
+
+
+
+<h1>通用刷题工具
+     <span id="totalTrueNum" class="trueText" style="font-size: 140px;">0</span>:<span id="totalFalseNum" class="falseText"  style="font-size: 15px;">0</span>
+</h1>
+<p><b>STESEN</b></p>
+<p id="versionTag" onclick="releaseTip()"></p>
+<p style="font-size: 13px;">【本版本数据库有修正，请再次点击“一键导入”。注意：自己录的题会消失，如果有自行录入题目，一键导入前请先导出】</p>
+<p><b>数据贡献：</b>k3-411、A9-303-2、一杯橙C美少女、Aurora</p>
+<button onclick="showQuiz()">刷题</button>
+<button onclick="showImportQuestions()">设置</button>
+<button onclick="thank()">特别鸣谢</button>
+
+<hr>
+
+<!-- 刷题部分 -->
+<div id="quiz" style="display: none;">
+    <p>刷 <input type="text" value="20" id="quesnums"> 题（刷全部请输入0）</p>
+    <p>限制<input type="text" id="quesSource" value="">题目来源（如“第一章”，不限制则放空）</p>
+    <button onclick="showSingleQuestions()">刷单选题</button><button onclick="showMultiQuestions()">刷多选题</button><button onclick="showBlankQuestions()">刷填空题</button>
+
+    <hr>
+
+    <div id="singleExam" style="display: none;">
+        <h3>单选题</h3>
+        <div id="singleExamDiv">
+            <!-- 我是单选题区域 -->
+        </div>
+    </div>
+
+    <div id="multiExam" style="display: none;">
+        <h3>多选题</h3>
+        <p><span class="trueText">绿色</span><span>表示正确答案，</span><span class="falseText">红色</span><span>表示选错了</span></p>
+        <div id="multiExamDiv">
+            <!-- 我是多选题区域 -->
+            <!-- <div class="danxuan" >
+                <p>张艺谋执导的电影《活着》中有这样一个场景:20世纪50年代末，一个小孩找出父亲用的铁皮包的箱子要交给街道干部用来炼钢。这个场景所描绘的事件应该发生在( )。</p>
+                <hr style="border: 1px solid white;">
+                <label class="trueText" id="multiLabel_0_0"><input type="checkbox" id="multi_0_0">土地改革运动时期</label>
+                <br>
+                <label class="falseText"><input type="checkbox" id="">土地改革运动时期</label>
+                <br>
+                <label><input type="checkbox" id="">土地改革运动时期</label>
+                <br>
+                <label><input type="checkbox" id="">土地改革运动时期</label>
+                <br>
+                <button style="margin-top: 20px;" onclick="checkMultiOpt(0)">检查答案</button>
+            </div> -->
+        </div>
+        
+    </div>
+
+    <div id="blankExam" style="display: none;">
+        <h3>填空题</h3>
+        <p>推荐使用<span class="trueText">回车</span>来检查答案，使用<span></span><span class="trueText">Tab键</span><span>切换到下一题</span></p>
+        <div id="blankExamDiv">
+       <!-- <div class="danxuan" >
+                <p>张艺谋执导的电影《活着》中有这样一个场景:20世纪50年代末，一个小孩找出父亲用的铁皮包的箱子要交给街道干部用来炼钢。这个场景所描绘的事件应该发生在( )。</p>
+                <hr style="border: 1px solid white;">
+                <p id="blankAnswer_0">正确答案：</p>
+                <p id="blankInputTag_0">你的答案：<input type="text" name="blankInput_0" id="blankInput_0"></p>
+                <button style="margin-top: 20px;" onclick="checkMultiOpt(0)">检查答案</button>
+            </div> -->
+            <!-- <p id="blankInputTag_0">你的答案：<input type="text" name="blankInput_0" id="blankInput_0" onsubmit=""></p> -->
+        </div>
+    </div>
+
+    <!-- 回到顶端 -->
+    <button onclick="toTop()">回到顶端</button>
+
+
+</div>
+
+<!-- 导入题目部分 -->
+<div id="importQuestions" style="display: none;">
+    <!-- 数据 -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>当前数据库</h3>
+        <h5>单选题：<span id="singleNumsTag">0</span>题；多选题：<span id="multiNumsTag">0</span>题；填空题：<span id="blankNumsTag">0</span>题</h5>
+    </div>
+
+    <!-- 一键导入题库 -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>一键导入，好朋友给的题库</h3>
+        <label for="importedSingleQuestions">导入单选题数据：</label>
+        <textarea id="importedSingleQuestions"></textarea>
+        <button onclick="importData('singleQuestion', 'importedSingleQuestions')">导入单选题</button>
+        <hr>
+        <label for="importedMultiQuestions">导入多选题数据：</label>
+        <textarea id="importedMultiQuestions"></textarea>
+        <button onclick="importData('multiQuestion', 'importedMultiQuestions')">导入多选题</button>
+        <hr>
+        <label for="importedBlankQuestions">导入填空题数据：</label>
+        <textarea id="importedBlankQuestions"></textarea>
+        <button onclick="importData('blankQuestion', 'importedBlankQuestions')">导入填空题</button>
+        <br>
+        <hr>
+        <button onclick="inportJSExam()">导入福建农林大学金山学院史纲期末考客观题 1-10章</button>
+    </div>
+
+
+    <!-- 手动导入选择题（单选多选） -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>题目录入（单选or多选），没人给我自己动手录题目（使用前请详细了解用法！！）</h3>
+        <label for="source">题目来源标记：</label>
+        <input type="text" id="source">
+        <hr style="border: 1px solid white;">
+        <label for="description">题目描述：</label>
+        <textarea id="description"></textarea>
+        <hr style="border: 1px solid white;">
+        <label for="options">选项（每行一个），用<input type="text" id="splitTag" value="">分割选项：</label>
+        <textarea id="options"></textarea>
+        <hr style="border: 1px solid white;">
+        <label for="correctAnswer">正确答案（行号，多选用逗号分隔）：</label>
+        <input type="text" id="correctAnswer">
+        <hr style="border: 1px solid white;">
+        <button onclick="saveQuestion()">保存题目</button>
+    </div>
+
+    <!-- 导入填空题 -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>题目录入（填空题）（使用前请详细了解用法！！）</h3>
+        <label for="sourceBlank">题目来源标记：</label>
+        <input type="text" id="sourceBlank">
+        <hr style="border: 1px solid white;">
+        <label for="descriptionBlank">题目描述：</label>
+        <textarea id="descriptionBlank"></textarea>
+        <hr style="border: 1px solid white;">
+        <label for="correctAnswerBlank">正确答案：</label>
+        <input type="text" id="correctAnswerBlank">
+        <hr style="border: 1px solid white;">
+        <button onclick="saveQuestionBlank()">保存题目</button>
+    </div>
+
+    <!-- 导出题库 -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>导出题库，分享给好朋友</h3>
+        <!-- 文本区域用于显示导出的数据 -->
+        <textarea id="exportedData" rows="10"></textarea><button onclick="copyExportedData()">复制</button>
+        <hr style="border: 1px solid white;">
+        <button onclick="exportData('singleQuestion')">导出单选题</button>
+        <button onclick="exportData('multiQuestion')">导出多选题</button>
+        <button onclick="exportData('blankQuestion')">导出填空题</button>
+    </div>
+
+    <!-- 清空题库 -->
+    <div style="border: 1px solid black;padding: 10px; border-radius: 10px;margin-top: 30px;">
+        <h3>我的题库太乱了，清空一下</h3>
+        <button onclick="clearQuestionBank('singleQuestion')">清空单选题库</button>
+        <button onclick="clearQuestionBank('multiQuestion')">清空多选题库</button>
+        <button onclick="clearQuestionBank('blankQuestion')">清空填空题库</button>
+    </div>
+
+
+
+    
+</div>
+
+<!-- Update -->
+<iframe id="updateiFrame" src="https://istesen.github.io/ScrollingTool/update.html" width="0" height="0"></iframe>
+
+
+
+
+<!--  -->
+
+    
+    <script>
+        // 初始化函数
+        function initTool() {
+            getTrueFalseNums();
+            // 统计数据库数量
+            var list = JSON.parse(localStorage.getItem('singleQuestion')) || [];
+            dataNumObj.singleNums = list.length;
+            list = JSON.parse(localStorage.getItem('multiQuestion')) || [];
+            dataNumObj.multiNums = list.length;
+            list = JSON.parse(localStorage.getItem('blankQuestion')) || [];
+            dataNumObj.blankNums = list.length;
+            list = [];
+            // 显示页面数据
+            var docEle = document.getElementById('singleNumsTag');
+            docEle.innerHTML = '';
+            docEle.innerHTML = dataNumObj.singleNums;
+            docEle = document.getElementById('multiNumsTag');
+            docEle.innerHTML = '';
+            docEle.innerHTML = dataNumObj.multiNums;
+            docEle = document.getElementById('blankNumsTag');
+            docEle.innerHTML = '';
+            docEle.innerHTML = dataNumObj.blankNums;
+            // 显示版本号
+            var verEle = document.getElementById('versionTag');
+            verEle.innerHTML = '';
+            verEle.innerHTML = toolVersion;
+            // 存储版本号
+            localStorage.setItem('toolVersion', toolVersion);
+
+            // 设置定时检查更新
+            setInterval(function() {
+                var iframe = document.getElementById('updateiFrame');
+                iframe.contentWindow.location.reload();
+            }, 0.4 * 60 * 1000); // 10分钟
+        }
+
+        // 全局题目
+        var liveQuestions = [];
+        
+        // 当前数据库数据
+        var dataNumObj = {
+            singleNums: 0,
+            multiNums: 0,
+            blankNums: 0
+        };
+
+        
+
+        // 回到顶端
+        function toTop() {
+            document.body.scrollTop = 0; // 兼容旧版本浏览器
+            document.documentElement.scrollTop = 0; // 现代浏览器
+        }
+
+        // 获取全局true、false次数，写到对应位置
+        function getTrueFalseNums() {
+            var num = localStorage.getItem('trueNums') || 0;
+            var spanTag = document.getElementById('totalTrueNum');
+            var num2 = localStorage.getItem('falseNums') || 0;
+            var spanTag2 = document.getElementById('totalFalseNum');
+            spanTag.textContent = num;
+            spanTag2.textContent = num2;
+            // 计算大小
+            var size1_outrange = num>140 ?  (num-140)%140 : 0;
+            var size1 = num>140 ? 140 : (num<15 ? 15 : num);
+            var size2_outrange = num2>140 ?  (num2-140)%140 : 0;
+            var size2 = num2>140 ? 140 : (num2<15 ? 15 : num2);
+            if(size1_outrange > size2_outrange) {
+                size2 = (size2-(size1_outrange-size2_outrange)) >= 140 ? 140 : ((size2-(size1_outrange-size2_outrange)) < 15 ? 15 : (size2-(size1_outrange-size2_outrange)));
+            } else {
+                size1 = (size1-(size2_outrange-size1_outrange)) >= 140 ? 140 : ((size1-(size2_outrange-size1_outrange)) < 15 ? 15 : (size1-(size2_outrange-size1_outrange)));
+            }
+            spanTag.style = '';
+            spanTag2.style = '';
+            spanTag.style.fontSize = size1 + 'px';
+            spanTag2.style.fontSize = size2 + 'px';
+        }
+        // 追加正确错误次数
+        function setTrueFalseNums(isTrue) {
+            if(isTrue) {
+                var num = localStorage.getItem('trueNums') || 0;
+                var spanTag = document.getElementById('totalTrueNum');
+                num++;
+                localStorage.setItem('trueNums', num);
+                spanTag.textContent = num;
+            } else {
+                var num = localStorage.getItem('falseNums') || 0;
+                var spanTag = document.getElementById('totalFalseNum');
+                num++;
+                localStorage.setItem('falseNums', num);
+                spanTag.textContent = num;
+            }
+        }
+
+        // 加载题库到liveQuestions
+        function loadQuestion(dataSource) {
+            liveQuestions = JSON.parse(localStorage.getItem(dataSource)) || [];
+        }
+
+        function thank() {
+            alert("吃水不忘挖井人，考试挂科都很难！\n特别感谢\nk3-411\nA9-303-2\n一杯橙C美少女\nAurora\n的数据贡献！");
+        }
+
+        // 根据quesSource过滤题目
+        function filteQues() {
+            var tag = document.getElementById('quesSource').value;
+            if(tag!='') {
+              liveQuestions = liveQuestions.filter(function (ques){
+                  if(ques.source==tag) {
+                    return ques;
+                  }
+              });
+            }
+        }
+
+
+        // 显示单选题
+        function showSingleQuestions()
+        {
+            examDisplay('singleExam');
+            loadQuestion('singleQuestion');
+            filteQues();
+            if(liveQuestions.length==0) {
+                alert("题库内没有内容哦，请先导入！");
+            }
+            var nums = document.getElementById('quesnums').value;
+            var examDiv = document.getElementById('singleExamDiv');
+            examDiv.innerHTML = '';
+            // 洗牌
+            for (let i = liveQuestions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [liveQuestions[i], liveQuestions[j]] = [liveQuestions[j], liveQuestions[i]];
+            }
+            // 取前nums条数据
+            if(nums!=0) {
+                liveQuestions = liveQuestions.slice(0, nums);
+            }
+            // 转换答案形式
+            var qIndex = 0;
+            liveQuestions = liveQuestions.map(function (ques) {
+                var answerArr = ques.correctAnswer.map(function (index) {
+                    return ques.options[index-1]; // 导入时序号要-1
+                });
+                ques.correctAnswer = answerArr.join(",");
+                // 打乱选项
+                for (let i = ques.options.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [ques.options[i], ques.options[j]] = [ques.options[j], ques.options[i]];
+                }
+                // 输出屏幕
+                var quesDiv = document.createElement('div');
+                var htmlText = `
+                    <div class="danxuan" >
+                        <p>${qIndex+1}（${ques.source}）${ques.description}</p>
+                        <hr style="border: 1px solid white;">
+                `;
+                // 加载选项
+                var opIndex = 0;
+                ques.options.forEach(function (op) {
+                    htmlText += `
+                        <p id="sing_opt_${qIndex}_${opIndex}" onclick="checkSingleOpt(${qIndex}, ${opIndex});"><button onclick="checkSingleOpt(${qIndex}, ${opIndex});">@</button>${op}</p>
+                    `;
+                    opIndex++;
+                });
+                htmlText += `</div>`;
+                quesDiv.innerHTML = htmlText;
+                examDiv.appendChild(quesDiv);
+                qIndex++;
+                return ques;
+            });
+        }
+        // 单选题检查对错
+        function checkSingleOpt(questionNum, optNum) {
+
+            var ques = liveQuestions[questionNum];
+            // console.log(liveQuestions);
+            // console.log(ques);
+            var optDoc = document.getElementById('sing_opt_'+questionNum+'_'+optNum);
+            optDoc.className = '';
+            if(ques.correctAnswer.includes(ques.options[optNum])) {
+                optDoc.classList.add('trueText');
+                setTrueFalseNums(1);
+            } else {
+                optDoc.classList.add('falseText');
+                setTrueFalseNums(0);
+            }
+        }
+
+        // 显示多选题
+        function showMultiQuestions() {
+            examDisplay('multiExam');
+            loadQuestion('multiQuestion');
+            filteQues();
+            if(liveQuestions.length==0) {
+                alert("题库内没有内容哦，请先导入！");
+            }
+            var nums = document.getElementById('quesnums').value;
+            var examDiv = document.getElementById('multiExamDiv');
+            examDiv.innerHTML = '';
+            // 洗牌
+            for (let i = liveQuestions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [liveQuestions[i], liveQuestions[j]] = [liveQuestions[j], liveQuestions[i]];
+            }
+            // 取前nums条数据
+            if(nums!=0) {
+                liveQuestions = liveQuestions.slice(0, nums);
+            }
+            // 转换答案形式
+            var qIndex = 0;
+            liveQuestions = liveQuestions.map(function (ques) {
+                var answerArr = ques.correctAnswer.map(function (index) {
+                    return ques.options[index-1]; // 导入时序号要-1
+                });
+                ques.correctAnswer = answerArr.join(",");
+                // 打乱选项
+                for (let i = ques.options.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [ques.options[i], ques.options[j]] = [ques.options[j], ques.options[i]];
+                }
+                // 输出屏幕
+                var quesDiv = document.createElement('div');
+                var htmlText = `
+                    <div class="danxuan" >
+                        <p>${qIndex+1}（${ques.source}）${ques.description}</p>
+                        <hr style="border: 1px solid white;">
+                `;
+                // 加载选项
+                var opIndex = 0;
+                ques.options.forEach(function (op) {
+                    htmlText += `
+                        <label id="multiLabel_${qIndex}_${opIndex}"><input type="checkbox" id="multi_${qIndex}_${opIndex}">${op}</label>
+                        <br>
+                    `;
+                    opIndex++;
+                });
+                htmlText += `
+                    <button style="margin-top: 20px;" onclick="checkMultiOpt(${qIndex})">检查答案</button>
+                </div>`;
+                quesDiv.innerHTML = htmlText;
+                examDiv.appendChild(quesDiv);
+                qIndex++;
+                return ques;
+            });
+        }
+        // 检查多选题对错
+        function checkMultiOpt(questionNum) {
+            var ques = liveQuestions[questionNum];
+            // 遍历选项
+            for(let i=0; i<ques.options.length; i++) {
+                var checkBoxOpt = document.getElementById('multi_'+questionNum+'_'+i);
+                var labelEle = document.getElementById('multiLabel_'+questionNum+'_'+i);
+                labelEle.className = '';
+                if(ques.correctAnswer.includes(ques.options[i])) {
+                    labelEle.classList.add('trueText');
+                    if(checkBoxOpt.checked) {
+                        // 计数正确与否
+                        setTrueFalseNums(1);
+                    } else {
+                        setTrueFalseNums(0);
+                    }
+                } else {
+                    // i不是正确答案
+                    if(checkBoxOpt.checked ) {
+                        // 如果选中，显示正确颜色
+                        labelEle.classList.add('falseText');
+                        setTrueFalseNums(0);
+                    }
+                }
+            }
+        }
+
+        // 显示填空题
+        function showBlankQuestions() {
+            examDisplay('blankExam');
+            loadQuestion('blankQuestion');
+            filteQues();
+            if(liveQuestions.length==0) {
+                alert("题库内没有内容哦，请先导入！");
+            }
+            var nums = document.getElementById('quesnums').value;
+            var examDiv = document.getElementById('blankExamDiv');
+            examDiv.innerHTML = '';
+            // 洗牌
+            for (let i = liveQuestions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [liveQuestions[i], liveQuestions[j]] = [liveQuestions[j], liveQuestions[i]];
+            }
+            // 取前nums条数据
+            if(nums!=0) {
+                liveQuestions = liveQuestions.slice(0, nums);
+            }
+            // 转换答案形式
+            var qIndex = 0;
+            liveQuestions = liveQuestions.map(function (ques) {
+                
+                // 输出屏幕
+                var quesDiv = document.createElement('div');
+                var htmlText = `
+                    <div class="danxuan" >
+                        <p>${qIndex+1}（${ques.source}）${ques.description}</p>
+                        <hr style="border: 1px solid white;">
+                `;
+                htmlText += `
+                    <p style="display: none;" id="blankAnswer_${qIndex}">正确答案：${ques.correctAnswer}</p>
+                    <p id="blankInputTag_${qIndex}">你的答案：<input type="text" name="blankInput_${qIndex}" id="blankInput_${qIndex}" onkeydown="checkEnter(event, ${qIndex})"/></p>
+                    <button style="margin-top: 5px;" onclick="checkBlankOpt(${qIndex})">检查答案</button>
+                </div>`;
+                quesDiv.innerHTML = htmlText;
+                examDiv.appendChild(quesDiv);
+                qIndex++;
+                return ques;
+            });
+        }
+        function checkBlankOpt(questionNum) {
+            var ques = liveQuestions[questionNum];
+            var tag = document.getElementById('blankInputTag_'+questionNum);
+            var tagAnswar = document.getElementById('blankAnswer_'+questionNum);
+            var input = document.getElementById('blankInput_'+questionNum).value;
+            tagAnswar.style.display = "block";
+            tag.className = '';
+            if(ques.correctAnswer==input && input!='') {
+                tag.classList.add('trueText');
+                setTrueFalseNums(1);
+            } else {
+                tag.classList.add('falseText');
+                setTrueFalseNums(0);
+            }
+        }
+        // 填空题，检查是否按下的是回车键的键码
+        function checkEnter(event, qIndex) {
+            if (event.key === "Enter") {
+                checkBlankOpt(qIndex);
+            }
+        }
+
+        // tag: 数据库名   docId：输入框id
+        function importData(dataSource, docId) {
+            var Questions = JSON.parse(localStorage.getItem(dataSource)) || [];
+            var importedData = document.getElementById(docId).value.trim();
+            if (importedData !== '') {
+                var parsedData = JSON.parse(importedData);
+                Questions = Questions.concat(parsedData);
+                localStorage.setItem(dataSource, JSON.stringify(Questions));
+                alert('已导入！');
+            }
+        }
+        
+        function exportData(dataSource)
+        {
+            var singleQuestions = JSON.parse(localStorage.getItem(dataSource)) || [];
+            var exportedData = JSON.stringify(singleQuestions, null, 2);
+            document.getElementById('exportedData').value = exportedData;
+            alert("已经完成导出，点击“复制”就行");
+        }
+
+        // 复制导出的数据
+        function copyExportedData() {
+            var textarea = document.getElementById('exportedData');
+            textarea.select();
+            document.execCommand("copy");
+            alert('已复制全部内容，快去分享给好朋友吧！');
+        }
+
+
+        function clearQuestionBank(dataSource) {
+            localStorage.removeItem(dataSource);
+            alert('题库已清空！');
+        }
+
+        function showQuiz() {
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('importQuestions').style.display = 'none';
+        }
+
+        function showImportQuestions() {
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('importQuestions').style.display = 'block';
+        }
+
+        function examDisplay(tag) {
+            document.getElementById('singleExam').style.display = 'none';
+            document.getElementById('multiExam').style.display = 'none';
+            document.getElementById('blankExam').style.display = 'none';
+            document.getElementById(tag).style.display = 'block';
+        }
+
+
+
+        function saveQuestion() {
+            // 获取输入值
+            var splitTag = document.getElementById('splitTag').value;
+            var source = document.getElementById('source').value;
+            var description = document.getElementById('description').value;
+            var options = document.getElementById('options').value.split('\n').filter(function(option) {
+                return option.trim() !== ''; // 排除空的选项
+            });
+            options = options.map(function (str) {
+                if(splitTag!='') {
+                    var parts = str.split('.');
+                    return parts.length > 1 ? parts[1] : str; // 如果有右侧部分则返回，否则返回原字符串
+                } else {
+                    return str;
+                }
+            });
+            var correctAnswerInput = document.getElementById('correctAnswer').value;
+
+            // 转换输入的行号为正确答案数组
+            var correctAnswerArray = correctAnswerInput.split(',').map(function(item) {
+                var parsedItem = parseInt(item.trim(), 10);
+                return !isNaN(parsedItem) ? parsedItem : null;
+            }).filter(function(item) {
+                return item !== null;
+            });
+
+            // 获取已保存的题目数组，如果没有则初始化为空数组
+            var savedSingleQuestions = JSON.parse(localStorage.getItem('singleQuestion')) || [];
+            var savedMultiQuestions = JSON.parse(localStorage.getItem('multiQuestion')) || [];
+
+            // 构建题目对象
+            var newQuestion = {
+                source: source,
+                description: description,
+                options: options,
+                correctAnswer: correctAnswerArray
+            };
+
+            // 决定存储到 singleQuestion 还是 multiQuestion
+            if (correctAnswerArray.length === 1) {
+                // 存储到 singleQuestion
+                savedSingleQuestions.push(newQuestion);
+                localStorage.setItem('singleQuestion', JSON.stringify(savedSingleQuestions));
+            } else if (correctAnswerArray.length > 1) {
+                // 存储到 multiQuestion
+                savedMultiQuestions.push(newQuestion);
+                localStorage.setItem('multiQuestion', JSON.stringify(savedMultiQuestions));
+            }
+
+            // 清空输入框
+            // document.getElementById('source').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('options').value = '';
+            document.getElementById('correctAnswer').value = '';
+
+            alert('题目已保存！');
+        }
+
+        function saveQuestionBlank() {
+            // 获取输入值
+            var source = document.getElementById('sourceBlank').value;
+            var description = document.getElementById('descriptionBlank').value;
+            var correctAnswerInput = document.getElementById('correctAnswerBlank').value;
+
+
+            // 获取已保存的题目数组，如果没有则初始化为空数组
+            var savedBlankQuestions = JSON.parse(localStorage.getItem('blankQuestion')) || [];
+
+
+            // 构建题目对象
+            var newQuestion = {
+                source: source,
+                description: description,
+                correctAnswer: correctAnswerInput
+            };
+            // ==========================
+            savedBlankQuestions.push(newQuestion);
+            localStorage.setItem('blankQuestion', JSON.stringify(savedBlankQuestions));
+
+            // 清空输入框
+            // document.getElementById('source').value = '';
+            document.getElementById('descriptionBlank').value = '';
+            document.getElementById('correctAnswerBlank').value = '';
+
+            alert('题目已保存！');
+        }
+
+        initTool();
+
+        // 农林金山史纲导入
+        function inportJSExam() {
+            thank();
+            localStorage.removeItem('singleQuestion');
+            localStorage.removeItem('blankQuestion');
+            localStorage.removeItem('multiQuestion');
+            // 导入单选
+            var dataJson = [
+  {
+    "source": "第二章",
+    "description": "19世纪60年代,面对内忧外患,封建统治阶级中的部分成员如奕䜣、曾国藩、李鸿章、左宗棠、张之洞等,以“自强”、“求富”为目标,主张学习西方的武器装备和科学技术,这些官员被称为( )。",
+    "options": [
+      " D、顽固派",
+      " B、洋务派",
+      " 地主阶级改革派",
+      " C、维新派"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "洋务派创办的当时国内最大的兵工厂是( )。",
+    "options": [
+      " 金陵机器局",
+      " 天津机器局",
+      " 马尾船政局",
+      " 江南制造总局"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "《上海县竹枝词》有诗云:“卅年求富更求强,造炮成船法仿洋。海面未收功一战,总归虚牝掷金黄。”与上述内容有关的历史事件是( )。",
+    "options": [
+      " 《南京条约》的签订",
+      " 八国联军侵华战争",
+      " 辛亥革命",
+      " 甲午中日战争"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "19世纪末康、梁维新派救亡图存思想的核心是( )。",
+    "options": [
+      " 今日之民智……待革命以开之",
+      " 以中国伦常名教为原本,辅以诸国富强之术",
+      " 设议院、兴民权、实行君主立宪",
+      " 由君主立宪变为民主共和是“进化之公理”"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "太平天国颁发给农民田契中有某人“每年遵照天朝定制,完纳米银,不得违误”等文字。这可以说明太平天国( )。",
+    "options": [
+      " 普遍实行土地公有的制度",
+      " 未严格执行《天朝田亩制度》",
+      " 实现了“有田同耕”的理想",
+      " 与地主相勾结残酷剥削农民"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "“俄北瞰,英西睒,法南瞵,日东眈。处四强邻之中者,岌岌哉!”危局之下,中国展开的将爱国救亡与追求社会进步紧密联系的运动是( )。",
+    "options": [
+      " 维新变法运动",
+      " 太平天国运动",
+      " 义和团运动",
+      " 五四运动"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "太平天国是进入近代后中国人民的第一次大规模反抗斗争。下面典型的反映其斗争性质的文件是( )。",
+    "options": [
+      " 《民报》",
+      " 《天朝田亩制度》",
+      " 《新青年》",
+      " 《新民丛报》"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "被鲁迅称为“19世纪最敏感的人”的严复在其译著《天演论》中提出了“物竞天择,适者生存”的进步思想。这表明他主张( )。",
+    "options": [
+      " 兴办工厂,实业救国",
+      " 推翻满清政府,建立民主共和国",
+      " 效仿西方政治制度,实行维新变法",
+      " 学习西方先进技术,抵抗外国侵略"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "“不识国民之原理,不通世界之大势,不知政治之本原……而仅摭拾泰西皮毛,……遂乃自足。”上述言论应当是( )",
+    "options": [
+      " 顽固派对洋务派的批评",
+      " 维新派对洋务派的批评",
+      " 洋务派对维新派的批评",
+      " 洋务派对顽固派的批评"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "《北华捷报》是上海出版的一份英文报刊,1853年4月23日报道:“南京于3月8日被叛军彻底包围,21日被攻陷,据说南京的清朝将军身先士卒,已在英勇作战中阵亡”。依据所学知识判断,报道中的“叛军”是指( )",
+    "options": [
+      " 英法联军",
+      " 义和团",
+      " 太平军",
+      " 革命党人"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "中国教育近代化起步于( )。",
+    "options": [
+      " 百日维新时期",
+      " 辛亥革命时期",
+      " 鸦片战争时期",
+      " 洋务运动时期"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "第二次鸦片战争后洋务派主张学习西方先进生产技术,其根本目的是",
+    "options": [
+      " 使中国走上资本主义道路",
+      " 抵抗外国侵略",
+      " 镇压太平天国",
+      " 维护清朝统治"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "李鸿章说:“必先富而后能强,尤必富在民生而国本乃可益固。”他的洋务活动中体现了上述思想的是( )。",
+    "options": [
+      " 创办江南制造总局",
+      " 创办轮船招商局",
+      " 创设京师同文馆",
+      " 创建北洋海军"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "自秦汉以来,士大夫以为法制是祖宗的法制,先圣先贤的法制,历代相传,决不可变更。康有为知道非先打破这个思想的难关,变法就无从下手。为打破“思想的难关”,康有为( )",
+    "options": [
+      " 出版《孔子改制考》",
+      " 与革命派展开激烈论战",
+      " 率先冲破“天朝上国”观念束缚",
+      " 发动“公车上书”"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "维新派同顽固派论战的问题不包括( )。",
+    "options": [
+      " 要不要社会革命",
+      " 要不要变法",
+      " 要不要兴民权,实行君主立宪",
+      " 要不要提倡西学"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "《资政新篇》问世后,曾国藩慕僚赵烈文在其《能静居士日记》推荐中说:“《资政新篇》一本,贼族洪仁玕所作以上洪逆者,文理较明白。其中所言,颇有见识”;“观此一书,则贼中不为无人。”赵烈文如此评价主要是因《资政新篇》( ).",
+    "options": [
+      " 学习西方的精神符合时代进步的潮流",
+      " 有利于实现农民绝对平均主义的理想",
+      " 可作清政府全面改革内政的借鉴",
+      " 体现了与洋务派一致的改革追求"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "近人《世载堂杂忆》记载:“一日,殿上议事,北王问东王曰:‘闻兄有不臣之心,自称万岁。’东王闻言,积威凌北王,北王即抽刀屠东王之腹。”此事造成了 ( )。",
+    "options": [
+      " 天王洪秀全不理朝政",
+      " 中外反动派联合镇压",
+      " 太平军内部自相残杀",
+      " 干王洪仁玕被黜去位"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "太平天国将领杨秀清说“中国有中国之制度,今满洲造为妖魔条律,使我中国之人无能脱其网罗。”邹容在《革命军》中说“我中国今日欲脱满洲人之羁缚,不可不革命。”两者都主张( )",
+    "options": [
+      " 推翻封建制度,建立共和国",
+      " 实现主权在民原则",
+      " 反对满清贵族的封建统治",
+      " 实现国内各民族的平等"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "马克思指出:“他们战战兢兢地请出亡灵来给他们以帮助,借用他们的名字、口号和衣服,以便穿着这种久受崇敬的服装,用这种借用的语言,演出历史的新场面。”这一观点可适用于对下列哪一理论的评价( )。",
+    "options": [
+      " 孙中山的旧三民主义",
+      " 洪秀全的绝对平均主义",
+      " 新文化运动前期的指导思想",
+      " 康有为的维新变法思想"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "太平天国的领导者们希望通过施行《天朝田亩制度》方案,建立“有田同耕,有饭同食,有衣同穿,有钱同使,无处不均匀,无人不饱暖”的理想社会。所以,《天朝田亩制度》实际上是一个以( )社会改革方案。",
+    "options": [
+      " 解决种植问题为中心",
+      " 解决饮食问题为中心",
+      " 解决收入问题为中心",
+      " 解决土地问题为中心"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "洋务派认为“自强以练兵为要,练兵又以制器为先”。在洋务运动中能体现“制器为先”的是( )。",
+    "options": [
+      " 上海机器织布局",
+      " 江南制造总局",
+      " 开平矿务局",
+      " 天津电报局"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "下列不属于洋务运动的内容是( )。",
+    "options": [
+      " 举办新式学堂",
+      " 建成北洋、南洋、广东和福建四支海军",
+      " 创办近代军事和民用工业",
+      " 提出发展资本主义的方案"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "与以往农民战争相比,太平天国运动新的特点表现在( )。\n①运动规模空前巨大 ②反封建同时反侵略 ③《天朝田亩制度》的平均主义思想    ④《资政新篇》的资本主义色彩",
+    "options": [
+      " D、③④",
+      " ①②",
+      " C、②④",
+      " ①③"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "1872年,12岁的詹天佑作为中国第一批官派留学生赴美学习,为日后创造铁路建设的突出成就奠定了基础。詹天佑赴美留学,与哪一事件有关( )。",
+    "options": [
+      " D、新文化运动",
+      " C、辛亥革命",
+      " 洋务运动",
+      " 维新变法运动"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "1898年的“百日维新”如同昙花一现,只经历了103天就夭折了,绝大多数新政措施都被废除了,只有( )被保留下来。",
+    "options": [
+      " 马尾船政学堂",
+      " 山海关矿路学堂",
+      " 京师同文馆",
+      " 京师大学堂"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "悲叹“有心杀贼,无力回天,死得其所,快哉快哉”的维新志士是( )。",
+    "options": [
+      " 谭嗣同",
+      " 刘光第",
+      "D、林旭",
+      "D、康有为"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "维新派的变法维新活动引起封建守旧派和反对改变封建政治制度的洋务派的反对,他们利用自己的地位和权力,对维新思想发动攻击。于是维新派与守旧派之间展开了一场激烈论战。这场论战,实质上是( )。",
+    "options": [
+      " 一场前所未有的、空前深刻的思想解放运动",
+      " 中国人民和中华民族自鸦片战争以来的第一次全面觉醒",
+      " 开创了中国近代向西方学习的新风",
+      " 资产阶级思想与封建主义思想在中国的第一次正面交锋"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "郑观应评价洋务运动时曾说过“中国遗其体而求其用,无论竭蹶趋步,常不相及”。这实际上是指( )。",
+    "options": [
+      " 中国失去了发展的机遇",
+      " 中国和西方差距太大",
+      " 西方国家阻挠中国工业化进程",
+      " 洋务派没有学习西方资本主义制度"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "“天兵来杀妖,全为穷乡亲。打下南京城,就把田地分。”这首曾在安徽芜湖地区流传的歌谣反映的史实是( )。",
+    "options": [
+      " 朱元璋建立明朝政权",
+      " 北伐战争时期安徽的农民斗争",
+      " 太平天国农民运动",
+      " 鄂豫皖根据地的土地革命"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "1856年发生的严重削弱了天平天国军事力量,,成为太平天国由盛转衰分水岭的事件是( )",
+    "options": [
+      " 北伐失利",
+      " 天京陷落",
+      " 洪秀全病逝",
+      " 天京事变"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "张艺谋执导的电影《活着》中有这样一个场景:20世纪50年代末，一个小孩找出父亲用的铁皮包的箱子要交给街道干部用来炼钢。这个场景所描绘的事件应该发生在( )。",
+    "options": [
+      " 土地改革运动时期",
+      " 三大改造运动中",
+      " 人民公社化运动时期",
+      " “大跃进”运动中"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "随着社会主义改造的完成，以生产资料公有制、按劳分配和计划经济体制为特征的社会主义经济制度建立起来，这是中国进入( )最主要的标志。",
+    "options": [
+      " 新民主主义社会",
+      " 社会主义社会",
+      " 旧民主主义社会",
+      " 共产主义社会"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1956年毛泽东作的《论十大关系》的报告，是探索中国社会主义建设道路的重要理论成果。《论十大关系》围绕的基本方针是( )。",
+    "options": [
+      " 中国共产党同民主党派长期共存、互相监督",
+      " 调整、巩固、充实、提高",
+      " 调动一切积极因素，把我国建设成为一个强大的社会主义国家",
+      " 坚持百花齐放、百家争鸣"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "中国共产党在过渡时期总路线的主体是实现( )。",
+    "options": [
+      " 对手工业的社会主义改造",
+      " 对资本主义工商业的社会主义改造",
+      " 对农业的社会主义改造",
+      " 社会主义工业化"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "以下春联中能反映新中国成立后过渡时期历史情景的是( )。",
+    "options": [
+      " “过年只有两升米，压岁并无一分钱”",
+      " “毛主席挥手指方向，合作化道路宽又广”",
+      " “食堂巧煮千家饭，公社饱暖万人心”",
+      " “粮补机补肥补助农民幸福，医保社保低保保百姓平安”"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1956年，毛泽东提出我国发展科学、艺术的基本方针是( )。",
+    "options": [
+      " 百花齐放、百家争鸣",
+      " 打倒帝王将相、才子佳人",
+      " 古为今用、洋为中用",
+      " 让工农兵占领文化艺术舞台"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "建国初期，毛泽东指出:“现在我们能造什么?能够造桌子椅子，能造茶碗茶壶，能种粮食，还能磨成面粉，还能造纸，但是，一辆汽车、一架飞机、一辆坦克、一辆拖拉机都不能造。”为改变这种局面，我国在第一个五年计划中( )。",
+    "options": [
+      " 逐步改造资本主义工商业",
+      " 大力发展交通运输业",
+      " 加速实现手工业合作化",
+      " 优先发展重工业"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "对农业进行社会主义改造的途径是( )",
+    "options": [
+      " 合作化",
+      " 和平赎买",
+      " 国家资本主义",
+      " 公私合营"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "春联作为中国特有的文学形式，具有很强的时代性。以下春联出现的先后顺序是( )。\n①抗美援朝万民一心，保家卫国众志成城    ②大跃进一日千里，总路线光芒万丈\n③改革开放同添异彩，经济建设共展宏图",
+    "options": [
+      " ①②③",
+      " ③①②",
+      " ②①③",
+      " ①③②"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "“君子和而不同”是中华民族的传统理念。我国外交政策能体现该理念的是( )。",
+    "options": [
+      " 和平共处五项原则",
+      " “另起炉灶”的方针",
+      " “联美遏苏”的方针",
+      " “一边倒”的政策"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "“公社的山羊长得壮，上山碰到非洲象，山羊打个大喷嚏，轰隆一声比雷响，大象吓得直哆嗦，扑通跪倒直喊娘:‘娘啊娘，还是公社的山羊大，跟它比，我简直就是屎壳螂’。”这首歌谣体现了哪个时期的特色( )。",
+    "options": [
+      " 改革开放时期",
+      " “大跃进”时期",
+      " 农业合作化时期",
+      " 文化大革命时期"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "中国进入新民主主义社会后，在经济上处于领导地位的是( )。",
+    "options": [
+      " 合作社经济",
+      " 国家资本主义经济",
+      " 私人资本主义经济",
+      " 国营经济"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "毛泽东在《论十大关系》中提出，处理中国共产党和民主党派关系的方针是( )。",
+    "options": [
+      " 同甘共苦，同舟共济",
+      " 以诚相待，患难与共",
+      " 肝胆相照，荣辱与共",
+      " 长期共存，互相监督"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "“芝麻赛玉米，玉米比人大”这句20世纪50年代的打油诗反映的是( )。",
+    "options": [
+      " “大跃进”时期的浮夸风",
+      " 农业合作社的优越性",
+      " 土地改革成果",
+      " “一五”计划的建设成就"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1949年至1952年，通过没收官僚资本，并在企业内部进行民主改革和生产改革，中国资本主义经济的主体部分被改造为( )。",
+    "options": [
+      " 国家资本主义经济",
+      " 社会主义性质的国营经济",
+      " 社会主义性质的私营经济",
+      " 私人资本主义经济"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1956年1月，中共中央召开关于知识分子问题会议，动员全党和全国人民，特别是广大知识分子( )。",
+    "options": [
+      " “实现教育的现代化”",
+      " “实现科学技术的现代化”",
+      " “向现代科学进军”",
+      " “攀登科学技术高峰”"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1957 年 4 月，中共中央下发的《关于整风运动的指示》中提出的整风运动的对象是( )。",
+    "options": [
+      " B、教条主义、自由主义、经验主义",
+      " 官僚主义、宗派主义、主观主义",
+      " 主观主义、宗派主义、党八股",
+      " D、个人主义、拜金主义、享乐主义"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1956年，中国共产党第八次全国代表大会在北京开幕，会议明确了全党全国人民的主要任务是( )。",
+    "options": [
+      " 阶级斗争",
+      " 建立社会主义制度",
+      " 加强党的建设",
+      " 发展生产力"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "中共八大确定经济建设的指导方针是( )。",
+    "options": [
+      " 调整、巩固、充实、提高",
+      " 建设规模必须同国力相适应",
+      " 既反保守又反冒进，即在综合平衡中稳步前进",
+      " 以农业为基础，以工业为主导"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "新中国成立以来中共中央领导集体开展的广泛而深入的对经济工作的调查研究，其思想成果就是( )。",
+    "options": [
+      " 中共八大政治报告的形成",
+      " “双百”方针的形成",
+      " 《关于正确处理人民内部矛盾的问题》的形成",
+      " 毛泽东《论十大关系》的形成"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "新中国成立初期，社会主义国营经济建立的主要途径是( )。",
+    "options": [
+      " 征用外国资本",
+      " 合并公营资本",
+      " 赎买民族资本",
+      " 没收官僚资本"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "建国初期开展的运动中，体现了中共七届二中全会“两个务必“精神的是( )。",
+    "options": [
+      " “三反五反”运动",
+      " 土地改革运动",
+      " 抗美援朝运动",
+      " 镇压反革命运动"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "赢得( ) 战争的胜利，新中国真正站稳了脚跟，中国人民真正扬眉吐气了。",
+    "options": [
+      " 国民大革命",
+      " 抗美援朝",
+      " 解放南京",
+      " 抗日战争"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "在对资本主义工商业进行社会主义改造过程中，当个别企业公私合营后，企业的利润实行( )。",
+    "options": [
+      " 归企业所有",
+      " 用于工人的工资",
+      " 归国家所有",
+      " 四马分肥"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1956年9月召开的党的八大，在正确分析国内形势和国内主要矛盾变化后指出，社会主义改造取得了决定性的胜利，这就表明，国内的主要矛盾已经是( )，社会主义制度在我国已经基本上建立起来。",
+    "options": [
+      " 社会主义同资本主义之间的矛盾",
+      " 人民对于经济文化迅速发展的需要同当前经济文化不能满足人民需要的状况之间的矛盾",
+      " 无产阶级和资产阶级之间的矛盾"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "创造性地阐述了社会主义社会矛盾学说，发展了科学社会主义理论，对中国社会主义事业具有长远的指导意义的光辉文献是( )。",
+    "options": [
+      " 《论人民民主专政》",
+      " 《关于正确处理人民内部矛盾的问题》",
+      " 《论十大关系》",
+      " 《不要四面出击》"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "河南林县人民在县委领导下，以“林县人民多壮志，誓把河山重安排”的豪迈，用十年时间，开凿太行山，引漳水入境，修建了“人造天河”( )，彻底告别“水缺贵如油”的历史，创造了人间奇迹。",
+    "options": [
+      " 红旗暗河",
+      " 红旗渠",
+      " 红旗河",
+      " 红旗水道"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "在纪念中国人民志愿军抗美援朝出国作战70周年大会讲话中，习近平援引当年彭德怀战后报告中的原话指出，“西方侵略者几百年来只要在东方一个海岸上架起几尊大炮就可霸占一个国家的时代是一去不复返了”。抗美援朝战争的价值在于( )。",
+    "options": [
+      " 打得一拳开，免得百拳来",
+      " 打扫干净屋子再请客",
+      " 枪杆子里面出政权",
+      " 星星之火，可以燎原"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "《人民日报》连续发表“人有多大胆，地有多大产”和“小麦亩产12万斤”、“皮棉亩产5000斤”、“一棵白菜500斤”等文章，宣传全国各地大放“卫星”。这一现象发生于( )。",
+    "options": [
+      " 1962年",
+      " 1956年",
+      " 1960年",
+      " 1958年"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1957年2月，毛泽东认为国家政治生活的主题应是( )。",
+    "options": [
+      " 反击右派的群众性斗争",
+      " 以阶级斗争为纲",
+      " 多快好省地建设社会主义",
+      " 正确处理人民内部矛盾"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "社会主义政治制度包括( )。",
+    "options": [
+      " 生产资料公有制",
+      " 人民代表大会制度",
+      " 民族区域自治制度",
+      " 中国共产党领导的多党合作和政治协商制度"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "毛泽东同志有诗云:“钟山风雨起苍黄，百万雄师过大江。虎踞龙盘今胜昔，天翻地覆慨而慷。”该诗反映的重大历史事件是( )。",
+    "options": [
+      " 人民解放军攻占南京",
+      " 中国人民志愿军赴朝作战",
+      " 八路军发起百团大战",
+      " 人民解放军解放上海"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "解放战争期间，台湾人民反抗国民党暴政的重要活动是( )",
+    "options": [
+      " 二二八起义",
+      " 五二〇运动",
+      " 一二九运动",
+      " 一二一运动"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "美国国务卿艾奇逊说过:“美国在中国碰到了三种可能的选择:(一)它可以一干二净的撤退;(二)它可以大规模的军事干涉，帮助国民党毁灭共产党;(三)它可以帮助国民党把他们的权利在中国最大可能地建立起来……”美国政府实际上选择了三种可能中的( )。",
+    "options": [
+      " 第一种",
+      " 第三种",
+      " 第二种",
+      " 都不对"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "竺可桢在日记里写道，“五月廿六日星期四。下午三点起微雨，子夜大雨。上海全部解放解放军在路站岗，秩序极佳，绝不见欺老百姓之事。守门之站岗者倦则卧地，亦绝不扰人，纪律之佳诚难得也”。该日记可用于研究( )。",
+    "options": [
+      " 党的工作重心转变的问题",
+      " 建国初经济的恢复情况",
+      " 新生政权如何得以巩固",
+      " 解放战争取得胜利的原因"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1945年8月，《大公报》报道毛泽东来到重庆的消息时称:“爱好民主自由的人士都知道，这是维系中国目前及未来历史和人民幸福的一个喜讯。”这反映了“爱好民主自由的人士”期盼( )。",
+    "options": [
+      " 共产党与民主党派合作建立新中国",
+      " 共产党领导人民推翻国民党的统治",
+      " 国共双方和平协商，创建新中国",
+      " 国共双方消除隔阂，共同抗日"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1948年《中共中央发布纪念“五一”劳动节口号》，指出:“今年的五一劳动节，是中国人民死敌蒋介石走向灭亡的日子，蒋介石做伪总统，就是他快要上断头台的预兆。打到南京去，活捉总统蒋介石!”这一口号的提出表明( )。",
+    "options": [
+      " 解放军转入战略进攻的阶段",
+      " 解放战争即将进入战略决战",
+      " 抗日战争即将取得全面胜利",
+      " 解放军粉碎国民党全面进攻"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": ")1946年5月4日，中共中央发布指示，决定将减租减息的政策改为没收地主土地分配给农民，揭开了解放区土地改革的序幕，该文件是( )",
+    "options": [
+      " 《战时土地政策纲领》",
+      " 《关于清算、减租及土地问题的指示》",
+      " 《中国土地法大纲》",
+      " 《土地改革法》"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "有人说:“民盟被迫解散，是盟史上一大挫折，但也正是民盟转变的起点。”这里的“转变”是指( )。",
+    "options": [
+      " 开始转入武装斗争",
+      " 由公开斗争转入地下斗争",
+      " 放弃与国民党联合的路线",
+      " 放弃中间路线与中共联合反蒋"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1947 年2月，周恩来为中共中央起草了关于在国民党统治区的工作方针和斗争策略的指示，要求国民党统治区的党组织应扩大宣传，避免硬碰，争取中间分子，利用合法形式，力求在生存而斗争的基础上，建立反卖国、反内战、反独裁与反特务统治的广大阵线。该指示( )。",
+    "options": [
+      " 使国民党完全陷入孤立的困境",
+      " 利于推动国统区人民民主运动",
+      " 表明中国革命的任务发生根本改变",
+      " 成为人民解放战争取胜的指导思想"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": ")民主革命的主要力量不包括( )。",
+    "options": [
+      " 农民",
+      " 工人",
+      " 城市小资产阶级",
+      " 地主阶级"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "解放战争期间，刘邓大军根据毛泽东不要与前来合击之敌纠缠、下决心不要后方的指示，兵分三路横跨陇海线，开始千里跃进的壮举。此材料反映的历史事件是( )。",
+    "options": [
+      " 转战陕北",
+      " 淮海战役",
+      " 挺进大别山",
+      " 渡江战役"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1956年11月，毛泽东在中共八届二中全会上的讲话中指出，“1949年刚解放时，我们有一位将军主张军队要增加薪水，有许多同志赞成，我就反对。他举的例子是资本家吃饭五个碗，解放军吃饭是盐水加一点酸菜，他说这不行。我说这恰恰是好事。你是五个碗，我们吃酸菜。这个酸菜里面就出政治，就出模范。解放军得人心就是这个酸菜”。在这里，毛泽东强调的优良作风是( )。",
+    "options": [
+      " 批评与自我批评",
+      " 谦虚、谨慎、戒骄、戒躁",
+      " 艰苦奋斗",
+      " 密切联系群众"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "战争的最高境界是制止战争、是和平。毛泽东曾称赞傅作义是“民族的功臣”，“为和平解决各地战事问题和减轻人民的战争痛苦树立了榜样”。傅作义作出的贡献是和平解放( )。",
+    "options": [
+      " 南京",
+      " 锦州",
+      " 北平",
+      " 沈阳"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1949年1月22日，民主党派和无党派人士联合发表( )，表示愿意接受中国共产党的领导，拥护建立人民民主的新中国。",
+    "options": [
+      " 《三中全会紧急声明》",
+      " 《中国人民政治协商会议共同纲领》",
+      " 《对时局的意见》",
+      " 《中国民主同盟总部解散公告》"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "在新民主主义革命时期，中共中央机关所在地因革命形势的发展变化而几经转移。下列按转移先后顺序排列正确的一组是( )。",
+    "options": [
+      " 上海、瑞金、延安、西柏坡、北平",
+      " 上海、瑞金、西柏坡、延安、北平",
+      " 上海、延安、瑞金、西柏坡、北平",
+      " 上海、西柏坡、瑞金、延安、北平"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "国共关系彻底破裂的标志是( )。",
+    "options": [
+      " 国共内战的爆发",
+      " 国民党限期令中共驻南京、上海、重庆三地代表及工作人员全部撤退",
+      " 蒋介石集团制造一系列血案",
+      " 国民党召开“制宪国大”"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "中国民主党派能够在新民主主义革命时期，与中国共产党建立和发展起不同程度的合作关系，原因是( )。",
+    "options": [
+      " 民主党派形成时的阶级基础决定其是具有爱国主义性质的",
+      " 中国各民主党派的政治纲领与中国共产党的新民主主义革命纲领基本一致",
+      " 民主党派是具有阶级联盟性质的的政党",
+      " 民主党派坚决拥护中国共产党的领导"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1948年，中共中央发布“五一口号”，提出“成立民主联合政府”，得到了各民主党派和无党派人士的热烈响应。1949年1月，各民主党派和无党派民主人士联合发表《对时局的意见》，自愿拥护和接受中国共产党的领导，为建立“独立、自由、和平、幸福的新中国\"共同奋斗。这( )。",
+    "options": [
+      " 标志着新民主主义革命的胜利",
+      " 表明了人民民主统一战线形成",
+      " 推动解放战争进入战略决战阶段",
+      " 为新中国民主政治建设创造条件"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "中国革命之所以走上胜利发展的道路，从根本上说，是由于有了( )。\n",
+    "options": [
+      " 广大人民的大力支持",
+      " 各界人士的广泛参与",
+      " 国际无产阶级的支持",
+      " 中国共产党的领导"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "解放战争时期，流传着“前方打老蒋，后方挖蒋根”的口号，“后方挖蒋根”是( )。",
+    "options": [
+      " 国统区的民主运动",
+      " 国统区的经济崩溃",
+      " 民主党派的反蒋斗争",
+      " 解放区的土地改革"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1948年底，著名建筑学家梁思成曾写信给中共中央，提出要尽可能地保护中华民族珍贵的历史文化遗产，如故宫、颐和园、雍和宫等。所据所学知识判断，这与当时正在进行的哪一战役有直接关系( )。",
+    "options": [
+      " 辽沈战役",
+      " 平津战役",
+      " 淮海战役",
+      " 渡江战役"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "国民党《中央日报》就国共关系某一事件的影响评论道:“这一结果固然还有不能尽如人意的地方，但内战之不致发生，却已有确实的保障。”这指的是( )。",
+    "options": [
+      " 西安事变的和平解决",
+      " 国民党一大召开",
+      " 达成《国内和平协定》",
+      " “双十协定”的签订"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "( )成为中国人民的大宪章，在一个时期内起着新中国临时宪法的作用。",
+    "options": [
+      " 《中央人民政府组织法》",
+      " 《中华人民共和国宪法》",
+      " 《和平建国纲领》",
+      " 《中国人民政治协商会议共同纲领》"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "中国共产党领导的人民解放战争在1948年秋进入到了夺取全国胜利的( )。",
+    "options": [
+      " 战略进攻阶段",
+      " 战略相持阶段",
+      " 战略决战阶段",
+      " 战略防御阶段"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "陈毅元帅曾深情地说道:“战役之所以能取得胜利，多半是老百姓用独轮小车推出来的。”陈毅所指的是哪次战役( )。",
+    "options": [
+      " 渡江战役",
+      " 辽沈战役",
+      " 平津战役",
+      " 淮海战役"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1945年昆明“一二·一”运动，吹响了国统区爱国学生运动的第一声号角，在全国范围产生了重大影响。它的基本口号是( )。",
+    "options": [
+      " “反饥饿、反内战、反迫害”",
+      " “美军退出中国!”",
+      " “抗议美军暴行!”",
+      " “反对内战，争取自由”"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "“可能有这样一些共产党人，他们是不曾被拿枪的敌人征服过的，他们在这些敌人面前不愧英雄的称号;但是经不起人们用糖衣裹着的炮弹的攻击，他们在糖弹面前要打败仗，必须预防这种情况。”这是毛泽东在西柏坡召开的( )上指出的。",
+    "options": [
+      " 十二届三中全会",
+      " 十九届六中全会",
+      " 十一届三中全会",
+      " 七届二中全会"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "为打退国民党对解放区的军事进攻，中共中央指出，必须争取一切可以争取的力量，在党的领导下建立最广泛的( )。",
+    "options": [
+      " 爱国统一战线",
+      " 革命统一战线",
+      " 抗日民族统一战线",
+      " 人民民主统一战线"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1948年10月，一位被俘的国民党军官感叹道:“这一着非雄才大略之人是做不出来的。锦州好比一条扁担，一头挑东北，一头挑华北，现在是中间折断了。”由此可知他感叹的战役是( )。",
+    "options": [
+      " 平津战役",
+      " 渡江战役",
+      " 辽沈战役",
+      " 淮海战役"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "国民党《中央日报》总编陶希圣，对他的编辑们说:“我们明知共产党不会来渝谈判，我们要假戏真做，制造空气”这说明国民党( )。",
+    "options": [
+      " 根本不把中共放在眼里",
+      " 企图以军事优势争取谈判优势",
+      " 军队纪律败坏，根本不服从调遣",
+      " 内战是真，和谈是假"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "在近代中国,实现国家富强、人民幸福的前提条件是( )",
+    "options": [
+      " 争得民族独立和人民解放",
+      " 推翻封建主义的统治",
+      " 反对帝国主义的侵略",
+      " 建立人民民主的政权"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "认识中国近代一切社会问题和革命问题的最基本依据是认识( )",
+    "options": [
+      " 中国近代社会经济结构的变化过程",
+      " 中国近代民族民主革命的性质",
+      " 中国近代社会半殖民地半封建的性质",
+      " 中国社会近代化的历史进程"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "自鸦片战争以来,中国人民第一次大规模的反侵略武装斗争是( )。",
+    "options": [
+      " 广州三元里人民抗英斗争",
+      " 抗美援朝战争",
+      " 中国人民抗日战争",
+      " 镇南关大捷"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "费正清在《伟大的中国革命》中说:“如果中国在军事上能够自立于不败之地,他(李鸿章)预言说:‘日本就会依附于我们’,但如果不然,‘日本将效法西洋人并与西洋人一道获利。’”日本人将李鸿章的预言“日本将……与西洋人一道获利”变成现实的行径是( )。",
+    "options": [
+      " 参与鸦片战争侵华",
+      " 参与八国联军侵华",
+      " 参与第二次鸦片战争侵华",
+      " 发动甲午侵华战争"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "资本-帝国主义列强对中国的侵略,首先和主要的是进行( )。",
+    "options": [
+      " 军事侵略",
+      " 政治控制",
+      " 文化渗透",
+      " 经济掠夺"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "第二次鸦片战争时期,侵占我国北方150多万平方公里领土的国家是( )。",
+    "options": [
+      " 日本",
+      " 英国",
+      " 德国",
+      " 俄国"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "英国通过《虎门条约》取得了“片面最惠国待遇”,这意味着( )。",
+    "options": [
+      " 英国取得了独占中国内地市场的贸易特权",
+      " 英国取得了与中国共同商定中国关税税率的特权",
+      " 英国取得了在中国东南沿海通商口岸进行贸易的特权",
+      " 其他列强从中国攫取的各项特权,英国可以援例享有"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "1843年,英国商人马克运送一批布匹到中国销售,他不可能将货物直接卸在( )。",
+    "options": [
+      " 广州",
+      " 南京",
+      " 上海",
+      " 厦门"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "从林则徐的“苟利国家生死以,岂因祸福避趋之”,到张謇的“实业救国”;从詹天佑的“各出所学,各尽所知,使国家富强,不受外侮,足以自立于地球之上”,到佟麟阁的“国家多难,军人当马革裹尸,以死报国”,这些都是仁人志士发出的时代最强音。这个时代的特征是( )。",
+    "options": [
+      " 百年屈辱,民族抗争",
+      " 国家分裂,民族融合",
+      " 曲折前进,民族复兴",
+      " 国家统一,民族团结"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "1946年在上海,一名美国大兵打死了一名中国黄包车夫,中国司法当局却无权对其治罪,列强的这种特权来自于《南京条约》附件中的哪项条款( )。",
+    "options": [
+      " 在通商口岸的行动权利",
+      " 领事裁判权",
+      " 外交豁免权",
+      " 片面最惠国待遇"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "历史学家斯塔夫里阿诺斯说,西方人曾经在中国的一些城市中建立了“自主独立的城市国家”,西方列强获得这些特权的最初形式是( )。",
+    "options": [
+      " 建立伪政府",
+      " 占为殖民地",
+      " 设立租界",
+      " 划分势力范围"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "新民主主义革命所要达到的基本目标是( )。",
+    "options": [
+      " 建立人民民主专政的人民共和国",
+      " 建立工农苏维埃",
+      " 建立资产阶级政权",
+      " 解决农民土地问题"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "在《盛世危言》中提出同西方国家进行“商战”的是( )。",
+    "options": [
+      " 严复",
+      " 李鸿章",
+      " 郑观应",
+      " 魏源"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "某些西方资产阶级史学家称鸦片战争为“通商战争”,认为这场战争是英国为维护正常贸易而进行的,这种观点:①是错误的,掩盖了战争的侵略性质;②是正确的,认识到战争的实质;③是为英国殖民者进行辩护;④混淆了现象和本质的关系。以上观点正确的是( )。",
+    "options": [
+      " ①②④",
+      " ②③④",
+      " ①③④",
+      " ①②③"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "在近代中国的反动势力中成为支配中国的决定性力量的是( )。",
+    "options": [
+      " 官僚资本主义",
+      " 封建主义",
+      " 资本-帝国主义",
+      " 地主阶级"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "“是书何以作?曰:为以夷攻夷而作,为以夷款夷而作,为师夷长技以制夷而作。”\n这段材料的作者是( )。",
+    "options": [
+      " 林则徐",
+      " 龚自珍",
+      " 魏源",
+      " 郑观应"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "著名文化学者余秋雨说:“废墟是昨天派往今天的使者,废墟让我们把地理读成历史。”右图所示劫难发生的历史时期是( )。",
+    "options": [
+      " 甲午中日战争",
+      " 鸦片战争",
+      " 八国联军侵华战争",
+      " 第二次鸦片战争"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "近代中国社会中最革命的阶级是( )",
+    "options": [
+      " 民族资产阶级",
+      " 城市小资产阶级",
+      " 工人阶级",
+      " 农民阶级"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "用口诀记忆历史内容效率高而且印象深刻,如:“公使进北京,内地可游历;军舰长江行,赔款且不论,搜刮老百姓,天津事没完,接着占北京。”该口诀反映的重大历史事件及条约内容是:( )。",
+    "options": [
+      " 第二次鸦片战争和《北京条约》",
+      " 甲午中日战争和《马关条约》",
+      " 第二次鸦片战争和《天津条约》",
+      " 鸦片战争和《南京条约》"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "从1863年到1908年,长达40余年之久的中国海关大权被( )把持。",
+    "options": [
+      " 赫德",
+      " 伊藤博文",
+      " 李鸿章",
+      " 金登干"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "近代中国诞生的新兴的被压迫阶级是( )。",
+    "options": [
+      " 工人阶级",
+      " 失业的农民",
+      " 城市贫民",
+      " 手工业者"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "在近代中国错综复杂的社会矛盾中,最主要的矛盾是( )。",
+    "options": [
+      " 地主阶级和农民阶级的矛盾",
+      " 资产阶级和工人阶级的矛盾",
+      " 封建主义和资本主义的矛盾",
+      " 帝国主义和中华民族的矛盾"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "( ),决定了近代中国社会矛盾呈现错综复杂的状况。",
+    "options": [
+      " 社会阶级关系的变化",
+      " 半殖民地半封建社会性质",
+      " 领导权的变化",
+      " 近代中国主要历史任务"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "帝国主义对中国的争夺和瓜分的图谋,在( )后达到高潮。",
+    "options": [
+      " 中法战争",
+      " 甲午战争",
+      " 鸦片战争",
+      " 八国联军侵华"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "“用大刀、肉体和联军相搏,虽然被联军打死了几万人,伤亡枕藉,还是前仆后继,其勇锐之气殊不可当,真是令人惊奇佩服。所以经过那次血战之后,外国人才知道中国还有民族思想,这种民族是不可消灭的”。这句话反映的历史事件是( )。",
+    "options": [
+      " 太平天国运动",
+      " 黄花岗起义",
+      " 三元里人民的抗英斗争",
+      " 义和团运动"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "美国历史学家写道:“想象一下,哥伦比亚麦德林可卡因垄断集团成功发动一起对美国的军事袭击,迫使其允许可卡因合法化,还须支付巨额战争赔款——这幅场景当然荒谬绝伦,但类似的事件在19世纪的中国确曾发生过。”其中“类似的事件”是指( )。",
+    "options": [
+      " 鸦片战争",
+      " 八国联军侵华战争",
+      " 中法战争",
+      " 甲午战争"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "19世纪70至80年代,列强从侵占中国周边邻国发展到蚕食中国边疆地区,使中国陷入“边疆危机”。这些地区不包括( )",
+    "options": [
+      " 东南地区",
+      " 东北地区",
+      " 西北地区",
+      " 西南地区"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "中国民族资产阶级对外国资本主义和本国封建主义( )。",
+    "options": [
+      " 既有矛盾、斗争的一面,又有依赖、妥协的一面",
+      " 是完全对立、坚决反对的",
+      " 只反对本国封建主义,不反对外国资本主义",
+      " 是完全依赖、坚决追随的"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "帝国主义列强对中国进行文化渗透的目的是( )。",
+    "options": [
+      " 传播西方文化和科学",
+      " 进行传教活动",
+      " 干涉中国内政",
+      " 宣扬殖民主义奴化思想,麻醉中国人民的精神,摧毁中国人民的民族自尊心和自信心。"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "中国近代史上进行的反侵略战争按时间的先后顺序排列是( )。\n①鸦片战争②甲午中日战争③中法战争④第二次鸦片战争⑤抗击八国联军的战争",
+    "options": [
+      " ①④③②⑤",
+      " ①③④②⑤",
+      " ①④②③⑤",
+      " ①②⑤④③"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "下图为晚清的一份电报原文。该电报作为例证,可用以说明( )。",
+    "options": [
+      " 太平天国战局激烈",
+      " 辛亥革命的突发性",
+      " 清末“新政”成效显著",
+      " 晚清民族危机加深"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "孙中山指出:“欧美社会之祸,伏之数十年,及今而后发见(现)之,又不能使之遽去。吾国治民生主义者,发达最先,睹其祸害千未萌,诚可举政治革命、社会革命毕其功于一役。”这里的“社会革命”是指( )。",
+    "options": [
+      " “创立民国”",
+      " “恢复中华”",
+      " “驱除鞑虏”",
+      " “平均地权”"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "“一人称帝天下骚然,志士仁人汗喘相告,而吾同志愈益奋励,冒死以进。滇黔独立,文意豁然。”这与( )有关。",
+    "options": [
+      " 护法运动",
+      " 辛亥革命",
+      " 护国运动",
+      " 二次革命"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "有人认为:“从实力来讲,孙中山比起洪秀全来,相差不知几千万里,而偌大的清帝国不亡于洪、杨(秀清),却被孙文的几个口号叫垮了,何哉?主题使然也。孙中山把主题摸对了,几颗‘炸弹’一丢,满清帝国就土崩瓦解了。”你认为文中的“主题”应该是( )",
+    "options": [
+      " 以暴力革命推翻清朝反动统治,建立民主共和国",
+      " 满足农民的土地要求,使之与民族资产阶级一起革命",
+      " 以暴力革命推翻清朝和帝国主义的反动统治",
+      " 以暴力革命推翻清朝反动统治,重建汉族政权"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "参加过辛亥革命的吴玉章曾说过:“从前皇帝自称为天子,如果有人说皇帝是强盗,可以打倒,别人一定把他看作疯子。孙中山就曾经是一个被人家看作是疯子的人。相反在辛亥革命以后,如果有人想做皇帝或者拥护别人做皇帝,一定也被看作疯子。”出现这种变化的根本原因是( )。",
+    "options": [
+      " 辛亥革命改变了中国半殖民半封建社会的性质",
+      " 辛亥革命促进了民族资本主义的发展",
+      " 辛亥革命沉重打击了中外反动势力",
+      " 辛亥革命使民主共和的观念深入人心"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "章永乐在《旧邦新造》 中指出:“从实力政治上,南方进了袁世凯的‘瓮’,而从法律上,则是袁世凯进了南方的‘瓮’。”袁世凯进了南方的“瓮”意味着( )。",
+    "options": [
+      " 中国式的“光荣革命”完成",
+      " 辛亥革命成果的丧失",
+      " 民主义目标的实现",
+      " 民主共和的原则得以确立"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "辛亥革命时期,资产阶级革命派的阶级基础是( )。",
+    "options": [
+      " 官僚资产阶级",
+      " 民族资产阶级",
+      " 城市小资产阶级",
+      " 买办资产阶级"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "旧三民主义中推翻封建君主专制制度,建立资产阶级民主共和国是( )。",
+    "options": [
+      " 民权主义",
+      " 民生主义",
+      " 民粹主义",
+      " 民族主义"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "孙中山在致内务部令中提到:“官厅为治事之机关,职员乃人民之公仆,本非特殊之阶级,何取非分之名称。查前清官厅,视官等之高下,有大人、老爷等名称……嗣后各官厅人员相称,咸以官职,民间普通称呼则曰先生、曰君,不得再沿前清官厅恶称。”这表明,孙中山认为( )。",
+    "options": [
+      " 前清机关需要裁撤",
+      " 民族革命尚未完成",
+      " 社会习俗阻碍经济发展",
+      " 国民之间应该一律平等"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "1912年成立的中华民国南京临时政府被称为亚洲第一个“美国式”的共和国政府,主要是因为它( )",
+    "options": [
+      " 通过了资产阶级革命建立的",
+      " 是在美国支持下建立的",
+      " 废除了封建君主专制统治",
+      " 实行三权分立的政治体制"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "梁启超先生评价辛亥革命具有“空前绝后的大意义”,“第一,觉得凡不是中国人都没有权来管中国人的事;第二,觉得凡是中国人都有权来管中国人的事”。由此推断,他认为辛亥革命( )",
+    "options": [
+      " 增强了国民的民族民主意识",
+      " 扩大了人民的民主自由权利",
+      " 使民主共和观念深入人心",
+      " 打击了帝国主义的侵略势力"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "史学家金冲及在谈到中华民国的建立时认为,“民国”不只是换了一块招牌,更多的它给民众心理带来了巨大的冲击。这种冲击是指( )。",
+    "options": [
+      " 从臣民到国民的自我认同",
+      " 从奴才到公仆的变化",
+      " 从君主立宪制到民主共和制",
+      " 从传统社会转变为近代社会"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "近代有人曾痛切地认识到“吾人于共和政体之下备受专制政治之痛苦。”这一情形始于( )。",
+    "options": [
+      " 清朝统治晚期",
+      " 南京国民政府统治时期",
+      " 北洋军阀统治时期",
+      " 南京临时政府统治时期"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "清政府于1901年宣布实行“新政”以后,又于1906年宣布“预备仿行宪政”,于1908年颁布《钦定宪法大纲》,制定了预备立宪期为9年的君主立宪方案。清政府改革的根本目的在于( )。",
+    "options": [
+      " 缓和阶级矛盾",
+      " 延续清王朝的反动统治",
+      " 发展资本主义",
+      " 挽救民族危机"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "许多史学家认为:从实力上看,孙中山与洪秀全相比,相差不知几千万里了,而偌大的清帝国不亡于洪秀全,却亡于孙中山,这主要原因是孙中山提出了顺应时代要求的资产阶级民主革命纲领。这纲领是( )。",
+    "options": [
+      " 民主与科学",
+      " 师夷长技以制夷",
+      " 三民主义",
+      " 自强、求富"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "1912年1月1日,孙中山就任临时大总统,首开总统宣誓之先河:“倾覆满洲专制政府,巩固中华民国……至专制政府既倒,国内无变乱,民国卓立于世界,为列邦公认,斯时文当解临时大总统之职,谨以此誓于国民。”这一宣誓的主要价值是( )。",
+    "options": [
+      " 树立民主信仰和凝聚共和力量",
+      " 凝聚国家复兴的力量",
+      " 激发国民党人的斗志",
+      " 号召实行责任内阁制"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "很多同学都看过反映清朝宫廷是是非非的古装剧,皇帝、格格等给大家留下了很深的印象,那么使君临天下的“皇帝”最终退出中国历史舞台的是( )。",
+    "options": [
+      " 辛亥革命",
+      " 戊戌变法",
+      " 新文化运动",
+      " 洋务运动"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "有学者指出,在西方列强看来,与其等着一味守旧的清政府最终被革命推翻,不如督促清政府实行改革以消弥革命,这样才能保持甚至扩大它们在华的既得利益。正是基于此,清末“新政”出现了。按该学者理解( ) 。",
+    "options": [
+      " 新政具有民族救亡的色彩",
+      " 清政府已成为列强侵华工具",
+      " 改革加速了民主革命的进程",
+      " 清末“新政”顺应了历史潮流"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "有史家认为:“辛亥革命以革命的方式解决了中国现代化过程中的政治文明选择问题,传统政治文明中的制度体系因此全面崩溃。”“传统政治文明中的制度体系因此全面前溃”的具体表现是( )。",
+    "options": [
+      " 结束了君主专制制度",
+      " 确立了君主立宪制",
+      " 确立了三权分立的政治体制",
+      " 建立了资产阶级共和国"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "《申报》“时评”栏目曾评述说:“今之时局,略似春秋战国时期之分裂。中央政府之对于各省,犹东周之对于诸侯也。南北相攻,皖直交斗,滇蜀不靖,犹诸侯相侵伐也。”这一时局出现在( )。",
+    "options": [
+      " 义和团运动时期",
+      " 辛亥革命时期",
+      " 太平天国运动时期",
+      " 北洋军阀统治时期"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "南京临时政府成立后,承认清政府与列强签订的一些不平等条约,其目的是( )。",
+    "options": [
+      " 尽快稳定国内政局",
+      " 换取列强的支持",
+      " 打破列强的外交封锁",
+      " 争取列强严守中立"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "假若在电视剧《走向共和》中有下列一组镜头,你认为哪一个不符合史实( )。",
+    "options": [
+      " 1924年,在广州召开的一次重要大会上,孙中山和中共领导人同时出现在主席台上",
+      " 1905年,孙中山在日本成立同盟会,创办《民报》",
+      " 1912年,在三民主义指导下,农村丈量土地,按人口平均分配",
+      " 20世纪初,一位归国留学生积极宣传民主革命思想"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "辛亥革命与戊戌维新运动失败的共同原因是( )。",
+    "options": [
+      " 没有自己的纲领",
+      " 外国列强的敌视和反对",
+      " 没有一个自己的政党",
+      " 不能依靠和发动人民群众"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "主张“举政治革命、社会革命毕其功于一役”的是( )。",
+    "options": [
+      " 梁启超",
+      " 孙中山",
+      " 章炳麟",
+      " 邹容"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "武昌起义前夕,在保路运动中规模最大、斗争最激烈的省份是( )。",
+    "options": [
+      " 广东",
+      " 四川",
+      " 湖北",
+      " 湖南"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "1905年,《大公报》的一则报道称“有举人、秀才30多人充当兵勇”。此事成为新闻的历史背景是( )。",
+    "options": [
+      " 中国同盟会的成立",
+      " 清末新政的实施",
+      " 戊戌变法的失败",
+      " 《辛丑条约》的签订"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "武昌起义后全国有15省先后宣布独立,各省先后担任最高军政长官(都督)者背景不尽相同,其中新军将领13人,革命党5人,咨议局议长3人,巡抚3人,布政使1人,提督1人,督练公所总参议1人。据此可知辛亥革命( )。",
+    "options": [
+      " 属于资产阶级革命",
+      " 具有明显的妥协性",
+      " 属于自上而下的革命",
+      " 具有广泛社会基础"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "1913年,上海《真理画报》刊登了标题为“谋杀宋教仁先生之关键者”的文章,此案件的发生直接导致了( )。",
+    "options": [
+      " 护国运动",
+      " 护法运动",
+      " 辛亥革命",
+      " 二次革命"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "徐兆玮《棣秋馆日记》记载:“_____________后,某人翻译一本书名叫《平民政治》,但现在却准备易名为《共和政治》后再出版。《国粹学报》过去一段时间销路不畅,但最近改名《共和杂志》,重新变得抢手。”你认为横线上的空白处应填写( )",
+    "options": [
+      " 戊戌变法",
+      " 洋务运动",
+      " 辛亥革命",
+      " 五四运动"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "辛亥革命中资产阶级革命派的弱点、错误,根源在于( )。",
+    "options": [
+      " 不能建立坚强的革命政党",
+      " 不能充分发动和依靠人民群众,没有发动农民造就农村大变动",
+      " 中国民族资产阶级的软弱性和妥协性",
+      " 没有提出彻底的反帝反封建纲领"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "孙中山的新三民主义成为国共两党合作的政治基础,因为它( )。",
+    "options": [
+      " 提出了“天下为公”思想",
+      " 增加了反对帝国主义侵略和平均地权的内容",
+      " 与中国共产党在民主革命阶段的纲领基本一致",
+      " 是在中国共产党和共产国际指导下形成的"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "毛泽东认为:“自从1840年鸦片战争失败那时起,先进的中国人,经过千辛万苦,向西方国家寻求真理。”鸦片战争以来,中国人民和中华民族第一次全面觉醒是在( )。",
+    "options": [
+      " 新文化运动",
+      " 五四运动",
+      " 抗日战争",
+      " 辛亥革命"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "中国革命的首要问题是( )。",
+    "options": [
+      " 认清革命发展前途",
+      " 认清革命性质",
+      " 认清革命的敌人和朋友",
+      " 认清革命的发展过程"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "保守派、维新派和激进派都有机会争一日之短长。背后拖着长辫,心里眷恋帝制的老先生与思想激进的新人物并坐讨论,同席笑谑。这一场景最可能发生于( )。",
+    "options": [
+      " 洋务运动时期",
+      " 辛亥革命时期",
+      " 新文化运动时期",
+      " 戊戌变法时期"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "大革命的失败,给中共最深刻的教训是( )。",
+    "options": [
+      " 要制定彻底的革命纲领",
+      " 要建立巩固的工农联盟",
+      " 要警惕统一战线内部的野心家",
+      " 无产阶级必须掌握革命领导权和革命武装"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "针对近代史上的某一标志性事件,陈独秀曾撰文指出“国民发挥爱国心做政府的后援,这是国家的最大幸事。”李大钊则进一步指出,该事件“实人类解放运动之一部分也。”他们评论的事件为( )。",
+    "options": [
+      " 五四运动",
+      " 武昌起义",
+      " 国民大革命",
+      " 全民族抗战"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": ")中国共产党领导中国人民进行新民主主义革命在政治上所要达到的基本目标是( )。",
+    "options": [
+      " 建立工农民主专政的人民共和国",
+      " 建立人民民主专政的人民共和国",
+      " 建立工农兵联合专政的苏维埃共和国",
+      " 建立资产阶级专政的民主共和国"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "五四运动孕育了以爱国、进步、民主、科学为主要内容的伟大的五四精神,其核心是( )",
+    "options": [
+      " 科学主义",
+      " 民族主义",
+      " 民主主义",
+      " 爱国主义"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": ")下列文字内容,你认为它创作的背景是( )。\n红色中华  刘大白(民国7年)\n朦朦胧胧张眼一瞧,黑暗里突然突出一线红。\n这是什么?——原来是北极下来的新潮,由近东卷到远东。",
+    "options": [
+      " 马克思主义开始在中国传播",
+      " 中国共产党在上海宣告成立",
+      " 国民革命运动蓬勃兴起",
+      " 苏联建成社会主义社会"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "2005年4月26日,连战率领中国国民党大陆访问团抵达南京,开始了近60年来国共两党之间的第一次正式接触。历史上,国共两党之间曾经有过两次合作。下列事件发生在第一次国共合作期间的是( )",
+    "options": [
+      " 抗日战争",
+      " 北伐战争",
+      " 辛亥革命",
+      " 解放战争"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "下面哪一口号不是五四运动期间学生在示威游行时高呼的( )",
+    "options": [
+      " “外争国权,内惩国贼”",
+      " “取消二十一条”",
+      " “拒绝在和约上签字”",
+      " “打倒列强,除军阀”"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "毛泽东在《反对党八股》中指出,前期新文化运动的领导人物“对于现状,对于历史,对于外国事物,……所谓坏就是绝对的坏,一切皆坏;所谓的好,就是绝对的好,一切皆好”。造成这种状况的主要原因是他们( )。",
+    "options": [
+      " 没有马克思主义的批判精神",
+      " 没有接受俄国十月革命的经验",
+      " 脱离广大人民群众",
+      " 一定程度上受到封建思想的束缚"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": ")运动中心由北京转移到上海后,五四运动由最初的学生爱国运动发展为全国性的群众爱国运动,这充分说明( )。",
+    "options": [
+      " 上海是最早发生工人罢工的城市",
+      " 五四运动属于资产阶级民主革命",
+      " 五四运动具有反帝反封建的性质",
+      " 五四运动具有广泛的群众基础"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "中共一大和二大会址相距路程步行不过20分钟,但这短短的20分钟,对中国共产党来说,却是非同寻常。因为这“一路走来”中国共产党( )。",
+    "options": [
+      " 脱离共产国际指导而成熟了",
+      " 掀起了第一次工人运动高潮",
+      " 找到了农村包围城市的道路",
+      " 形成了彻底的民主革命纲领"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "下面是革命老人张三晚年回忆1919年5月4日所看到的情景,其中有误的是( )。",
+    "options": [
+      " 有个学生发给群众小旗帜,写着“驱除鞑虏,恢复中华”",
+      " 北京大学学生在天安门前集会演讲",
+      " 他看到一些学生演讲时慷慨陈词",
+      " 有个学生给盲人解释“还我青岛”的意思"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "中华民族使用的汉字,经历了数千年的演变历程。新文化运动时期,有人提出汉字是封建时代的旧文化,应予废除。这种观点产生的原因是( )。",
+    "options": [
+      " 社会主义思潮的传播",
+      " 新文化运动中的偏激倾向",
+      " “诗界革命”的负面影响",
+      " 白话文运动的兴起"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "1919年春,上海各界人民积极参加爱国运动,上海“大世界”的娱乐场中的跑马场生意也随之萧条了,有人在其大门上贴了幅对联:“正应筹策补亡羊,哪有心思看跑马。”其中“亡羊”喻指( )",
+    "options": [
+      " 日本强迫袁世凯政府接受“二十一条”",
+      " 中国在巴黎和会上外交失败",
+      " 辛亥革命的果实被袁世凯所窃取",
+      " 帝国主义强迫中国签订《辛丑条约》"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": ")有学者指出,五四运动是中华民族走向伟大复兴的历史起点,该观点的主要依据是( )。",
+    "options": [
+      " 五四运动取得了新民主主义革命的胜利",
+      " 中共的成立开辟中国历史发展的新阶段",
+      " 五四运动是一次彻底的反帝反封建斗争",
+      " 革命指导思想和领导力量发生重大变化"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "最近中共一大会址纪念馆为增补共产国际代表尼科尔斯基的照片费尽周折,假设寻找时发现了下列原始材料,能佐证他出席中共一大的是( )。",
+    "options": [
+      " 1919年签发的苏联护照",
+      " 1921年10开往上海的船票",
+      " 1921年7月初和马林在上海的合影",
+      " 1925年向共产国际汇报五卅运动情况的俄文原稿"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "“嗟我将士,尔肃尔听。国民痛苦,火热水深。土匪军阀,为虎作伥。帝国主义,以枭以张。本军兴师,救国教民。……保我平等,还我自由。”以上军队誓师最有可能出自( )。",
+    "options": [
+      " 渡江战役",
+      " 北伐战争",
+      " 辛亥革命",
+      " 淞沪会战"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "中国近现代历史上第一次明确提出了反帝反封建的民主革命纲领的是( )。",
+    "options": [
+      " 辛亥革命",
+      " 五四运动",
+      " 中共一大",
+      " 中共二大"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "歌曲《国民革命歌》中唱道“打倒列强,除军阀;国民革命成功,齐欢唱。”这首歌诞生于( )。",
+    "options": [
+      " 解放战争时期",
+      " 北伐战争时期",
+      " 抗日战争时期",
+      " 辛亥革命时期"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "毛泽东主张用事实反击敌人的毁谤:“敌人说:‘广东共产’,我们说:‘请看事实’……敌人说:‘广州政府勾联俄国丧权辱国’,我们说:‘请看事实’。敌人说:‘广州政府治下水深火热民不聊生’。我们说:‘请看事实’。”这些“事实”都发生于( )。",
+    "options": [
+      " 国民革命时期",
+      " 辛亥革命时期",
+      " 解放战争时期",
+      " 抗日战争时期"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "1915年9月,陈独秀在上海创办《青年杂志》。他在该刊发刊词中宣称,“盖改造青年之思想,辅导青年之修养,为本志之天职。批评时政,非其旨也。”此时陈独秀把主要注意力倾注于思想变革的原因是( )。",
+    "options": [
+      " 他认为批评时政不利于改造青年思想",
+      " 他对资产阶级民主主义产生了怀疑",
+      " 他认定改造国民性是政治变革的前提",
+      " 他对政治问题不感兴趣"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "“革命声传画舫中,诞生共党导工农。”中国共产党第一次全国代表大会从( )转移到嘉兴南湖的一艘游船上继续举行。",
+    "options": [
+      " 北京",
+      " 上海",
+      " 杭州",
+      " 南京"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "随着辛亥革命的失败和北洋军阀统治的建立,一些先进的中国知识分子认为中国的国民性需要改造,于是他们决心发起一场新的思想启蒙运动,这个运动后来被称为( )。",
+    "options": [
+      " 新民主主义运动",
+      " 新文化运动",
+      " 民主科学运动",
+      " 新文学运动"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "中国共产党第一次全国代表大会最后一天的会议在嘉兴南湖的游船上举行。这条游船后来被称为( )。",
+    "options": [
+      " “游船”",
+      " “南船”",
+      " “红船”",
+      " “湖船”"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "五四运动以后的新文化运动发展到一个新的阶段,( )开始逐步在思想文化领域中发挥指导作用。",
+    "options": [
+      " 新村主义",
+      " 马克思主义",
+      " 三民主义",
+      " 工读互助主义"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "五四时期,社会言说系统先是由“个人解放”进至“社会改造”阶段,继而又在“社会改造”话语的整体态势中,向着“革命话语”方向转变,这其中主要为“主义”信仰话语、民众本位话语、阶级斗争话语、政党领导话语等几个重要部分。这反映出( )。",
+    "options": [
+      " 建立无产阶级政党迫在眉睫",
+      " 五四爱国运动初步胜利",
+      " 救亡图存开始成为时代重任",
+      " 马克思主义影响的扩大"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "北伐战争时期,农民运动的中心在( )",
+    "options": [
+      " 江西",
+      " 湖南",
+      " 福建",
+      " 广东"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "1945年7月26日，中、美、英三国发表公告，敦促日本投降，8月8日苏联宣布参与签署该公告，这指的是( )公告。",
+    "options": [
+      " 克里米亚",
+      " 雅尔塔",
+      " 开罗",
+      " 波茨坦"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "“西安事变可能已经以一种地方性的失败告终了，却仍然是一次全国性的胜利。一个统一的中国，虽然缓慢而且伴有剧痛，终于在渐渐诞生。”(美国记者史沫特莱)这句话中所说的“统一”指的是( )。",
+    "options": [
+      " 抗日民族统一战线正式建立",
+      " 国民政府实现了形式上的全国统一",
+      " 蒋介石获释并重新执掌军政大权",
+      " 国共两党停止对抗走向合作"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "中国人民抗日战争胜利纪念日是( )",
+    "options": [
+      " 9月2日",
+      " 8月14日",
+      " 8月15日",
+      " 9月3日"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "中国共产党提出全面抗战路线，其主要内容是( )。",
+    "options": [
+      " 在一切日本占领区都进行抵抗",
+      " 政府与军队共同努力作战",
+      " 动员全民族一切力量，进行人民战争",
+      " 海外华侨也要参加抗战"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "新民主主义革命时期，以“团结的大会，胜利的大会”载入中国共产党史册的会议是( )。",
+    "options": [
+      " 党的七大",
+      " 洛川会议",
+      " 瓦窑堡会议",
+      " 六届六中全会"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "1938年4月上旬，日本陆军部在制订武汉会战计划时，原准备由日本华北方面军一部沿平汉线南下，与日本华中方面军夹击武汉。后考虑到华北地区八路军频繁出击而导致“治安不良”，难以抽出兵力，从而放弃了沿平汉线南下参加武汉会战计划。这说明( )。",
+    "options": [
+      " 日军全面侵华初期计划不够周密",
+      " 中共抗战给予正面战场战略支持",
+      " 世界战局变动影响了日军侵华方针",
+      " 敌后战场由此成为日军进攻重点"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "中国共产党内反复出现“左”“右”倾错误的思想认识根源是( )。",
+    "options": [
+      " 官僚主义",
+      " 主观主义",
+      " 经验主义",
+      " 宗派主义"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "“‘攘外安内’蒋主张，夜赠领土百万方，金陵城头发乱令，叫尔小民做羔羊……”这首歌谣控诉了蒋介石对日军侵略采取的不抵抗政策，导致东北全境沦陷。与该歌谣创作背景相关的历史事件是( )。",
+    "options": [
+      " 台儿庄战役",
+      " 西安事变",
+      " 九一八事变",
+      " 七七事变"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "1937年，驻丰台日军一中队借口一名士兵失踪要求进入宛平城搜查，被国民政府拒绝后，随即炮击宛平城，这就是标志着日军全面侵华战争开始的( )。",
+    "options": [
+      " 华北事变",
+      " 九一八事变",
+      " 卢沟桥事变",
+      " 西安事变"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "1936年12月12日凌晨，张学良、杨虎城在屡次劝谏无效的情况下，发动了西安事变。经过各方努力，蒋介石作出“停止剿共、联红抗日”的承诺。西安事变的和平解决( )。",
+    "options": [
+      " 标志着中国抗日战争战略防御阶段的开始",
+      " 标志着以国共两党第二次合作为基础的抗日民族统一战线正式形成",
+      " 标志着全民族抗战新时期的开始",
+      " 成为时局转换的枢纽，国内和平初步实现"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "20世纪20年代，日本关东军主任作战参谋石原莞尔提出:“满蒙问题的解决是日本唯一的生存途径。”通过下列哪一事变，这个荒谬的看法变成了关东军的侵略行径?( )。",
+    "options": [
+      " 九﹒一八事变",
+      " 八﹒一三事变",
+      " 一﹒二八事变",
+      " 七﹒七事变"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "毛泽东在《论持久战》中分析指出，决定抗日战争只能是持久战的因素是( )。",
+    "options": [
+      " 我大敌小",
+      " 敌退步我进步",
+      " 敌强我弱",
+      " 敌寡助我多助"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "1935年，在中国共产党的组织和领导下，针对日本制造的华北事变，北平学生举行了声势浩大的抗日救亡示威游行活动，这就是著名的( )。",
+    "options": [
+      " 五四运动",
+      " 一二一运动",
+      " 五二〇运动",
+      " 一二·九运动"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "1937年8月，中国共产党在陕北洛川召开政治局扩大会议，制定了抗日救国十大纲领，强调要打倒日本帝国主义，关键在于( )。",
+    "options": [
+      " 使已经发动的抗战成为全面的全民族抗战",
+      " 坚持统一战线中无产阶级的领导权",
+      " 使敌后游击战争成为主要的抗日作战方式",
+      " 采取集中优势兵力、各个歼灭敌人的作战原则"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "1935年，中国共产党提出建立抗日民族统一战线的会议是( )。",
+    "options": [
+      " 瓦窑堡会议",
+      " 中共六届七中全会",
+      " 洛川会议",
+      " 中共六届六中全会"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "图为1932年出产的一款火柴上的图案。据此可知，当时中国( )。",
+    "options": [
+      " 新的营销方式得到采用",
+      " 开始兴起实业救国思潮",
+      " 全国抗日救亡运动高涨",
+      " 民族火柴工业举步维艰"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "日本制造华北事变后，美英的态度是( )。",
+    "options": [
+      " 支持国民党抵制日本",
+      " 支持日本侵略",
+      " 对日奉行姑息、纵容政策",
+      " 奉行中立政策"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "1941年，周恩来题词:“为江南死国难者志哀”“千古奇冤，江南一叶;同室操戈，相煎何急?!” 揭露了国民党反动派制造( )的真相。",
+    "options": [
+      " 四一二反革命政变",
+      " 西安事变",
+      " 一二八事变",
+      " 皖南事变"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "“房子是应该经常打扫的，不打扫就会积满了灰尘，脸是应该经常洗的，不洗也就会灰尘满面。我们同志的思想、我们党的工作，也会沾染灰尘的，也应该打扫和洗涤。”这段话形象地反映了中国共产党在长期革命实践中形成的( )。",
+    "options": [
+      " 批评与自我批评的优良作风",
+      " 艰苦奋斗的优良作风",
+      " 密切联系群众的优良作风",
+      " 理论联系实际的优良作风"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "“墙上芦苇，头重脚轻根底浅;山间竹笋，嘴尖皮厚腹中空”。毛泽东在延安整风期间用这副对联形象地讽刺了( )。",
+    "options": [
+      " 主观主义学风",
+      " 官僚主义作风",
+      " 党八股文风",
+      " 宗派主义党风"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "在1942年5月召开的延安文艺座谈会上，毛泽东说“为什么人的问题，是一个根本的问题，原则问题。”“我们的文学艺术都是人民大众的，首先是工农兵的”。这一讲话是在( )运动中提出的。",
+    "options": [
+      " 延安整风",
+      " 反三争",
+      " 体育运动",
+      " 土地改革"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "“一二•九”运动与“五四”运动比较，共同点是( )。\n①由中国共产党领导   ②背景是面临民族危机    ③以青年学生为先锋   ④始于北京后扩大到全国",
+    "options": [
+      " ②③④",
+      " ①②③",
+      " ①②④",
+      " ①③④"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "中国共产党领导的民主政权实行“三三制”原则是在( )。",
+    "options": [
+      " 解放战争时期",
+      " 抗日战争时期",
+      " 大革命时期",
+      " 土地革命时期"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "东北抗日联军民族英雄( )壮烈牺牲后，敌人割开他的腹部，发现胃里尽是枯草、树叶、棉絮之类，没有一粒粮食。",
+    "options": [
+      " 赵一曼",
+      " 李兆麟",
+      " 周保中",
+      " 杨靖宇"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "抗日战争取得胜利的决定因素是( )。",
+    "options": [
+      " 世界所有爱好和平和正义的国家和人民、国际组织以及各种反法西斯力量的同情和支持",
+      " 全民族抗战",
+      " 中国共产党的中流砥柱作用",
+      " 以爱国主义为核心的伟大民族精神"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "下列言论能表明“九·一八”事变后，蒋介石实行不抵抗政策的根本原因是( )。",
+    "options": [
+      " 中国“枪不如人，炮不如人，……拿什么与日本人打仗呢?”",
+      " “如果日本能担保中国本部十八省的完整，则……可让出东北”",
+      " “……以此案诉之于国联行政会，以待公理之解决。……”",
+      " “中国亡于帝国主义，我们还能当亡国奴，……若亡于共产党，则纵肯为奴隶亦不可得”"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "“名将以身殉国家，愿拼热血卫吾华。太行浩气传千古，留得清漳吐血花。”这是朱德同志写的诗，悼念的是于1942年5月壮烈牺牲的八路军副总参谋长( )。",
+    "options": [
+      " 左权",
+      " 彭雪枫",
+      " 叶挺",
+      " 方志敏"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "为了克服根据地严重困难的局面，毛泽东发出的号召是( )。",
+    "options": [
+      " 自己动手，丰衣足食",
+      " 发展生产，保障供给",
+      " 耕一余三",
+      " 开垦荒地，兴修水利"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "中国共产党在抗日战争时期实行的土地政策是( )。",
+    "options": [
+      " 地主减租减息，农民交租交息",
+      " 没收一切公共土地及地主阶级土地",
+      " 没收一切土地归国有",
+      " 没收地主土地为农民所有"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "在抗日战争中，国民党由比较积极地抗战转向消极抗战的标志是( )。",
+    "options": [
+      " 国民党五届六中全会的召开",
+      " 国民党五届三中全会的召开",
+      " 国民党五届四中全会的召开",
+      " 国民党五届五中全会的召开"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "( )会议决议创造性地解决了在农村环境中，在党组织和军队以农民为主要成分的环境下，保持党的无产阶级先锋队性质和建设党领导的新型人民军队的重大问题。",
+    "options": [
+      " 遵义",
+      " 赣南",
+      " 古田",
+      " 八七"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "1927年9月9日，毛泽东领导的著名起义是( )。",
+    "options": [
+      " 湘南秋收起义",
+      " 赣南秋收起义",
+      " 湘赣边界秋收起义",
+      " 广州起义"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "下图A、B、C、D中，中央革命根据地是",
+    "options": [
+      " D",
+      " A",
+      " B",
+      " C"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "关于古田会议决议，下列说法正确的是( )。",
+    "options": [
+      " 确立了思想建党、政治建军的一系列重大原则",
+      " 第一次提出了“工农武装割据思想”",
+      " 阐明了农村包围城市、武装夺取政权的思想",
+      " 系统论述了中国革命战争的特点和规律"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "毛泽东建立农村革命根据地，走农村包围城市道路的主要依据是( ) 。",
+    "options": [
+      " “八七”会议精神",
+      " 共产国际指示",
+      " 中国的国情",
+      " 人民群众的支持"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "“群龙得首自腾翔，路线精通走一行。左右偏差能纠正，天空无限任飞扬。”这首诗是朱德为纪念遵义会议而作。诗中赞扬的历史人物是( )。",
+    "options": [
+      " 邓小平",
+      " 陈独秀",
+      " 毛泽东",
+      " 博古"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "从1927年到1930年上半年，中国共产党领导的农村革命根据地和红军得到了迅速发展，其根本措施是( )。",
+    "options": [
+      " 纠正“左”倾军事冒险计划",
+      " 工农武装割据波浪式推向全国",
+      " 肃清右倾投降主义路线",
+      " 开展“打土豪、分田地”的土地革命"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "“以农村包围城市，最后夺取胜利”是中国共产党走出的符合中国国情的革命道路，这条道路的开辟始于( )。",
+    "options": [
+      " 新文化运动",
+      " 国民大革命",
+      " 井冈山革命根据地的建立",
+      " 五四运动"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "“雪皑皑、夜茫茫，高原寒、炊断粮，红军都是钢铁汉，千锤百炼不怕难……”当我们唱起这首歇时，红军长征中的故事便历历在目。长征中的下列事件发生在今天四川境内的有( )。\n①四渡赤水 ②飞夺泸定桥 ③遵义会议 ④会宁会师",
+    "options": [
+      " ①③④",
+      " ①②③④",
+      " ①②④",
+      " ①②"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "中国工农红军长征的直接原因是( )。",
+    "options": [
+      " 中共认识到北上抗日的重要性",
+      " 中共仍未找到革命胜利的道路",
+      " 中共失去了广大人民的支持",
+      " 第五次反“围剿”的失败"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "国共十年对峙时期，“边界红旗子始终不倒〞的最主要原因是( )。",
+    "options": [
+      " 日本侵华逐步加剧",
+      " 国民党新军阀忙于混战",
+      " 坚持了“工农武装割据”的思想",
+      " 共产国际给予支持和帮助"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "大革命失败后，在国民党的统治下，白色恐怖笼罩着全国城乡，中国革命转入低潮。在严峻的考验面前，中国共产党人表现了坚定的革命立场和大无畏的英雄气概，独立高举起反帝反封建的革命旗帜，中国革命由此发展到了一个新的阶段。由大革命失败到土地革命战争兴起的历史转折点是( )。",
+    "options": [
+      " 三湾改编",
+      " 党的六大",
+      " 遵义会议",
+      " 八七会议"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "毛泽东曾对一个外国来访者说过:“……哎!1927年，老蒋够厉害啦!他把我们像鸡蛋一样地摔在地上。可他没想到，当时国外的许多智者也没有想到，我们还会孵出小鸡来!”对“孵出小鸡”最准确的理解是( )。",
+    "options": [
+      " 形成以毛泽东为首的坚强领导核心",
+      " 揭开了创建人民军队、建立农村革命根据地的序幕",
+      " 发动了反抗国民党反动统治的武装起义",
+      " 制定了建立抗日民族统一战线的方针"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "1964年10月2日晚上，在首都人民大会堂首次隆重上演由三千多人演出的音乐舞蹈史诗《东方红》，其中第二场的主题是“星火燎原”，下列评论不符合历史事实的是( )。",
+    "options": [
+      " 歌曲《星星之火》标志着毛泽东思想成熟并成为我党的指导思想",
+      " 舞蹈《秋收起义》见证了中国共产党的革命中心由城市到农村的转换过程",
+      " 歌舞《打土豪分田地》反映出中国共产党领导武装革命的力量源泉",
+      " 舞蹈《井冈山会师》的发生地点是中国的第一个农村革命根据地"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "毛泽东开创了农村包围城市的革命道路，邓小平开创了建设中国特色的社会主义道路，两者最重要的共同点在于( )。",
+    "options": [
+      " 坚持走群众路线",
+      " 坚定不移地走社会主义道路",
+      " 借鉴苏联的经验",
+      " 实事求是，从中国国情出发"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "毛泽东提出“以后要非常注意军事，须知政权是由枪杆子中取得的”的重要论断是在( )",
+    "options": [
+      " 北京特别会议",
+      " 古田会议",
+      " 遵义会议",
+      " 八七会议"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "《闪闪的红星》中的潘冬子曾是一代又一代中国少年的偶像，年仅十岁的潘冬子一心要参加红军，参加革命。国共十年对峙时期，根据地广大人民踊跃参加红军，主要是为了( )。",
+    "options": [
+      " 为根据地经济发展赢得稳定环境",
+      " 保卫土地革命的胜利果实",
+      " 粉碎国民党的经济封锁",
+      " 表明革命的决心"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "“一送红军下了山，秋风细雨缠绵绵，山上野鹿声声哀叫，树树梧桐叶落光。问一声亲人红军啊!几时人马再回山?”这首歌所反映的相关历史事件应是( )。",
+    "options": [
+      " 国共合作进行的国民大革命",
+      " 解放战争时期收复长江以南地区",
+      " 国共十年对峙时期红军长征时期",
+      " 抗日战争时期根据地建设时期"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "第二次国内革命战争时期，剥夺毛泽东对中央革命根据地红军领导权的会议是( )。",
+    "options": [
+      " 赣南会议",
+      " 中共六届五中全会",
+      " 中共六届三中全会",
+      " 中共六届四中全会"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "1930年5月，毛泽东在( )一文中，提出了“没有调查，没有发言权”和“中国革命斗争的胜利要靠中国同志了解中国情况”的重要思想，表现了毛泽东开辟新道路、创造新理论的革命首创精神。",
+    "options": [
+      " 《中国的红色政权为什么能够存在》",
+      " 《反对本本主义》",
+      " 《井冈山的斗争》",
+      " 《星星之火，可以燎原》"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "美国一位历史学家说:“有些人逃进了华南山区。他们的领导人之一是毛泽东，这时无视莫斯科的第三国际，制定出新的革命策略。”这里所说的“新的革命策略”是指( )。",
+    "options": [
+      " 农村包围城市的道路",
+      " 武装反抗的策略",
+      " 开辟敌后抗日根据地的策略",
+      " 建立抗日民族统一战线的策略"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "在1931年毛泽东制定的土地革命路线中，对富农的政策是( )。",
+    "options": [
+      " 联合富农",
+      " 消灭富农",
+      " 限制富农",
+      " 保护富农"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "( )事实上确立毛泽东在党中央和红军的领导地位，在最危急关头挽救了党、挽救了红军，挽救了中国革命。",
+    "options": [
+      " 赣南会议",
+      " 遵义会议",
+      " 古田会议",
+      " 八七会议"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "1937年夏，毛泽东讲授了著名的《实践论》、《矛盾论》，从马克思主义认识论的高度，揭露和批评党内的主观主义尤其是( )错误。",
+    "options": [
+      " 盲动主义",
+      " 冒险主义",
+      " 教条主义",
+      " 机会主义"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "长征三大红军主力胜利会师是指( )。",
+    "options": [
+      " 红二、三、四方面军",
+      " 红一、三、四方面军",
+      " 红一、二、三方面军",
+      " 红一、二、四方面军"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "一首诗中写道:“迷雾云遮难敞亮，宇寰久夜盼骄阳。柏宅楼上龙聚首，湘水岸边船启航。初战娄山标魄力，四夺赤水过长江。行程二万通华北，○○○○挽国邦。”根据上下文的意思，○○○○处应该填写( )。",
+    "options": [
+      " 中共成立",
+      " 土地革命",
+      " 国共合作",
+      " 遵义会议"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": ")《中共八七会议告全体党员书》指出:“我们的党公开承认并纠正错误，不含混不隐瞒，这并不是示弱，而正是证明中国共产主义运动的力量。” 该“错误”主要指中国共产党( )。",
+    "options": [
+      " 采取了 “ 左 ” 倾冒险主义方针",
+      " 犯了阶级斗争扩大化的错误",
+      " 排斥了毛泽东的正确领导",
+      " 放弃了对革命武装的领导权"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "1932年5月9日，中华苏维埃共和国成立后，红色政权打响了惩治腐败分子的第一枪，叶坪村苏维埃政府主席谢步升被处决。同年12月，中共中央执行委员会颁布了第一个惩治腐败的法令。类似法令( )。",
+    "options": [
+      " 扩大了中央革命根据地范围",
+      " 说明中央苏区推崇法律至上",
+      " 有助于革命根据地的巩固",
+      " 是工农红色政权存在的前提"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "有学者指出:南昌起义作为中国共产党人武装斗争的开始，还存在着认识与实践上的不足。由于这些不足，南昌起义虽然成功了，但在国民党军的反扑之下，胜利果实并没有保存多久。这里的“不足”应指( )。",
+    "options": [
+      " 没有找到适合中国国情的革命道路",
+      " “左”倾思想严重影响领导者决策",
+      " 共产党没有掌握革命领导权",
+      " 共产党没有创建革命军队"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "南昌起义、秋收起义、广州起义中得出的深刻教训是( )。",
+    "options": [
+      " 必须建立新型的人民军队",
+      " 必须走适合中国国情的革命道路",
+      " 必须建立党对军队的绝对领导",
+      " 必须武装反抗国民党反动派"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "第一次比较系统地阐述了关于社会主义初级阶段的理论的会议是( )。",
+    "options": [
+      " 十一届六中全会",
+      " 十三大",
+      " 十二届三中全会",
+      " 十一届三中全会"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "1992年，邓小平的( )对中国整个社会主义现代化建设事业具有重大而深远的意义。",
+    "options": [
+      " 浦东谈话",
+      " 重庆谈话",
+      " 南方谈话",
+      " 北方谈话"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "中国加入世界贸易组织的时间是( )。",
+    "options": [
+      " 2002年12月",
+      " 1999年12月",
+      " 2001年12月",
+      " 2000年12月"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "1988 年，中共中央和国务院决定建立的经济特区是( )。",
+    "options": [
+      " 珠海经济特区",
+      " 汕头经济特区",
+      " 厦门经济特区",
+      " 海南经济特区"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "1992年，海协会与海基会就如何表述坚持一个中国原则的问题，达成“海峡两岸同属一个中国，共同努力谋求国家统一”的共识，后被称为( )。",
+    "options": [
+      " 汪辜共识",
+      " “九二共识”",
+      " “统一共识”",
+      " “一个中国共识 ”"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "中国起诉美国商务部对中国产品发起的 13起反倾销措施。这一事件发生的背景是( )。",
+    "options": [
+      " 中国加入了亚太经合组织",
+      " 中国参加了亚非会议",
+      " 中国加入了世界贸易组织",
+      " 中国恢复了联合国的合法席位"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "开启了我国改革开放和社会主义现代化建设新时期的会议是( )。",
+    "options": [
+      " 中共十一届三中全会",
+      " 中共十二届三中全会",
+      " 中共十二大",
+      " 中共十一届六中全会"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "有一首歌的歌词写道:“1979年，那是一个春天，有一位老人在中国的南海边画了一个圈，神话般地崛起座座城，奇迹般地聚起座座金山……”这里“画了一个圈”是指( )。",
+    "options": [
+      " 开发上海浦东新区",
+      " 开发河北雄安新区",
+      " 建立深圳等经济特区",
+      " 建立环渤海经济开放区"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "1979年前，“凤阳地多不打粮，磙子一住就逃荒。只见凤阳女出嫁，不见新娘进凤阳。”到1979年，凤阳全县粮食产量比1978年增长49%，卖给国家粮食4450万千克。出现这种变化的原因是( )。",
+    "options": [
+      " 家庭联产承包责任制的实行",
+      " 农业社会主义改造的完成",
+      " “大跃进”运动的开展",
+      " 人民公社化运动的开展"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "把“三个代表”重要思想同马克思列宁主义、毛泽东思想、邓小平理论一道确立为中国共产党必须长期坚持的指导思想，并写入党章，是在 ( )。",
+    "options": [
+      " 中共十六大",
+      " 中共十五大",
+      " 中共十三大",
+      " 中共十四大"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "实现祖国完全统一，是全体中华儿女的共同心愿，是中华民族根本利益所在。1979 年是祖国统一进程中的重要一年。这一年( )。",
+    "options": [
+      " 十届全国人大三次会议通过 《反分裂国家法》",
+      " 邓小平提出“一国两制”的伟大构想",
+      " 全国人大常委会发表《告台湾同胞书》",
+      " 海协会和海基会达成“九二共识”"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "邓小平在1979年3月的中央理论工作务虚会上明确提出，必须坚持( )",
+    "options": [
+      " “一个中国”的原则",
+      " “两手抓、两手都要硬”的方针",
+      " 四项基本原则",
+      " “三个有利于”的标准"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "1978年12月，邓小平在中共中央工作会议上发表的重要报告是( )。",
+    "options": [
+      " 《实践是检验真理的唯一标准》",
+      " 《关于建国以来党的若干历史问题的决议》",
+      " 《坚持四项基本原则》",
+      " 《解放思想，实事求是，团结一致向前看》"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "中共十四大提出了( )。",
+    "options": [
+      " 全面建设小康社会的奋斗目标",
+      " 社会主义初级阶段理论和党的基本路线",
+      " 党在社会主义初级阶段的基本纲领",
+      " 建立社会主义市场经济体制的改革目标"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "中共十一届三中全会后，中国农村在经济体制改革中推行的制度是( )。",
+    "options": [
+      " 个体经营",
+      " 家庭联产承包责任制度",
+      " 生产队为基础的集体经营制度",
+      " 互助合作制度"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "1991年3一4 月，上海《解放日报》接连发表多篇署名文章，呼吁进一步解放思想，“改革开放要有新思路”，认为“如果我们仍然面于‘姓社还是姓资’的诘难，那就只能坐失良机”。“新思路”是指( )。",
+    "options": [
+      " 完善计划经济体制",
+      " 推行农业生产责任制",
+      " 改革重心从农村转向城市",
+      " 建立社会主义市场经济体制"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "有这样两句歌词:“我们唱着东方红，当家作主站起来，我们讲着春天的故事，改革开放富起来”。“当家作主站起来”和“改革开放富起来”代表的重大历史事件分别是( ).",
+    "options": [
+      " 中华人民共和国成立和党的十九大",
+      " 中华人民共和国成立和党的十一届三中全会",
+      " 中国共产党成立和中华人民共和国成立",
+      " 中国共产党成立和党的十一届三中全会"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "台湾著名作家余光中先生在《乡愁》中写到:“小时候，乡愁是一枚小小的邮票……而现在，乡愁是一湾浅浅的海峡，我在这头，大陆在那头”。目前指导我国解决余光中先生“乡愁”的基本政策是( )。",
+    "options": [
+      " 国际裁决",
+      " 民众公投",
+      " 一国两制",
+      " 民族区域自治"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "1981年6月，党的十一届六中全会通过了( )。",
+    "options": [
+      " 《关于建国以来党的若干历史问题的决议》",
+      " 《共同纲领》",
+      " 《解放思想，实事求是，团结一致向前看》",
+      " 《实践是检验真理的唯一标准》"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "2005年3月14日，十届全国人大三次会议高票通过( )。这充分表明全中国人民反对“台独”、维护国家统一和领土完整的共同意志和坚定决心。",
+    "options": [
+      " 《台湾国安法》",
+      " 《反分裂国家法》",
+      " 《对台关系法》",
+      " 《告台湾同胞书》"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "党在指导思想上拨乱反正胜利完成的标志是( )。",
+    "options": [
+      " 《关于建国以来党的若干历史问题的决议》的通过",
+      " 中共十一届五中全会为刘少奇平反和恢复名誉",
+      " 1982年平反冤假错案工作的结束",
+      " 中共十二大的召开"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "邓小平在党的第十二次全国代表大会开幕词中提出:“把马克思主义的普遍真理同我国的具体实际结合起来，走自己的道路，建设( )”。",
+    "options": [
+      " 有民族特色的社会主义",
+      " 有中国特色的社会主义",
+      " 有民族特色的共产主义",
+      " 有中国特色的共产主义"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "1978年12月，邓小平指出:“如果现在再不实行改革，我们的现代化事业和社会主义事业就会被葬送。”这个讲话实际上成为随后召开的党的( )主题报告。",
+    "options": [
+      " 十一届三中全会",
+      " 六届六中全会",
+      " 七届二中全会",
+      " 十二届三中全会"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "根据“一国两制”构想，中国对香港恢复行使主权是在( )。",
+    "options": [
+      " 1997年7月1日",
+      " 1998年7月1日",
+      " 2000年7月1日",
+      " 1999年7月1日"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "把邓小平理论同马克思列宁主义、毛泽东思想一道确立为中国共产党的指导思想，并写入修改后的《中国共产党章程》，是在( )。",
+    "options": [
+      " 中共十四大",
+      " 中共十六大",
+      " 中共十三大",
+      " 中共十五大"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "2020年11月，中国与东盟十国、日本、韩国、澳大利亚、新西兰正式签署了( )。这标志着当前世界上人口最多、经贸规模最大、最具发展潜力的自由贸易区正式启航。",
+    "options": [
+      " TPP",
+      " RCEP",
+      " TAFTA",
+      " ECFA"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "党的十一届三中全会以后，党和政府实行改革开放政策，改革首先开始于( )。",
+    "options": [
+      " 国有企业改革",
+      " 农村改革",
+      " 城市改革",
+      " 沿海地区开放"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "对联的内容具有很强的时代性,能折射出历史的变迁.下列对联中反映中共十一届三中全会后新气象的是( )。",
+    "options": [
+      " 万里山河归人民，五亿群众庆新生",
+      " 改革开放添异彩，经济建设展宏图",
+      " “一五”计划指方向，举国欢腾建设忙",
+      " 总路线大放光芒，超英美指日可待"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "20世纪70年代后期，台湾问题被提上党和国家重要议事日程。中共中央和邓小平在毛泽东、周恩来等老一辈革命家关于争取和平解放台湾思想的基础上，正视历史和现实，创造性地提出了( )科学构想，开辟了以和平方式实现祖国统一的新途径。",
+    "options": [
+      " “九二共识”",
+      " 澳人治澳",
+      " “一国两制”",
+      " 民族区域自治"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "从1979年1月起，在邓小平主持下，中共中央着手起草《关于建国以来党的若干历史问题的决议》。邓小平对《决议》的起草提出了指导原则，其中最核心的一条是( )。",
+    "options": [
+      " 对建国30年来历史上的大事，要进行实事求是的分析",
+      " 宜粗不宜细，总结过去是为了引导大家团结一致向前看",
+      " 走自己的路，开辟中国特色社会主义道路",
+      " 确立毛泽东同志的历史地位，坚持和发展毛泽东思想"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "2020年9月，习近平在第75届联合国大会上宣布 ，中国的二氧化碳排放力争于2030年前达到峰值，努力争取在( )年前实现碳中和。",
+    "options": [
+      " 2070",
+      " 2060",
+      " 2050",
+      " 2040"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "2014年10月30日至11月2日，新世纪第一次全军政治工作会议在福建省上杭县( )镇召开。习近平在会上发表重要讲话，强调革命的政治工作是革命军队的生命线。",
+    "options": [
+      " 古田",
+      " 白砂",
+      " 蛟洋",
+      " 才溪"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "2013年3月，习近平在莫斯科国际关系学院发表演讲，首次提出( )理念。",
+    "options": [
+      " 亲、诚、惠、容",
+      " 碳中和",
+      " 一带一路",
+      " 人类命运共同体"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "五年来，我们统筹推进“____”总体布局、协调推进“____”战略布局，“十二五”规划胜利完成，“十三五”规划顺利实施，党和国家事业全面开创新局面。",
+    "options": [
+      " 五位一体 四个全面",
+      " 四位一体 五个全面",
+      " 五个全面 四位一体",
+      " 四个全面 五位一体"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "( )，开启了中国特色社会主义新时代。",
+    "options": [
+      " 党的十八届三中全会勾画到了2020年全面深化改革的时间表、路线图",
+      " 党的十八届六中全会明确习近平为党中央核心、全党核心",
+      " 党的十八大的召开",
+      " 党的十九大的召开"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "党的十八大指出建设中国特色社会主义的总依据是( )。",
+    "options": [
+      " 五位一体",
+      " 两个百年奋斗目标",
+      " 全面建成小康社会",
+      " 社会主义初级阶段"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "党的十九大把( )作为新时代坚持和发展中国特色社会主义的基本方略之一，并写入新修改的《中国共产党章程》。",
+    "options": [
+      " 全球治理观",
+      " 精准扶贫",
+      " 国防现代化",
+      " 坚持和构建人类命运共同体"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "进入新时代，以习近平同志为核心的党中央深刻把握社会主义建设规律，统筹推进( )总体布局。",
+    "options": [
+      " “四位一体”",
+      " “四个全面”",
+      " “五位一体”",
+      " “三位一体”"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "2020年，我国国内生产总值达101.6亿，占世界经济比重达到17%，稳居世界( )。",
+    "options": [
+      " 第二位",
+      " 第一位",
+      " 第四位",
+      " 第三位"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "2021年11月，党的十九届六中全会召开，审议通过了( )。",
+    "options": [
+      " 《中国共产党章程(修正案)》",
+      " 《关于若干历史问题的决议》",
+      " 《关于党的百年奋斗重大成就和历史经验的决议》",
+      " 《关于建国以来党的若干历史问题的决议》"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "党的十九大将“中国特色社会主义最本质的特征是中国共产党领导，中国特色社会主义制度的最大优势是中国共产党领导，党是最高政治领导力量”确立为习近平新时代中国特色社会主义思想的重要内容，同时把( )这一重大政治原则写入党章。",
+    "options": [
+      " “坚持党的领导”",
+      " “坚持四项基本原则”",
+      " “党是领导一切的”",
+      " “坚持党中央集中统一领导”"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "习近平在十九大报告中指出，经过长期努力，( )进入了新时代，这是我国发展新的历史方位。",
+    "options": [
+      " 中华人民共和国",
+      " 社会主义现代化建设",
+      " 中国特色社会主义",
+      " 全面建设小康社会"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "从____到____，是“两个一百年”奋斗目标的历史交汇期。",
+    "options": [
+      " 二〇二〇年，二〇三五年",
+      " 十九大，二十大",
+      " 二十大，二十一大",
+      " 二〇三五年，本世纪中叶"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "为了实现中华民族伟大复兴，中国共产党团结带领中国人民，创造了新民主主义革命的伟大成就、社会主义革命和建设的伟大成就，改革开放和社会主义现代化建设的伟大成就、新时代中国特色社会主义的伟大成就。其中，为实现中华民族伟大复兴提供了更为完善的制度保证、更为坚实的物质基础、更为主动的精神力量的是党领导人民创造的( )。",
+    "options": [
+      " 中国特色社会主义新时代的伟大成就",
+      " 社会主义革命和建设时期的伟大成就",
+      " 改革开放和社会主义现代化建设新时期的伟大成就",
+      " 新民主主义革命时期的伟大成就"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "文化是一个国家、一个民族的灵魂。习近平在十八届中央政治局第三十三次集体学习时提出要坚定( )。",
+    "options": [
+      " “四个全面”",
+      " “五位一体”",
+      " “四个自信”",
+      " “一带一路”"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "2015年7月，中国推动成立( )的开业，总部设在上海，为金砖国家以及其他发展中国家的基础设施建设提供融资。",
+    "options": [
+      " 世界银行",
+      " 国际复兴开发银行",
+      " 金砖国家新开发银行",
+      " 亚洲基础设施投资银行"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "实施共建“一带一路”倡议，发起创办亚洲基础设施投资银行，设立丝路基金，举办首届“一带一路”国际合作高峰论坛、亚太经合组织领导人非正式会议、二十国集团领导人____峰会、金砖国家领导人____会晤、亚信峰会。",
+    "options": [
+      " 南京、北京",
+      " 厦门、杭州",
+      " 杭州、厦门",
+      " 北京、南京"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "中国特色社会主义进入新时代，我国社会主要矛盾已经转化为人民日益增长的____需要和____的发展之间的矛盾。",
+    "options": [
+      " 美好生活 不平衡不充分",
+      " 幸福生活 不平衡不充分",
+      " 美好生活 不充分不平衡",
+      " 幸福生活 不充分不平衡"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "“十四五”时期是进入新发展阶段后的第一个五年，是我国开启( )国家新征程、向第二个百年奋斗目标进军的关键时期。",
+    "options": [
+      " 全面脱贫攻坚战",
+      " 全面实现小康社会",
+      " 全面建成小康社会",
+      " 全面建设社会主义现代化国家"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "2020年9月8日，全国抗击新冠肺炎疫情表彰大会隆重举行，习近平为( )颁授“共和国勋章”奖章。",
+    "options": [
+      " 陈薇",
+      " 张定宇",
+      " 钟南山",
+      " 张伯礼"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  }
+];
+            
+
+            localStorage.setItem('singleQuestion', JSON.stringify(dataJson));
+
+
+            // 导入多选
+            dataJson = [
+  {
+    "source": "第一章",
+    "description": "1840年后,中华民族要争取民族独立、人民解放就必须进行( )。",
+    "options": [
+      " 反对封建主义的民主革命",
+      " 反对资产阶级的无产阶级革命",
+      " 反对地主阶级的农民革命",
+      " 反对帝国主义的民族革命"
+    ],
+    "correctAnswer": [
+      1,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "学习《中国近现代史纲要》的目的是深刻领会历史和人民是怎样选择了( )。",
+    "options": [
+      " 社会主义道路",
+      " 中国共产党",
+      " 改革开放",
+      " 马克思主义"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "帝国主义列强没有能够实现瓜分中国图谋的原因是( )。",
+    "options": [
+      " 中国民族资本主义经济的发展",
+      " 其他国家人民的反侵略斗争",
+      " 帝国主义列强之间的矛盾和互相制约",
+      " 中华民族的反侵略斗争"
+    ],
+    "correctAnswer": [
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "中国近代史是一部中国遭受侵略的历史,也是一部人民反抗侵略的历史。台湾人民曾经多次反抗外来侵略,有( )。",
+    "options": [
+      " 1874年,高山族人民痛击西乡从道率领的日本侵略者",
+      " 1895年6月到10月,台湾军民对抗日军两个近代化师团和一支海军舰队,使日军死伤惨重",
+      " 1895年,台湾人民和黑旗军共同抗击日本侵略,誓死保台",
+      " 1867年,反抗美国海军入侵,击毙马肯基"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "近代中国工人阶级的主要来源是( )。",
+    "options": [
+      " 城市贫民",
+      " 手工业者",
+      " 商人",
+      " 破产失业农民"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "19世纪70至80年代,帝国主义列强从侵占中国周边邻国发展到蚕食中国边疆地区,使中国陷入“边疆危机”。“边疆危机”的主要表现有( )。",
+    "options": [
+      " 法国从越南侵犯广西",
+      " 日本吞并琉球、侵犯中国台湾",
+      " 俄国从中亚入侵新疆",
+      " 英国从印度侵入西藏,又从缅甸入侵云南"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "鸦片战争后,中国社会的阶级关系发生了深刻的变动,其主要表现是( )。",
+    "options": [
+      " 地主阶级本身发生了某些变化",
+      " 部分农民阶级向贫农或雇农转化",
+      " 工人阶级的诞生",
+      " 中国资产阶级的产生"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "资本-帝国主义列强对中国进行经济掠夺所采取的手段有( )。",
+    "options": [
+      " 控制中国的通商口岸",
+      " 操纵中国的经济命脉",
+      " 剥夺中国的关税自主权",
+      " 实行商品倾销和资本输出"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "近代中国半殖民地半封建社会的矛盾,呈现出错综复杂的状况。在诸多社会矛盾中,占支配地位的主要矛盾是( )。",
+    "options": [
+      " 封建主义和人民大众的矛盾",
+      " 农民阶级与地主阶级的矛盾",
+      " 资产阶级与地主阶级的矛盾",
+      " 帝国主义和中华民族的矛盾"
+    ],
+    "correctAnswer": [
+      1,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "关于租界的叙述,正确的有( )。",
+    "options": [
+      " 中国政府对租界内的行政、司法有干预权。",
+      " 租界成了“冒险家的乐园”和侵略中国的据点。",
+      " 1845年11月,英国驻上海领事强迫清政府地方官吏议定土地章程,在上海划出一个特定区域,作为英国人居留地。这是外国人在中国设立租界的开端。",
+      " 外国侵略者在租界逐步排斥中国的主权,使租界成为“国中之国”。"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "下列哪些属于近代以来先进分子提出的救国新思想( )。",
+    "options": [
+      " “振兴中华”",
+      " “师夷之长技以制夷”",
+      " “量中华之物力,结与国之欢心”",
+      " 与西方进行“商战”"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "西方列强通过战争,强迫中国签订一系列不平等条约,破坏了中国的( )。",
+    "options": [
+      " 司法主权",
+      " 关税主权",
+      " 领土主权",
+      " 领海主权"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "第一次鸦片战争以后,中国社会发生的两个根本性变化是( )。",
+    "options": [
+      " 独立的中国逐步变成半殖民地的中国",
+      " 独立的中国逐步变成殖民地的中国",
+      " 封建的中国逐步变成资本主义的中国",
+      " 封建的中国逐步变成半封建的中国"
+    ],
+    "correctAnswer": [
+      1,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "1840年前,中国封建社会的基本特征是( )。",
+    "options": [
+      " 文化上以儒家思想为核心",
+      " 经济上以封建地主土地所有制占主导地位",
+      " 社会结构上实行封建宗法等级制度",
+      " 政治上实行高度中央集权的君主专制制度"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第一章",
+    "description": "随着近代中国从封建社会逐步演变为半殖民地半封建社会,中国社会出现了新兴阶级,它们是( )。",
+    "options": [
+      " 地主阶级",
+      " 资产阶级",
+      " 工人阶级",
+      " 农民阶级"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "戊戌维新运动在中国近代史上的重大历史意义,主要体现在戊戌维新运动是一场( )。",
+    "options": [
+      " 反帝反封建的革命运动",
+      " 资产阶级性质的政治改革运动",
+      " 思想启蒙运动",
+      " 爱国救亡运动"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "太平天国在定都天京后颁布的主要纲领是( )。",
+    "options": [
+      " 《原道觉世训》",
+      " 《天朝田亩制度》",
+      " 《十款天条》",
+      " 《资政新篇》"
+    ],
+    "correctAnswer": [
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "戊戌维新运动的失败,主要是由于维新派自身的局限和以慈禧太后为首的强大的守旧势力的反对,其中维新派的局限性突出体现在( )。",
+    "options": [
+      " 惧怕人民群众",
+      " 对帝国主义抱有幻想",
+      " 不敢否定封建主义",
+      " 民族资产阶级力量弱小"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "戊戌变法和辛亥革命是中国近代史上的重大运动,两者的共同点有:( )。",
+    "options": [
+      " 未提出彻底的反帝反封建的纲领",
+      " 主张在中国建立资本主义制度",
+      " 主张用革命的方式",
+      " 是爱国救亡的政治运动"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "洋务派的下列行为应该给予肯定( )",
+    "options": [
+      " 抵御外侮的进取精神",
+      " 洋务企业的经营方式",
+      " 学习西方的有益尝试",
+      " 自强图存的种种努力"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "太平天国反侵略精神表现在( )",
+    "options": [
+      " 严禁鸦片",
+      " 不承认西方列强强迫清政府签订的不平等条约",
+      " 在上海等地与西方侵略者进行正面交锋",
+      " 放弃“拜上帝教”这一与西方同源的宗教"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "下列中国近代救亡运动,由资产阶级领导的有( )。",
+    "options": [
+      " 洋务运动",
+      " 太平天国运动",
+      " 戊戌维新运动",
+      " 辛亥革命"
+    ],
+    "correctAnswer": [
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "洋务事业主要有哪些?( )",
+    "options": [
+      " 建立新式海陆军",
+      " 派遣留学生",
+      " 兴办近代企业",
+      " 创办新式学堂"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "下列关于《天朝田亩制度》叙述属正确的是( )",
+    "options": [
+      " 它从根本上否定了封建社会的基础即地主土地所有制",
+      " 具有不切实际的空想的性质",
+      " 是最能体现天平天国社会理想的纲领性文件",
+      " 是以解决土地问题为中心的比较完整的社会改革方案"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "太平天国的兴起和失败说明了( )。",
+    "options": [
+      " 农民自身不能担负起领导反帝反封建斗争取得胜利的重任",
+      " 农民具有伟大的革命潜力",
+      " 农民阶级是无产阶级最可靠的革命同盟军",
+      " 单纯的农民战争不可能完成争取民族独立和人民解放的历史任务"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "下列对太平天国评价正确的是( )。",
+    "options": [
+      " 冲击了儒家的正统权威",
+      " 沉重打击了中外反动势力",
+      " 提出了比较系统的发展资本主义的方案",
+      " 中国旧式农民战争的最高峰"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "洋务运动失败的原因主要是( )。",
+    "options": [
+      " 洋务运动不符合时代发展的潮流",
+      " 洋务企业的管理具有腐朽性",
+      " 洋务运动具有封建性",
+      " 洋务运动对列强具有依赖性"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "关于洋务运动的表述正确的是( )。",
+    "options": [
+      " 洋务运动的指导思想是“中学为体,西学为用”",
+      " 洋务运动的口号是“自强”、“求富”",
+      " 洋务运动是在19世纪60年代初清政府镇压太平天国起义的过程中和第二次鸦",
+      "片战争结束后兴起的",
+      " 洋务运动对列强具有依赖性"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "封建守旧派和反对改变封建政治制度的洋务派,利用自己的地位和权力,对维新思想发动攻击,于是维新派与守旧派之间展开了一场激烈论战。论战主要围绕以下哪些问题展开:( )。",
+    "options": [
+      " 要不要废八股、改科举和兴西学",
+      " 要不要变法",
+      " 要不要兴民权、设议院,实行君主立宪",
+      " 要不要兴办近代企业"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第二章",
+    "description": "洋务派在清朝地方官吏中的主要代表人物有( )",
+    "options": [
+      " 奕䜣",
+      " 李鸿章",
+      " 左宗棠",
+      " 张之洞"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "中华人民共和国的成立标志着哪些历史任务的基本完成? ( )。",
+    "options": [
+      " 国家富强",
+      " 人民解放",
+      " 民族独立",
+      " 人民幸福"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "中国共产党过渡时期总路线的内容包括( )。",
+    "options": [
+      " 农业的社会主义改造",
+      " 资本主义工商业的社会主义改造",
+      " 手工业的社会主义改造",
+      " 实现社会主义工业化"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "毛泽东在《关于正确处理人民内部矛盾的问题》一文中提出，社会主义社会的基本矛盾是( )。",
+    "options": [
+      " 人民内部矛盾",
+      " 经济基础和上层建筑的矛盾",
+      " 生产力和生产关系的矛盾",
+      " 敌我矛盾"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1951年底到1952年，开展了( )的“三反”运动，处决了大贪污犯刘青山、张子善。",
+    "options": [
+      " 反浪费",
+      " D、反形式主义",
+      " C、反官僚主义",
+      " B、反贪污"
+    ],
+    "correctAnswer": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1958年中共八大二次会议通过的社会主义建设总路线的表述是( )。",
+    "options": [
+      " 多快好省地建设社会主义",
+      " 在综合平衡中稳步前进",
+      " 鼓足干劲",
+      " 力争上游"
+    ],
+    "correctAnswer": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "以下对《论十大关系》的表述正确的是( )。",
+    "options": [
+      " 它为中共八大的召开作了理论准备",
+      " 十大关系围绕的基本方针是调动一切积极因素，把我国建设成为一个强大的社会主义国家",
+      " 十大关系之一是中央与地方的关系",
+      " 它是新中国成立以来中央领导集体深入调查研究的成果"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1961年1月，中共八届九中全会决定对国民经济实行( )的方针。",
+    "options": [
+      " B、巩固",
+      " C、充实",
+      " D、提高",
+      " 调整"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "基于二战后形成的两极格局、两大阵营、两种社会制度相互对抗的局面，以毛泽东为主要代表的中国共产党人提出了( )的外交方针。",
+    "options": [
+      " “一边倒”",
+      " “独立自主”",
+      " “另起炉灶”",
+      " “打扫干净屋子再请客”"
+    ],
+    "correctAnswer": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "在新中国建立后成立的少数民族自治区有( )。",
+    "options": [
+      " 西藏自治区",
+      " 宁夏回族自治区",
+      " 新疆维吾尔自治区",
+      " 广西壮族自治区"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "有人形象地说南京既是中国近代史的起点，也是中国近代史的终点。下列能够反映这种说法的两个历史片断是( )",
+    "options": [
+      " 1842年8月29日，英国侵略者强迫清政府在南京江面的英舰上签订中国近代史上第一个不平等条约《南京条约》",
+      " 孙中山在南京主持中华民国临时政府第一次国务会议",
+      " 洪秀全在南京颁布《天朝田亩制度》",
+      " 1949年4月23日，人民解放军占领南京，宣告延续了22年之久的国民党反动统治的覆灭。"
+    ],
+    "correctAnswer": [
+      1,
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "我国社会主义改造的对象是( )。",
+    "options": [
+      " 个体手工业",
+      " 官僚资本主义",
+      " 资本主义工商业",
+      " 个体农业"
+    ],
+    "correctAnswer": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "1956年至1957年上半年反映中国共产党人早期探索积极进展的事件有( )。",
+    "options": [
+      " B、中共八大的召开",
+      " 《论十大关系》的发表",
+      " 《关于正确处理人民内部矛盾的问题》",
+      " D、中共八大二次会议的召开"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "新中国成立初期，也面临着许多严重的困难和一些紧迫的问题。这对于刚刚执掌全国政权的中国共产党来说，是新的严峻的考验，主要是( )",
+    "options": [
+      " 能不能经受住执政的考验",
+      " 能不能保卫住人民胜利的成果，巩固新生的人民政权",
+      " 能不能巩固民族独立，维护国家主权和安全",
+      " 能不能战胜严重的经济困难，迅速恢复和发展国民经济"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "中华人民共和国的成立标志着哪些历史任务的基本完成? ( )。",
+    "options": [
+      " 国家富强",
+      " 人民解放",
+      " 民族独立",
+      " 人民幸福"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第八章",
+    "description": "毛泽东在《关于正确处理人民内部矛盾的问题》一文中提出的解决人民内部矛盾的方法是( )。",
+    "options": [
+      " 民主的方法",
+      " “ 大鸣、大放、大字报、大辩论 ” 的方法",
+      " 说服教育的方法",
+      " “ 团结 —— 批评 —— 团结 ” 的方法"
+    ],
+    "correctAnswer": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1948年9月至1949年1月，中国人民解放军进行的三大战役是( )。",
+    "options": [
+      " 平津战役",
+      " 淮海战役",
+      " 渡江战役",
+      " 辽沈战役"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1947年6月底，揭开人民解放战争战略进攻的序幕是( )。",
+    "options": [
+      " 刘邓大军挺进大别山",
+      "陈谢兵团挺进豫西",
+      " 陈粟大军挺进苏鲁豫皖",
+      "林罗大军挺进东北"
+    ],
+    "correctAnswer": [
+      1,
+      2
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "中国革命胜利的原因有( )。",
+    "options": [
+      " 国际无产阶级和人民群众的支持",
+      " 广大人民和各界人士的广泛参加和大力支持",
+      " 中国共产党的领导",
+      " 中国共产党人在革命过程中始终站在斗争最前线"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "1945年8月,蒋介石连发三电，邀请毛泽东赴重庆谈判。其目的在于( )。",
+    "options": [
+      " 满足全国人民强烈要求和平的愿望，建立和平、民主的新中国",
+      " 以此敷衍国内外舆论，掩盖其正在进行的内战准备",
+      " 如果谈判不成，即放手发动内战，并把战争责任转嫁给中共",
+      " 诱使中共交出人民军队和解放区政权，以期不战而控制全中国"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "从抗战结束到新中国建立前，中国共产党关于土地问题的文件有( )。",
+    "options": [
+      " 《中国土地法大纲》",
+      " 《共同纲领》",
+      " 《五四指示》",
+      " 《兴国土地法》"
+    ],
+    "correctAnswer": [
+      1,
+      3
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "构成《中国人民政治协商会议共同纲领》基础的是( )。",
+    "options": [
+      " 《中国土地法大纲》",
+      " 《论人民民主专政》",
+      " 《目前形势和我们的任务》",
+      " 中共七届二中全会决议"
+    ],
+    "correctAnswer": [
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "毛泽东指出，中国共产党在中国革命中战胜敌人主要的法宝是( )。",
+    "options": [
+      " 统一战线",
+      " 群众路线",
+      " 党的建设",
+      " 武装斗争"
+    ],
+    "correctAnswer": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "国民党军队发动对解放区进行重点进攻的地区是( )。",
+    "options": [
+      " 晋察冀解放区",
+      " 中原解放区",
+      " 山东解放区",
+      " 陕北解放区"
+    ],
+    "correctAnswer": [
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "中国各民主党派形成时的社会基础，主要是( )。",
+    "options": [
+      " 工人阶级",
+      " 城市小资产阶级",
+      " 民族资产阶级",
+      " 与民族资产阶级和城市小资产阶级相联系的知识分子和其他爱国分子"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "为了打退国民党对解放区的军事进攻，中共中央指出，在政治上( )。",
+    "options": [
+      " 必须和人民群众亲密合作",
+      " 必须争取一切可以争取的人",
+      " 一切以和为贵",
+      " 在党的领导下建立最广泛的人民民主统一战线"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "中国民主革命的基本动力和主要依靠力量是( )。",
+    "options": [
+      " 工人阶级",
+      " 地主阶级",
+      " 资产阶级",
+      " 农民和城市小资产阶级"
+    ],
+    "correctAnswer": [
+      1,
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "抗日战争胜利后，国共两党举行的和平谈判有( )。",
+    "options": [
+      " 南北议和",
+      " 重庆谈判",
+      " 北平谈判",
+      " 西安谈判"
+    ],
+    "correctAnswer": [
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "抗日战争结束后，中国共产党为避免内战，实现和平建国，采取的主要措施有( )。",
+    "options": [
+      " 赴重庆与国民党当局进行谈判",
+      " 在国统区开辟第二条战线",
+      " 在解放区开展土地改革运动",
+      " 参加政协会议并维护政协协议"
+    ],
+    "correctAnswer": [
+      1,
+      4
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "全国解放战争时期，为国统区民主运动斗争献出生命的中国民盟爱国人士是( )。",
+    "options": [
+      " 闻一多",
+      " 邓演达",
+      " 李公朴",
+      " 杜斌丞"
+    ],
+    "correctAnswer": [
+      1,
+      3
+    ]
+  },
+  {
+    "source": "第七章",
+    "description": "毛泽东在七届二中全会上指出，夺取全国胜利，这只是万里长征走完第一步，中国的革命是伟大的，但革命以后的路更长，工作更伟大，更艰苦。在走出西柏坡时，他把进北平比作“进京赶考”。所谓“赶考”主要是指( )。",
+    "options": [
+      " 继续革命、建设社会主义",
+      " 清除帝国主义在华势力",
+      " 保持党的优良作风",
+      " 打倒蒋介石，解放全中国"
+    ],
+    "correctAnswer": [
+      1,
+      3
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)辛亥革命失败后中国曾发生的复辟帝制的活动有( )。",
+    "options": [
+      " 段祺瑞复辟",
+      " 袁世凯复辟",
+      " 张勋复辟",
+      " 黎元洪复辟"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)中华民国南京临时政府的局限性表现为( )",
+    "options": [
+      " 没有保障言论出版自由",
+      " 维护封建土地制度",
+      " 承认清政府与列强所订的一切不平等条约有效",
+      " 没有提出任何可以满足农民土地要求的政策和措施"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)下列我国近代救亡运动中属于资产阶级领导的有( )。",
+    "options": [
+      " 洋务运动",
+      " 辛亥革命",
+      " 戊戌维新",
+      " 太平天国运动"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)辛亥革命失败后,资产阶级革命派为挽救革命成果而进行的斗争主要有( )。",
+    "options": [
+      " 护法运动",
+      " 护国运动",
+      " 保路运动",
+      " 二次革命"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": " (多选题)同盟会的政治纲领是 ( )。",
+    "options": [
+      " 平均地权",
+      " 驱逐鞑虏",
+      " 恢复中华",
+      " 创立民国"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": " (多选题)孙中山先生是伟大的民族英雄,伟大的爱国主义者,中国民主革命的伟大先躯,一生以革命为己任,立场救国救民,为中华民族作出了彪炳史册的贡献。孙中山先生的伟大表现在( )。",
+    "options": [
+      " 率先发出“振兴中华”的呐喊",
+      " 提出民族、民权、民生的三民主义政治纲领",
+      " 发动了推翻北洋军阀统治为目标的北伐战争",
+      " 领导了辛亥革命"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)辛亥革命前夕,资产阶级革命派与改良派展开了一场大论战。下面属于革命派的言论有( )。",
+    "options": [
+      " 不是“国民恶劣”,而是“政府恶劣”",
+      " “是何异见将溃之疽而戒毋施刀圭”",
+      " 中国“国民恶劣”“智力低下”",
+      " “革命之破坏与革命之建设必相辅而行”"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)在1916年袁称帝败亡之后,中国陷入了军阀割据的局面。这种局面之所以形成,其深刻的原因是( )。",
+    "options": [
+      " 国民党统治集团要实行反革命军事独裁统治",
+      " 维新派要建立君主立宪制国家",
+      " 中国主要是地方性的农业经济而没有形成统一的资本主义经济市场",
+      " 帝国主义国家在中国采取划分势力范围的分裂剥削政策"
+    ],
+    "correctAnswer": [
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)下列属于宣传民主革命思想的著作有( )。",
+    "options": [
+      " 《革命军》",
+      " 《警世钟》",
+      " 《驳康有为论革命书》",
+      " 《猛回头》"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)发生在辛亥革命期间的起义有( )。",
+    "options": [
+      " 金田起义",
+      " 南昌起义",
+      " 武昌起义",
+      " 黄花岗起义"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)“驱除鞑虏,恢复中华”包括哪两项内容?( )",
+    "options": [
+      " 节制国内资本",
+      " 以革命手段推翻清朝政府",
+      " 建立中华民族“独立的国家”",
+      " 核定全国地价"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)1905年-1907年间,革命派与改良派分别以《民报》和《新民丛报》为主要阵地,展开了一场大论战,论战内容包括( )。",
+    "options": [
+      " 要不要推翻帝制,实行共和",
+      " 要不要全盘西化",
+      " 要不要以革命手段推翻清王朝",
+      " 要不要进行社会革命"
+    ],
+    "correctAnswer": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)习近平在纪念辛亥革命110周年大会上发表重要讲话提到,辛亥革命( ),在中华大地实现中华民族伟大复兴探索了道路。",
+    "options": [
+      " 打开了中国进步潮流的闸门",
+      " 传播了民主共和的理念",
+      " 极大促进了中华民族的思想解放",
+      " 撼动了反动统治秩序的根基"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": "(多选题)习近平在纪念辛亥革命110周年大会上发表重要讲话提到,孙中山先生是( )",
+    "options": [
+      " 进步浪潮发起倡导者",
+      " 伟大的民族英雄",
+      " 中国民主革命的伟大先驱",
+      " 伟大的爱国主义者"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第三章",
+    "description": " (多选题)袁世凯死后,北洋军阀分裂为( )。",
+    "options": [
+      " 皖系",
+      " 奉系",
+      " 直系",
+      " 桂系"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "著名学者胡绳说:“近代中国在20 世纪初处在一种社会大变革时期,中国民主革命实现了旧民主主义向新民主主义革命的转折,这是诸多历史原因共同作用的成果。”这里所说 的“诸多历史原因”包括( )。",
+    "options": [
+      " 马克思主义的传播",
+      " 俄国十月革命的影响",
+      " 无产阶级队伍的壮大",
+      " 中国资本主义的发展"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "1919年6月5日以后,五四运动越出知识分子的范围,发展为全国规模的具有广泛群众性的爱国政治运动,其中包括( )",
+    "options": [
+      " D、民族资产阶级",
+      " C、城市小资产阶级",
+      " 农民阶级",
+      " B、工人阶级"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "建党前夕使毛泽东建立起对马克思主义信仰的三本书是( )。",
+    "options": [
+      " 《共产党宣言》",
+      " 《阶级斗争》",
+      " 《社会主义史》",
+      " 《资本论》"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "中国共产党的先驱们创建了中国共产党,形成了( )的伟大建党精神,这是中国共产党的精神之源。",
+    "options": [
+      " 践行初心、担当使命",
+      " 坚持真理、坚守理想",
+      " 对党忠诚、不负人民",
+      " 不怕牺牲、英勇斗争"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "中国早期信仰马克思主义的人物的三种主要类型是( )。",
+    "options": [
+      " 五四以前的新文化运动的精神领袖",
+      " 一部分原中国同盟会会员",
+      " 五四爱国运动的左翼骨干",
+      " 维新运动的参加者"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "五四运动发生的新的时代条件是( )",
+    "options": [
+      " 俄国十月革命对中国的影响",
+      " 资产阶级民主思想的传播",
+      " 新的社会力量的成长、壮大",
+      " 新文化运动掀起的思想解放的潮流"
+    ],
+    "correctAnswer": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "各地共产党早期组织创办了一批专门供工人阅读的进行马克思主义启蒙教育的刊物有( )。",
+    "options": [
+      " 《劳动界》",
+      " 《工人月刊》",
+      " 《济南劳动月刊》",
+      " 《劳动音》"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": ")中共“二大”制定的民主革命纲领包括( )。",
+    "options": [
+      " 统一中国为真正的民主共和国",
+      " 推翻帝国主义压迫",
+      " 实现共产主义",
+      " 打倒军阀"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "大革命失败的客观的原因有哪些?( )",
+    "options": [
+      " 由于民族资产阶级力量的薄弱",
+      " 由于蒋介石、汪精卫集团先后叛变革命",
+      " 由于资产阶级发生严重的动摇",
+      " 由于反革命力量的强大"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "中国共产党的成立,深刻改变了( )。",
+    "options": [
+      " 近代以后中华民族发展的方向和进程",
+      " 世界发展的趋势和格局",
+      " 国共两党合作的方针",
+      " 中国人民和中华民族的前途和命运"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": ")以下关于五四运动正确的是( )。",
+    "options": [
+      " 五四运动以全民族的行为激发了追求真理追求进步的伟大觉醒",
+      " 五四运动以全民族的力量高举起爱国主义的伟大旗帜",
+      " 五四运动标志着中国新民主主义革命的开端",
+      " 五四运动以全民族的搏击培育了永久奋斗的伟大传统"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "新文化运动的主要阵地有( )。",
+    "options": [
+      " 《新青年》杂志",
+      " 《中外纪闻》",
+      " 北京大学",
+      " 《时务报》"
+    ],
+    "correctAnswer": [
+      1,
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "下列事件中,发生在北伐战争期间的有( )",
+    "options": [
+      " 以湖南为中心的农民运动",
+      " 上海工人三次武装起义",
+      " 香港海员工人罢工",
+      " 汉口、九江人民收回英租界"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": ")随着马克思主义在中国的传播,新文化运动中民主和科学两大口号被赋予新的含义,下列关于民主和科学说法正确的是( )。",
+    "options": [
+      " 民主是指多数人的民主、以劳动群众为主体的民主",
+      " 科学是指社会科学",
+      " 科学除了是指自然科学外,就对社会的研究来说,主要是指马克思主义的科学世界观和社会革命论",
+      " 民主是指资产阶级民主主义思想"
+    ],
+    "correctAnswer": [
+      1,
+      3
+    ]
+  },
+  {
+    "source": "第四章",
+    "description": "国民大革命与近代前期的资产阶级民主革命相比,其突出的新特点是( )。",
+    "options": [
+      " 群众基础扩大",
+      " 反帝反封建相结合",
+      " 以国共合作为基础",
+      " 采用武装斗争的形式"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "抗战初期，中国军队获得胜利的战役是( )。",
+    "options": [
+      " 台儿庄战役",
+      " 平型关大捷",
+      " 淞沪会战",
+      " 豫湘桂战役"
+    ],
+    "correctAnswer": [
+      1,
+      2
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "在抗日战争战略防御阶段的北平南苑战斗中，先后为国捐躯的国民党爱国将领是( )。",
+    "options": [
+      " 张自忠",
+      " 佟麟阁",
+      " 赵登禹",
+      " 戴安澜"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "中国共产党在抗日战争时期开展延安整风运动的主要内容( )。",
+    "options": [
+      " 反对主观主义以整顿学风",
+      " 反对官僚主义以整顿作风",
+      " 反对党八股以整顿文风",
+      " 反对宗派主义以整顿党风"
+    ],
+    "correctAnswer": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "在抗日民族统一战线中，中国共产党争取的中间势力指的是( )。",
+    "options": [
+      " 民族资产阶级",
+      " 开明绅士",
+      " 地方实力派",
+      " 城市小资产阶级"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "“一二·九”运动的主要口号有( )。",
+    "options": [
+      " “内惩国贼，外争国权”",
+      " “反对华北自治运动”",
+      " “打倒日本帝国主义",
+      " “停止内战，一致对外”"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "日本帝国主义在20世纪30年代制造的一系列侵华事件包括( )。",
+    "options": [
+      " 一·二八事变",
+      " 九一八事变",
+      " 卢沟桥事变",
+      " 华北事变"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "毛泽东在《论持久战》一文中科学地预测中国持久抗战将经历三个阶段，即( )。",
+    "options": [
+      " 战略防御阶段",
+      " 战略反攻阶段",
+      " 战略进攻阶段",
+      " 战略相持阶段"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "针对抗日战争相持阶段到来后，由于以蒋介石为代表的国民党亲英美派开始推行消极抗日、积极反共的政策，团结抗战的局面逐步发生严重危机，出现了中途妥协和内部分裂两大危险。针对这种情况，1939年7月，中国共产党明确提出( )三大口号。",
+    "options": [
+      " “争取中间阶级——反对残酷斗争”",
+      " “坚持抗战到底——反对中途妥协”",
+      " “巩固国内团结——反对内部分裂”",
+      " “力求全国进步——反对向后倒退”"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "抗日民族统一战线的策略总方针是( )。",
+    "options": [
+      " 争取中间势力",
+      " 反对投降势力",
+      " 孤立顽固势力",
+      " 发展进步势力"
+    ],
+    "correctAnswer": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "抗日民族统一战线是以国共合作为基础。中国共产党必须在统一战线中坚持独立自主原则。为此，共产党必须( )。",
+    "options": [
+      " 保持在思想上、政治上和组织上的独立性，放手发动群众，壮大人民力量",
+      " 坚持对人民军队的绝对领导，努力发展人民武装和抗日根据地",
+      " 对国民党采取又团结又斗争、以斗争求团结的方针",
+      " 对中间势力进行有理、有利、有节的斗争"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "在抗日战争的战略防御阶段，国民党军队在正面战场组织的重大战役有( )。",
+    "options": [
+      " 武汉会战",
+      " 徐州会战",
+      " 忻口会战",
+      " 淞沪会战"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "中国共产党区别于其他政党的显著标志是哪三大优良作风:( )。",
+    "options": [
+      " 同人民群众密切联系在一起",
+      " 理论和实践相结合",
+      " 独立自主、自力更生",
+      " 自我批评"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "1935年，中国共产党在瓦窑堡会议上严厉批评的党内错误倾向是( )。",
+    "options": [
+      " 右倾投降主义",
+      " “左”倾关门主义",
+      " 右倾机会主义",
+      " “左”倾冒险主义"
+    ],
+    "correctAnswer": [
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "中国共产党在抗日民主政府中的工作人员分配上实行“三三制”原则，即( )各占1/3。",
+    "options": [
+      " 非党的左派进步分子",
+      " 共产党员",
+      " 中间派",
+      " 国民党员"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第六章",
+    "description": "在世界反法西斯战争胜利发展、敌后战场开始局部反攻的有利条件下，国民党军队战斗力却日益下降。1944年4月至1945年1月，日军发动打通中国大陆交通线的作战，这次战役，国民党军连续溃败跨径( )多个省份。",
+    "options": [
+      " 黔",
+      " 湘",
+      " 豫",
+      " 桂"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "遵义会议集中解决的当时具有决定意义的问题是( )。",
+    "options": [
+      " 教育问题",
+      " 军事问题",
+      " 文化问题",
+      " 组织问题"
+    ],
+    "correctAnswer": [
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "在大革命失败后的白色恐怖下，( )等人都毅然加入了中国共产党。",
+    "options": [
+      " 贺龙",
+      " 郭沫若",
+      " 徐特立",
+      " 彭德怀"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "在1927年大革命失败以后，国民党代表( )利益。",
+    "options": [
+      " 城市小资产阶级",
+      " 买办性的大资产阶级",
+      " 地主阶级",
+      " 民族资产阶级"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "遵义会议集中解决了当时具有决定性意义的军事问题和组织问题，随之成立了由( )组成的新的“三人团”，全权负责红军的军事行动。",
+    "options": [
+      " 彭德怀",
+      " 毛泽东",
+      " 王稼祥",
+      " 周恩来"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "土地革命时期的阶级路线:( )。",
+    "options": [
+      " 联合中农",
+      " 限制富农",
+      " 保护中小工商业者，消灭地主阶级",
+      " 坚定地依靠贫农、雇农"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "1933年王明“左”倾错误在中央革命根据地全面推行后，在江西遭受到严厉批判的是( )。",
+    "options": [
+      " B、毛泽覃",
+      " 邓小平",
+      " D、古柏",
+      " C、谢唯俊"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "从1930年10月到1931年7月，红一方面军在毛泽东、朱德等指挥下，贯彻积极防御的方针，实行( )等一整套行之有效的战术，连续粉碎了国民党军队的三次“围剿”。",
+    "options": [
+      " “诱敌深入”",
+      " “长驱直入，分进合击”",
+      " “避敌主力、打其虚弱”",
+      " “御敌于国门之外”"
+    ],
+    "correctAnswer": [
+      1,
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "国民革命失败后，中共八七会议确定的方针是( )。",
+    "options": [
+      " 武装起义的方针",
+      " 组织领导工农运动的方针",
+      " 土地革命的方针",
+      " 建立革命统一战线的方针"
+    ],
+    "correctAnswer": [
+      1,
+      3
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "周恩来说:“革命靠军阀的部队是靠不住的，我们必须建立自己的武装来打倒反革命。现在，我们起义成功了。这里的军队归共产党领导。”这段话表明中共( )。",
+    "options": [
+      " 创建了工农革命军",
+      " 已开展土地革命，武装反抗国民党反动派",
+      " 明确了掌握军队，开展武装斗争的重要性",
+      " 确立了党对军队的领导地位"
+    ],
+    "correctAnswer": [
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第五章",
+    "description": "毛泽东从1928年到1930年提出并阐述农村包围城市、武装夺取政权的革命道路理论的主要文章是( )。",
+    "options": [
+      " 《中国的红色政权为什么能够存在》",
+      " 《井冈山的斗争》",
+      " 《星星之火，可以燎原》",
+      " 《反对本本主义》"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "20世纪90年代初，我国向国际社会提出发展以( )第三方为主要特征的新型大国关系。",
+    "options": [
+      " 不对立",
+      " 不对抗",
+      " 不针对",
+      " 不结盟"
+    ],
+    "correctAnswer": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "20世纪80年代我国对外开放格局具有的特点有( )",
+    "options": [
+      " 点面结合",
+      " 多层次",
+      " 内外相联",
+      " 有重点"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "1992年，邓小平同志在视察南方时发表了一系列重要谈话，其中有( )。",
+    "options": [
+      " 计划多一点还是市场多一点，不是社会主义与资本主义的本质区别",
+      " 发展才是硬道理",
+      " 革命是解放生产力，改革也是解放生产力",
+      " 科学技术是第一生产力"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "“三个代表”重要思想的集中概括和核心观点是中国共产党始终代表( )。",
+    "options": [
+      " 中国最广大人民的根本利益",
+      " 中国人的根本利益",
+      " 中国先进生产力的发展要求",
+      " 中国先进文化的前进方向"
+    ],
+    "correctAnswer": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "十五大指出，邓小平理论围绕( )这个根本问题，第一次比较系统地回答了建设有中国特色社会主义的一系列基本问题。",
+    "options": [
+      " “什么是社会主义”",
+      " “建设什么样的党",
+      " “怎样建设党”",
+      " “怎样建设社会主义”"
+    ],
+    "correctAnswer": [
+      1,
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "中共十一届三中全会的深远历史意义主要体现在( )。",
+    "options": [
+      " 标志着中国共产党重新确立了马克思主义的思想路线、政治路线、组织路线",
+      " 结束了粉碎“四人帮”后党和国家工作徘徊中前进的局面",
+      " 开启了我国改革开放和社会主义现代化建设新时期",
+      " 形成了以邓小平为核心的中共中央领导集体"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "1980年5月，中共中央决定设立的经济特区有( )。",
+    "options": [
+      " 厦门经济特区",
+      " 汕头经济特区",
+      " 珠海经济特区",
+      " 深圳经济特区"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "中共十三大指出，我国正处于社会主义的初级阶段，这个论断包括哪些含义?( )",
+    "options": [
+      " 我国还不是完全的社会主义国家",
+      " 我国的社会主义社会还处在初级阶段",
+      " 我国社会已经是社会主义国家",
+      " 社会主义初级阶段将长期存在"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "邓小平提出，判断姓“社”姓“资”的标准，应该主要看( )。",
+    "options": [
+      " 是否有利于增强社会主义国家的综合国力",
+      " 是否有利于提高人民的生活水平",
+      " 是否有利于发展社会主义社会的生产力",
+      " 是否有利于增加公有制成分"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第九章",
+    "description": "为保持香港和澳门特别行政区的繁荣和稳定，中央政府严格执行的方针是( )。",
+    "options": [
+      " “一国两制”",
+      " “港人治港”",
+      " 高度自治",
+      " “澳人治澳”"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "中国共产党第二十次全国代表大会的主题是:高举中国特色社会主义伟大旗帜，全面贯彻新时代中国特色社会主义思想，弘扬伟大建党精神，( )，为全面建设社会主义现代化国家、全面推进中华民族伟大复兴而团结奋斗。",
+    "options": [
+      " 踔厉奋发",
+      " 勇毅前行",
+      " 自信自强",
+      " 守正创新"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "党的十九大明确，党在新时代的强军目标是建设一支( )的人民军队。",
+    "options": [
+      " 能打胜仗",
+      " 听党指挥",
+      " 作风优良",
+      " 整齐划一"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "从二〇三五年到本世纪中叶，在基本实现现代化的基础上，再奋斗十五年，把我国建成( )的社会主义现代化强国。",
+    "options": [
+      " 综合国力领先",
+      " 和谐美丽",
+      " 富强民主文明",
+      " 开放包容"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "习近平指出，中国梦核心内涵是中华民族伟大复兴，本质是( )。",
+    "options": [
+      " 国家富强",
+      " 人民幸福",
+      " 民族振兴",
+      " 社会稳定"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "2014年4月，习近平在十八届中央国家安全委员会第一次会议上首次提出“总体国家安全观”，指出，必须坚持总体国家安全观，( )，以促进国际安全为依托，走出一条中国特色国家安全道路。",
+    "options": [
+      " 以人民安全为宗旨",
+      " 以政治安全为根本",
+      " 以经济安全为基础",
+      " 以军事、文化、社会安全为保障"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "2020年9月8日，全国抗击新冠肺炎疫情表彰大会隆重举行。习近平在大会上深刻阐述( )、命运与共的伟大抗疫精神。",
+    "options": [
+      " 舍生忘死",
+      " 尊重科学",
+      " 举国同心",
+      " 生命至上"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "2021年2月25日，习近平总书记在全国脱贫攻坚总结表彰大会上指出，脱贫攻坚伟大斗争，锻造形成了( )的脱贫攻坚精神。",
+    "options": [
+      " 攻坚克难、不负人民",
+      " 上下同心、尽锐出战",
+      " 生命至上、举国同心",
+      " 精准务实、开拓创新"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      4
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "习近平总书记在多个场合对“一国两制”做出重要论述。他指出，中央贯彻“一国两制”方针坚持两点:( )。",
+    "options": [
+      " 坚持鼓励两岸三地互联互通",
+      " 坚定不移，不会变，不动摇",
+      " 全面准确，确保“一国两制”在香港的实践不走样、不变形，始终沿着正确方向前进",
+      " 求同存异，凝聚共识"
+    ],
+    "correctAnswer": [
+      2,
+      3
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "2021年是中国共产党成立100周年。在全党开展党史学习教育，是党中央立足党的百年历史新起点、统筹中华民族伟大复兴战略全局和世界百年未有之大变局、为动员全党全国满怀信心投身全面建设社会主义现代化国家而作出的重大决策。党中央对这次学习教育工作提出了明确要求，总的来说就是要做到( )。",
+    "options": [
+      " 学史增信",
+      " 学史明理",
+      " 学史力行",
+      " 学史崇德"
+    ],
+    "correctAnswer": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "第十章",
+    "description": "党的二十大提出，不断谱写马克思主义( )新篇章，是当代\n中国共产党人的庄严历史责任。",
+    "options": [
+      " 中国化",
+      " 多元化",
+      " 现代化",
+      " 时代化"
+    ],
+    "correctAnswer": [
+      1,
+      4
+    ]
+  }
+];
+            
+            localStorage.setItem('multiQuestion', JSON.stringify(dataJson));
+
+            // 导入填空
+            dataJson = [
+  {
+    "source": "第一章",
+    "description": "在甲午战争后,严复翻译了《____》。他用“物竞天择”“适者生存”的社会进化论思想,为近代中国社会的危机意识和民族意识提供了理论根据。",
+    "correctAnswer": "天演论"
+  },
+  {
+    "source": "第一章",
+    "description": "中华人民共和国是工人阶级领导的以工农联盟为基础的人民民主专政的社会主义国家。这是新中国的____。",
+    "correctAnswer": "国体"
+  },
+  {
+    "source": "第一章",
+    "description": "1895年,日本强迫清政府签订《____》,割去中国台湾全岛及所有附属各岛屿和澎湖列岛。",
+    "correctAnswer": "马关条约"
+  },
+  {
+    "source": "第一章",
+    "description": "1900年7月,俄国入侵中国东北时,先后制造了____惨案和江东六十四屯惨案。",
+    "correctAnswer": "海兰泡"
+  },
+  {
+    "source": "第一章",
+    "description": "____的变化,是区分新旧民主主义革命的根本标志。",
+    "correctAnswer": "领导权"
+  },
+  {
+    "source": "第一章",
+    "description": "在《海国图志》中,魏源提出了“____”的思想,主张学习外国先进的军事和科学技术,以期富国强兵,抵御外国侵略。",
+    "correctAnswer": "师夷长技以制夷"
+  },
+  {
+    "source": "第一章",
+    "description": "____最终以“中国不败而败,法国不胜而胜”而告结束。",
+    "correctAnswer": "中法战争"
+  },
+  {
+    "source": "第一章",
+    "description": "1898年有人绘制的一幅《              》,形象地表现了当时中国面临的瓜分危局。答案",
+    "correctAnswer": "时局图"
+  },
+  {
+    "source": "第一章",
+    "description": "____是近代中国睁眼看世界的第一人。",
+    "correctAnswer": "林则徐"
+  },
+  {
+    "source": "第一章",
+    "description": "日俄战争后,日本从俄国手中攫得租自中国的旅顺口和大连湾、长春至旅顺口的铁路及其他有关权益,在旅顺设置“关东总督府”,并派兵驻守上述地区及“南满铁路”沿线。这支军队后来被称作“____”,成了日本侵略中国的突击队。",
+    "correctAnswer": "关东军"
+  },
+  {
+    "source": "第二章",
+    "description": "____严重地削弱了太平天国的领导和军事力量,成为太平天国由盛转衰的分水岭。",
+    "correctAnswer": "天京事变"
+  },
+  {
+    "source": "第二章",
+    "description": "1898年9月28日,谭嗣同、刘光第、林旭、杨锐、杨深秀、康广仁6人同遭杀害,史称“____”。",
+    "correctAnswer": "戊戌六君子"
+  },
+  {
+    "source": "第二章",
+    "description": "《____》是最能体现太平天国社会理想和这次农民起义特色的纲领性文件。",
+    "correctAnswer": "天朝田亩制度"
+  },
+  {
+    "source": "第二章",
+    "description": "1895年康有为曾联合在京参加会试的1 300多名举人共同发起“_________________”。",
+    "correctAnswer": "公车上书"
+  },
+  {
+    "source": "第二章",
+    "description": "洋务运动的指导思想是“____”。",
+    "correctAnswer": "中学为体，西学为用"
+  },
+  {
+    "source": "第二章",
+    "description": "甲午战争一役,洋务派经营多年的____海军全军覆没,标志着以“自强”“求富”为目标的洋务运动的失败。",
+    "correctAnswer": "北洋"
+  },
+  {
+    "source": "第二章",
+    "description": "《____》是太平天国后期颁布的社会发展方案,是一个具有资本主义色彩的方案。",
+    "correctAnswer": "资政新篇"
+  },
+  {
+    "source": "第二章",
+    "description": "1898年的“百日维新”如同昙花一现,只经历了 103天就夭折了。 除____(北京大学的前身)被保留下来以外,其余新政措施大都被废除。",
+    "correctAnswer": "京师大学堂"
+  },
+  {
+    "source": "第二章",
+    "description": "1866年,左宗棠在福建创办的____(附设有船政学堂)是当时国内最大的造船厂。",
+    "correctAnswer": "福州船政局"
+  },
+  {
+    "source": "第二章",
+    "description": "____起义是中国旧式农民战争的最高峰。",
+    "correctAnswer": "太平天国"
+  },
+  {
+    "source": "第三章",
+    "description": "1915年5月,为了让日本支持复辟帝制,他竟然基本接受日本提出的严重损害中国权益的“____”要求。",
+    "correctAnswer": "二十一条"
+  },
+  {
+    "source": "第三章",
+    "description": "1911年10 月10日晚,驻武昌的新军工程第八营的革命党人打响了起义的第一枪,最终占领武昌,取得首义的胜利,3天之内光复武汉三镇,成立____。",
+    "correctAnswer": "湖北军政府"
+  },
+  {
+    "source": "第三章",
+    "description": "年仅18岁的留日学生邹容写了《____》,以“革命军中马前卒”的名义,热情讴歌革命,号召人民推翻清朝统治,建立“中华共和国”。",
+    "correctAnswer": "革命军"
+  },
+  {
+    "source": "第三章",
+    "description": "____的失败,使他认识到“南与北如一丘之貉”,想依靠南方军阀来反对北洋军阀,是行不通的。",
+    "correctAnswer": "护法运动"
+  },
+  {
+    "source": "第三章",
+    "description": "袁世凯窃夺辛亥革命的果实之后,建立了代表大地主和买办资产阶级利益的____反动政权。",
+    "correctAnswer": "北洋军阀"
+  },
+  {
+    "source": "第三章",
+    "description": "1905年8月20日,孙中山和黄兴、宋教仁等人以兴中会和华兴会为基础,在日本东京成立中国____,孙中山被公举为总理。",
+    "correctAnswer": "同盟会"
+  },
+  {
+    "source": "第三章",
+    "description": "1912年1月1日, 孙中山在南京宣誓就职,改国号为____,定1912年为民国元年。",
+    "correctAnswer": "中华民国"
+  },
+  {
+    "source": "第三章",
+    "description": "1913年宋教仁被刺后,孙中山开始看清袁世凯的真面目,毅然发动武装反袁的“____”。",
+    "correctAnswer": "二次革命"
+  },
+  {
+    "source": "第三章",
+    "description": "《____》以根本大法的形式废除了两千多年来的封建君主专制制度,确认了资产阶级共和国的政治制度。",
+    "correctAnswer": "临时约法"
+  },
+  {
+    "source": "第三章",
+    "description": "1894年11月, 孙中山到檀香山组建了第一个革命团体____,立誓“驱除鞑虏,恢复中国,创立合众政府”",
+    "correctAnswer": "兴中会"
+  },
+  {
+    "source": "第四章",
+    "description": "五四运动的直接导火线,是____和会上中国外交的失败。",
+    "correctAnswer": " 巴黎"
+  },
+  {
+    "source": "第四章",
+    "description": "1920年8月,____翻译的《共产党宣言》中文全译本公开出版。 这是马克思主义在中国传播史上的一件大事,在建党的思想理论准备中,马克思主义广泛传播与中国共产党诞生起了十分重要的作用。",
+    "correctAnswer": "陈望道"
+  },
+  {
+    "source": "第四章",
+    "description": "1926年7月,以推翻____统治为目标的北伐战争开始。",
+    "correctAnswer": "北洋军阀"
+  },
+  {
+    "source": "第四章",
+    "description": "____率先在中国举起马克思主义旗帜。",
+    "correctAnswer": "李大钊"
+  },
+  {
+    "source": "第四章",
+    "description": "____是从1915年9月陈独秀在上海创办《青年杂志》(后改名 《新青年》)开始的。",
+    "correctAnswer": "新文化运动"
+  },
+  {
+    "source": "第四章",
+    "description": "从1922年1月香港海员罢工到1923年2月____工人罢工,掀起了中国工人运动的第一个高潮。",
+    "correctAnswer": "京汉铁路"
+  },
+  {
+    "source": "第四章",
+    "description": "1919年9月、11月,李大钊发表《____》一文,比较系统地介绍了马克思主义理论,在当时思想界产生重大影响,标志着马克思主义在中国进入比较系统的传播阶段。",
+    "correctAnswer": "我的马克思主义观"
+  },
+  {
+    "source": "第四章",
+    "description": "1924年1月,中国国民党第一次全国代表大会由孙中山主持在广州 举行。大会审议通过的《中国国民党第一次全国代表大会宣言》,对三民主义作出新的解释,即“____”。",
+    "correctAnswer": "新三民主义"
+  },
+  {
+    "source": "第四章",
+    "description": "1924年至1927年中国反帝反封建的革命,比以往任何一次革命,包 括辛亥革命和五四运动,群众的动员程度更为广泛,斗争的规模更加宏伟,革命的社会内涵更为深刻,因此被称作               。答案",
+    "correctAnswer": "大革命"
+  },
+  {
+    "source": "第四章",
+    "description": "国民党一大事实上确认了联俄、____、扶助农工的三大革命政策,标 志着第一次国共合作正式形成。",
+    "correctAnswer": "联共"
+  },
+  {
+    "source": "第八章",
+    "description": "抗美援朝时涌现出30 多万名英雄功臣和近6000 个功臣集体，有毅然抱起炸药包与敌人同归于尽的杨根思，有用胸膛堵住枪眼为战友冲锋开道的黄继光，有烈火烧身却岿然不动直至壮烈牺牲的邱少云，有跃人冰河以生命换得朝鲜少年安然无恙的罗盛教……他们用生命谱写了惊天地、泣鬼神的雄壮史诗，被祖国人民称为 “____”。",
+    "correctAnswer": "最可爱的人"
+  },
+  {
+    "source": "第八章",
+    "description": "20世纪60年代末，尼克松就任美国总统，开始检讨美国的对华政策，向中国领导人发出改善关系的信息。毛泽东、周恩来敏锐地觉察到美方的变化，抓住时机向美国发起“____”，被国际舆论称为“小球转动了大球”。",
+    "correctAnswer": "乒乓外交"
+  },
+  {
+    "source": "第八章",
+    "description": "对资本主义工商业进行社会主义改造，就是要把民族资本主义工商业改造成为社会主义性质的企业，并对民族资产阶级实行____政策。",
+    "correctAnswer": "赎买"
+  },
+  {
+    "source": "第八章",
+    "description": "中国同印度、缅甸等国共同倡导的____原则，成为处理国与国关系的公认的国际准则。",
+    "correctAnswer": "和平共处五项"
+  },
+  {
+    "source": "第八章",
+    "description": "新中国成立后，人民政府成功组织了同投机资本作斗争的“____”和“米棉之战”，实现了全国财政经济工作的统一管理和统一领导。",
+    "correctAnswer": "银元之战"
+  },
+  {
+    "source": "第八章",
+    "description": "钱学森、钱三强、邓稼先等一大批科学家，带着“干惊天动地事，做隐姓埋名人”的决心，把热血洒在戈壁滩，把青春和生命奉献给新中国国防建设事业,将热爱祖国、无私奉献、自力更生、艰苦奋斗、大力协同、勇于登攀的“____”精神，永久镌刻在中国大地上，成为全国各族人民宝贵的精神财富和不竭的动力源泉。",
+    "correctAnswer": "两弹一星"
+  },
+  {
+    "source": "第八章",
+    "description": "毛泽东提出的马克思主义基本原理同中国具体实际“____”的任务，为探索适合中国情况的社会主义建设道路，提供了基本的指导原则。",
+    "correctAnswer": "第二次结合"
+  },
+  {
+    "source": "第八章",
+    "description": "____制度是我国一项基本政治制度，是中国特色解决民族问题的正确道路的重要内容，是中国共产党根据中国历史和现实的特点，运用马克思主义民族理论解决中国民族问题的一项重大创造。",
+    "correctAnswer": "民族区域自治"
+  },
+  {
+    "source": "第八章",
+    "description": "____年10月25日，第26届联大通过2758号决议，决定恢复中华人民共和国在联合国的一切合法权利。",
+    "correctAnswer": "1971"
+  },
+  {
+    "source": "第八章",
+    "description": "1964年底，周恩来在三届全国人大一次会议上郑重提出实现“____”的历史任务。",
+    "correctAnswer": " 四个现代化"
+  },
+  {
+    "source": "第五章",
+    "description": "____会议是党的历史上一个生死攸关的转折点。",
+    "correctAnswer": "遵义"
+  },
+  {
+    "source": "第五章",
+    "description": "1937年夏，他在抗日军政大学讲授《____》《矛盾论》，从马克思主义认识论的高度，总结中国共产党的历史经验，揭露和批评党内的主观主义尤其是教条主义错误，深入论证马克思列宁主义基本原理同中国具体实际相结合的原则，科学阐明了党的马克思主义思想路线。",
+    "correctAnswer": "实践论"
+  },
+  {
+    "source": "第五章",
+    "description": "毛泽东和邓子恢等一起制定了土地革命中的土地分配方法:以乡为单位，按人口\n平分土地，在原耕地的基础上，实行____、抽肥补瘦。",
+    "correctAnswer": "抽多补少"
+  },
+  {
+    "source": "第五章",
+    "description": "1928年3月被捕的湖北省委常委____，身陷牢狱仍坚贞不屈，在给妻子的家\n书中写下“坚持革命继吾志，誓将真理传人寰”的豪言壮语。",
+    "correctAnswer": "夏明翰"
+  },
+  {
+    "source": "第五章",
+    "description": "____于1928年12月29日从东北发出通告，宣布“遵守三民主义，服从国民政府，改易旗帜”。",
+    "correctAnswer": "张学良"
+  },
+  {
+    "source": "第五章",
+    "description": "在中国革命新道路开辟过程中，____作出了卓越贡献，提出了农村包围城市、武装夺取政权的思想。",
+    "correctAnswer": "毛泽东"
+  },
+  {
+    "source": "第五章",
+    "description": "1927年9月29日，毛泽东领导起义军在江西永新县三湾村进行了著名的____，从组织上确立了党对军队的领导。",
+    "correctAnswer": "三湾改编"
+  },
+  {
+    "source": "第五章",
+    "description": "1931年11月，中华苏维埃第一次全国代表大会在江西____召开，大会成立了中华苏维埃共和国临时中央政府，毛泽东当选为主席。",
+    "correctAnswer": "瑞金"
+  },
+  {
+    "source": "第五章",
+    "description": "____起义打响了武装反抗国民党反动派的第一枪。这是中国共产党独立领导革命战争、创建人民军队和武装夺取政权的开端。",
+    "correctAnswer": "南昌"
+  },
+  {
+    "source": "第五章",
+    "description": "____是中国历史上第一个全国性的工农民主政权，是中国共产党在局部地区执政的重要尝试.",
+    "correctAnswer": "中华苏维埃共和国"
+  },
+  {
+    "source": "第六章",
+    "description": "1933年11月，第十九路军将领蔡廷楷、蒋光鼐以及国民党内爱国人士李济深、陈铭枢等发动反蒋抗日的____。",
+    "correctAnswer": "福建事变"
+  },
+  {
+    "source": "第六章",
+    "description": "1938年5月至6月间，毛泽东发表《____》的讲演，总结全民族抗战10个月来的经验，批驳了 “亡国论” “速胜论”等错误观点，系统地阐明了持久战方针。",
+    "correctAnswer": "论持久战"
+  },
+  {
+    "source": "第六章",
+    "description": "中共七大将以毛泽东为主要代表的中国共产党人把马克思列宁主义基本原理同中国具体实际相结合所创造的理论成果，正式命名为____，并规定为党的一切工作的指针。",
+    "correctAnswer": "毛泽东思想"
+  },
+  {
+    "source": "第六章",
+    "description": "全民族抗战开始后，____成为革命者向往的“圣地”。",
+    "correctAnswer": "延安"
+  },
+  {
+    "source": "第六章",
+    "description": "从卢沟桥事变到1938年10月广州、武汉失守，中国抗战处于                 阶段。",
+    "correctAnswer": "战略防御"
+  },
+  {
+    "source": "第六章",
+    "description": "为克服根据地面临的严重困难局面，毛泽东提出了 “发展经济，保障供给”的经济工作和财政工作总方针，发出了 “自己动手，丰衣足食”的号召，领导根据地军民开展了____。",
+    "correctAnswer": "大生产运动"
+  },
+  {
+    "source": "第六章",
+    "description": "在冀西狼牙山地区，八路军5名战士为掩护党政机关和群众，主动把日、伪军吸引到自己身边。在打完全部子弹后，他们毅然砸枪跳崖，被誉为“____”。",
+    "correctAnswer": "狼牙山五壮士"
+  },
+  {
+    "source": "第六章",
+    "description": "抗战期间，美国陆军航空队退役军官____还曾组建美国援华志愿航空队，冒险开辟驼峰航线。",
+    "correctAnswer": "陈纳德"
+  },
+  {
+    "source": "第六章",
+    "description": "1940年5月，在____会战中，第三十三集团军总司令张自忠殉国。",
+    "correctAnswer": "枣宜"
+  },
+  {
+    "source": "第六章",
+    "description": "在淞沪会战中，第八十八师五二四团团附               率孤军据守四行仓库，被上海市民誉为“八百壮士”。",
+    "correctAnswer": "谢晋元"
+  },
+  {
+    "source": "第七章",
+    "description": "1945年10月10日，国共双方签署《政府与中共代表会谈纪要》，即“____”，确认和平建国的基本方针，同意“长期合作，坚决避免内战”。",
+    "correctAnswer": "双十协定"
+  },
+  {
+    "source": "第七章",
+    "description": "为了争取和平民主，毛泽东不顾个人安危，于1945年8月28日偕周恩来、王若飞赴____与国民党当局进行谈判。",
+    "correctAnswer": "重庆"
+  },
+  {
+    "source": "第七章",
+    "description": "1949年6月30日，毛泽东发表____一文，明确指出，人民民主专政需要工人阶级的领导。",
+    "correctAnswer": "《论人民民主专政》"
+  },
+  {
+    "source": "第七章",
+    "description": "1946年6月26日，国民党军以进攻          解放区为起点，挑起了全面内战。",
+    "correctAnswer": "中原"
+  },
+  {
+    "source": "第七章",
+    "description": "          会议的召开，标志着中国的新型政党制度中国共产党领导的多党合作和政治协商制度的确立。",
+    "correctAnswer": "人民政协"
+  },
+  {
+    "source": "第七章",
+    "description": "在国民党统治区，以学生运动为先导的人民民主运动也迅速发展起来，成为配合人民解放战争的____。",
+    "correctAnswer": "第二条战线"
+  },
+  {
+    "source": "第七章",
+    "description": "1949年4月23日，人民解放军占领____，宣告延续22年之久的国民党反动统治覆灭。",
+    "correctAnswer": "南京"
+  },
+  {
+    "source": "第七章",
+    "description": "8月25日，中共中央发表《对目前时局的宣言》，明确提出          、民主、团结的口号。",
+    "correctAnswer": "和平"
+  },
+  {
+    "source": "第七章",
+    "description": "1947年10月10日，中国人民解放军总部发表宣言，提出“打倒____，解放全中国”的口号，极大鼓舞了解放军全体指战员和全国人民的斗志。",
+    "correctAnswer": "蒋介石"
+  },
+  {
+    "source": "第七章",
+    "description": "1947年7月至9月，中国共产党在西柏坡召开全国土地会议，制定和通过了____，明确规定“废除封建性及半封建性剥削的土地制度，实行耕者有其田的土地制度”。",
+    "correctAnswer": "《中国土地法大纲》"
+  },
+  {
+    "source": "第九章",
+    "description": "1999年9月，党的十五届四中全会作出实施____战略的决定，要求通过优先安排基础设施建设、增加财政转移支付等措施，支持中西部地区和少数民族地区加快发展。",
+    "correctAnswer": "西部大开发"
+  },
+  {
+    "source": "第九章",
+    "description": "1987年10月，中国共产党第十三次全国代表大会提出的党在社会主义初级阶段的基本路线被概括为“____”。",
+    "correctAnswer": "一个中心，两个基本点"
+  },
+  {
+    "source": "第九章",
+    "description": "2010年5月至10月，以“城市，让生活更美好”为主题的世界博览会在____举行， \n这是第一次在发展中国家举办的注册类世博会，书写了中国人民同世界各国人民交流互鉴的新篇章。",
+    "correctAnswer": "上海"
+  },
+  {
+    "source": "第九章",
+    "description": "2007年10月15日至21日，中国共产党第十七次全国代表大会在北京举行。大会全面阐述了____的科学内涵、精神实质和根本要求，明确其第一要义是发展，核心是以人为本，基本要求是全面协调可持续，根本方法是统筹兼顾。",
+    "correctAnswer": "科学发展观"
+  },
+  {
+    "source": "第九章",
+    "description": "“____”构想首先被运用于解决香港、澳门回归祖国问题。",
+    "correctAnswer": "一国两制"
+  },
+  {
+    "source": "第九章",
+    "description": "建立“____”，这是第一个由中国参与推动建立并以中国城市命名的地区性合作组织。",
+    "correctAnswer": "上海合作组织"
+  },
+  {
+    "source": "第九章",
+    "description": "以邓小平南方谈话和党的十四大为标志，改革开放和现代化建设事业进入从计划经济体制向社会主义____体制转变的新阶段，由此打开了中国经济、政治、文化发展的崭新局面。",
+    "correctAnswer": "市场经济"
+  },
+  {
+    "source": "第九章",
+    "description": "2008年5月12日，四川汶川发生里氏8.0级特大地震。在党中央领导下，我国迅速开展了历史上救援速度最快、动员范围最广、投入力量最大的抗震救灾斗争，充分发挥一方有难、八方支援、集中力量办大事的制度优势，彰显出伟大的____精神。",
+    "correctAnswer": "抗震救灾"
+  },
+  {
+    "source": "第九章",
+    "description": "1992年3月，海峡两岸关系协会与台湾海峡交流基金会开始进行事务性商谈。11月，双方就如何表述坚持一个中国原则的问题，达成“海峡两岸同属一个中国，共同努力谋 \n求国家统一”的共识，后被称为“____”。",
+    "correctAnswer": "九二共识"
+  },
+  {
+    "source": "第九章",
+    "description": "中共十一届全三中会彻底否定了“两个凡是”的错误方针，高度评价了关于__ _____  标准问题的讨论。",
+    "correctAnswer": "真理"
+  },
+  {
+    "source": "第十章",
+    "description": "在实践斗争中，党和国家始终坚持____原则和“九二共识”，坚决反对“台独”分裂行径，坚决反对外部势力干涉，牢牢把握了两岸关系主导权和主动权。",
+    "correctAnswer": "一个中国"
+  },
+  {
+    "source": "第十章",
+    "description": "2012年11月8日至14日，中国共产党第十八次全国代表大会在北京举行。大会指出建设中国特色社会主义的总依据是____。",
+    "correctAnswer": "社会主义初级阶段"
+  },
+  {
+    "source": "第十章",
+    "description": "2020年，我国国内生产总值跃升至101.4万亿元，经济总量占全球经济比重超过17%，稳居世界第____大经济体。",
+    "correctAnswer": "二"
+  },
+  {
+    "source": "第十章",
+    "description": "党的二十大强调，新时代新征程中国共产党的中心任务就是团结带领全国各族人民全面建成社会主义现代化强国、实现第二个百年奋斗目标，以____全面推进中华民族伟大复兴。",
+    "correctAnswer": "中国式现代化"
+  },
+  {
+    "source": "第十章",
+    "description": "2014年4月，习近平在十八届中央国家安全委员会第一次会议上首次提出“____”。",
+    "correctAnswer": "总体国家安全观"
+  },
+  {
+    "source": "第十章",
+    "description": "2021年7月1日，习近平在庆祝中国共产党成立100周年大会上庄严宣告:经过全党全国各族人民持续奋斗，我们实现了第一个百年奋斗目标，在中华大地上全面建成了____社会，历史性地解决了绝对贫困问题，正在意气风发向着全面建成社会主义现代化强国的第二个百年奋斗目标迈进。",
+    "correctAnswer": "小康"
+  },
+  {
+    "source": "第十章",
+    "description": "2020年5月，十三届全国人大三次会议通过《____》，这是新中国成立以来第一部以“法典”命名的法律，是新时代中国特色社会主义制度建设、法治建设的一个重大标志性成果。",
+    "correctAnswer": "中华人民共和国民法典"
+  },
+  {
+    "source": "第十章",
+    "description": "勇于____是党区别于其他政党的显著标志，是党跳出治乱兴衰历史周期率、历经百年沧桑更加充满活力的成功秘诀。",
+    "correctAnswer": "自我革命"
+  },
+  {
+    "source": "第十章",
+    "description": "中国共产党为什么能，中国特色社会主义为什么好，归根到底是马克思主义行，是中国化____的马克思主义行。",
+    "correctAnswer": "时代化"
+  },
+  {
+    "source": "第十章",
+    "description": "2021年11月，党的十九届六中全会召开，审议通过了《中共中央关于党的百年奋斗重大成就和历史经验的决议》。《决议》系统全面地概括了党的百年奋斗所积累的具有根本性和长远指导意义的____条历史经验。",
+    "correctAnswer": "十"
+  }
+];
+            
+            localStorage.setItem('blankQuestion', JSON.stringify(dataJson));
+
+            initTool();
+            alert("全部导入完毕！开冲");
+        }
+    </script>
+    <style>
+        /* 单选题单题样式 */
+        .danxuan {
+            border: 1px solid rgb(174, 171, 171);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        /* 正确的选项样式 */
+        .trueText {
+            color: rgb(0, 156, 0);
+        }
+        /* 错误的选项样式 */
+        .falseText {
+            color: rgb(185, 3, 3);
+        }
+    </style>
+</body>
+</html>
