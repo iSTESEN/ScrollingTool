@@ -195,7 +195,7 @@
         <button onclick="importData('blankQuestion', 'importedBlankQuestions')">导入填空题</button>
         <br>
         <hr>
-        <button onclick="inportJSExam()">导入福建农林大学金山学院史纲期末考客观题 1-10章</button>
+        <button onclick="updateDatasource('JSHistory')">导入福建农林大学金山学院史纲期末考客观题 1-10章</button>
     </div>
 
 
@@ -333,7 +333,11 @@
         // 更新数据库
         function updateDatasource(datasourceName) {
             // 判断是更新那个数据库
-            var src = datasourceName=='JSHistory' ? '/ScrollingTool/JSHistorydata.html' : '';
+            var src = '';
+            if(datasourceName=='JSHistory') {
+                thank();
+                src = '/ScrollingTool/JSHistorydata.html';
+            }
             // 开始加载更新
             var iframe = document.getElementById('updateDataSourceiFrame');
             iframe.src = src;
