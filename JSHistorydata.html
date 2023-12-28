@@ -24,7 +24,7 @@
 <script>
 
 
-// 农林金山史纲导入
+// 农林金山史纲导入，导入完毕后发送事件
 function importJSExam() {
             // 数据库标记 =======================
             var datasourceName = 'JSHistory';
@@ -6363,6 +6363,11 @@ function importJSExam() {
             // 保存数据库版本
             localStorage.setItem('STdataName', datasourceName);
             localStorage.setItem('STdataVer', datasourceVer);
+            // 导入完毕后事件对象
+            var updateObj = {
+                updateData: true
+            };
+            window.parent.postMessage(JSON.stringify(updateObj), '*');
             alert(`${datasourceName}_${datasourceVer}数据库导入完毕！`);
         }
 
