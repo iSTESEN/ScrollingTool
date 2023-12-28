@@ -6365,6 +6365,7 @@ function importJSExam() {
             localStorage.setItem('STdataVer', datasourceVer);
             // 导入完毕后事件对象
             var updateObj = {
+                type: 'loaddata',
                 updateData: true
             };
             window.parent.postMessage(JSON.stringify(updateObj), '*');
