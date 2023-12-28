@@ -24,6 +24,7 @@
   function checkUpdateEvent(event) {
       try {
           var receivedData = JSON.parse(event.data);
+          console.log(receivedData);
           // 检查事件类型
           if(receivedData.type=='update') {
               // 如果为更新消息
