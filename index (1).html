@@ -591,7 +591,6 @@
         // 加载题库到liveQuestions
         function loadQuestion(dataSource) {
             liveQuestions = JSON.parse(localStorage.getItem(dataSource)) || [];
-            // initTool();
         }
 
         function thank() {
@@ -677,7 +676,7 @@
                 });
                 htmlText += `
                 <div class="row justify-content-end" style="padding-left: 16px;padding-right: 16px;">
-                 <span class="align-self-center" style="padding-top:7px" onclick="gotoEle('single',0);">next</span>
+                 <span class="align-self-center" style="padding-top:7px" onclick="gotoEle('single',${qIndex});">next</span>
                     </div>
                 </div></div>`;
                 quesDiv.innerHTML = htmlText;
