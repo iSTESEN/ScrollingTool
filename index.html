@@ -16,7 +16,7 @@
     crossorigin="anonymous"></script>
 <script>
     // 当前版本号
-    var toolVersion = 'RELEASE_6 (2023-12-29)';
+    var toolVersion = 'RELEASE_7 (2023-12-30)';
     // 数据库名
     var datasourceName = '';
     // 数据库版本
@@ -82,6 +82,9 @@
     // 版本说明
     function releaseTip() {
         alert(`
+            RELEASE_7 (2023-12-30)
+            -新增护眼模式
+            
             RELEASE_6 (2023-12-29)
             -美化UI
             
@@ -135,7 +138,8 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#" onclick="showQuiz()">刷题</a></li>
             <li class="breadcrumb-item"><a href="#" onclick="showImportQuestions()">设置</a></li>
-            <li class="breadcrumb-item active"><a href="#" onclick="thank()">特别鸣谢</a></li>
+            <li class="breadcrumb-item"><a href="#" onclick="thank()">特别鸣谢</a></li>
+            <li class="breadcrumb-item"><a href="#" onclick="changeFace(1)">护眼</a></li>
         </ol>
     </nav>
 
@@ -463,6 +467,10 @@
 
     </div>
 
+    <!-- 覆盖层 -->
+    <div>
+        <div id="coverFace" class="overlay"></div>
+    </div>
     <!-- Update -->
     <iframe style="display: none;" id="updateiFrame" src="/ScrollingTool/update.html" width="0" height="0"></iframe>
     <iframe style="display: none;" id="updateDataSourceiFrame" src="" width="0" height="0"></iframe>
@@ -525,6 +533,8 @@
                 var iframe = document.getElementById('updateiFrame');
                 iframe.contentWindow.location.reload();
             }, 5 * 60 * 1000); // 5分钟
+            // 恢复护眼配置
+            changeFace(0);
         }
 
         // 全局题目
@@ -536,6 +546,23 @@
             multiNums: 0,
             blankNums: 0
         };
+
+        // 护眼模式
+        // doChange=1切换护眼模式，=0读取本地存储护眼模式类型，如果不存在则默认none
+        function changeFace(doChange) {
+            var faceType = [
+                "", "grayface", "greenface", "warmface"
+            ];
+            var saveFace = localStorage.getItem('STface') || 0;
+            saveFace = saveFace===0 ? saveFace : parseInt(saveFace);
+            var faceDiv = document.getElementById('coverFace');
+            faceDiv.className = '';
+            if(doChange) {
+                saveFace = (saveFace + 1) % 4;
+            }
+            faceDiv.className = faceType[saveFace];
+            localStorage.setItem('STface', saveFace);
+        }
 
         // 更新数据库
         function updateDatasource(datasourceName, isAuto) {
@@ -1022,6 +1049,36 @@
         /* 错误的选项样式 */
         .falseText {
             color: rgb(185, 3, 3);
+        }
+              /* 护眼模式 */
+        /* "noneface", "grayface", "greenface", "warmface" */
+        .grayface {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1); 
+            pointer-events: none; 
+        }
+        .greenface {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(40, 79, 27, 0.1); 
+            pointer-events: none; 
+        }
+        .warmface {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* background-color: rgba(179, 156, 65, 0.1);  */
+            background-color: rgba(128, 105, 13, 0.1); 
+            pointer-events: none; 
         }
     </style>
 </body>
