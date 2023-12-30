@@ -519,6 +519,24 @@
             localStorage.setItem('STface', saveFace);
         }
 
+        // 滚动到指定ele
+        // qType:题目类型字符串'single','multi','blank'
+        // qIndex:题目索引
+        function gotoEle(qType, qIndex) {
+            var ele = document.getElementById(`${qType}ques_div_${qIndex+1}`);
+            if(ele) {
+                ele.scrollIntoView({
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            } else {
+                window.scrollTo({ 
+                    top: 999999, 
+                    behavior: "smooth" 
+                });
+            }
+        }
+
         // 更新数据库
         function updateDatasource(datasourceName, isAuto) {
             // 判断是更新那个数据库
@@ -573,7 +591,7 @@
         // 加载题库到liveQuestions
         function loadQuestion(dataSource) {
             liveQuestions = JSON.parse(localStorage.getItem(dataSource)) || [];
-            initTool();
+            // initTool();
         }
 
         function thank() {
@@ -716,7 +734,7 @@
                 // 输出屏幕
                 var quesDiv = document.createElement('div');
                 var htmlText = `
-                    <div class="card border-secondary mb-3">
+                    <div id="multiques_div_${qIndex}" class="card border-secondary mb-3">
                         <div class="card-body text-secondary">
                             <p class="card-title text-dark">${qIndex + 1}、${ques.description}（${ques.source}）</p>
                             <div style="height: 20px;"></div>
@@ -732,7 +750,10 @@
                     opIndex++;
                 });
                 htmlText += `
-                    <button style="margin-top: 10px;" class="btn btn-outline-secondary btn-sm" onclick="checkMultiOpt(${qIndex})">检查答案</button>
+                    <div class="row justify-content-between" style="padding-left: 16px;padding-right: 16px;">
+                        <button style="margin-top: 10px;" class="btn btn-outline-secondary btn-sm" onclick="checkMultiOpt(${qIndex})">检查答案</button>
+                        <span class="align-self-center" style="padding-top:7px" onclick="gotoEle('multi',${qIndex});">next</span>
+                    </div>
                     </div> </div>`;
                 quesDiv.innerHTML = htmlText;
                 examDiv.appendChild(quesDiv);
