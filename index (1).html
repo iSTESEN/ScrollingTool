@@ -661,7 +661,7 @@
                 // 输出屏幕
                 var quesDiv = document.createElement('div');
                 var htmlText = `
-                    <div class="card border-secondary mb-3">
+                    <div id="singleques_div_${qIndex}" class="card border-secondary mb-3">
                     <div class="card-body text-secondary">
                         <p class="card-title text-dark">${qIndex + 1}、${ques.description}（${ques.source}）</p>
                         <div style="height: 20px;"></div>
@@ -675,7 +675,11 @@
                     `;
                     opIndex++;
                 });
-                htmlText += `</div></div>`;
+                htmlText += `
+                <div class="row justify-content-end" style="padding-left: 16px;padding-right: 16px;">
+                 <span class="align-self-center" style="padding-top:7px" onclick="gotoEle('single',0);">next</span>
+                    </div>
+                </div></div>`;
                 quesDiv.innerHTML = htmlText;
                 examDiv.appendChild(quesDiv);
                 qIndex++;
