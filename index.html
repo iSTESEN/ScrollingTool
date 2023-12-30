@@ -577,7 +577,11 @@
         // 回到顶端
         function toTop() {
             document.body.scrollTop = 0; // 兼容旧版本浏览器
-            document.documentElement.scrollTop = 0; // 现代浏览器
+            // document.documentElement.scrollTop = 0; // 现代浏览器
+            window.scrollTo({ 
+                top: 0, 
+                behavior: "smooth" 
+            });
         }
 
         // 获取全局true、false次数，写到对应位置
