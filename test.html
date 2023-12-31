@@ -70,6 +70,16 @@
       stampEffect.style.animation = 'rotateThumb 1s ease-in-out forwards';
     });
   }
+  function vibrateDevice() {
+  // 判断浏览器是否支持Vibration API
+  if ('vibrate' in navigator) {
+    // 触发设备震动，参数可以是一个数字或一个数组，表示震动的时长（毫秒）或一系列震动和暂停的时长
+    navigator.vibrate(200); // 200毫秒的震动
+  } else {
+    alert('抱歉，您的浏览器不支持设备震动。');
+  }
+  }
+  vibrateDevice()
 </script>
 
 </body>
