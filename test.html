@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    #stampEffect {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色背景 */
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 2em;
+      animation: fadeIn 1s ease-in-out; /* 使用fadeIn动画 */
+      /* 添加其他样式，比如盖章图片的样式 */
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 你的网页内容 -->
+
+<!-- 盖章效果 -->
+<div id="stampEffect">
+  大拇指
+</div>
+
+<script>
+  // 假设你有一个变量来表示用户是否全部答对
+  var allAnswersCorrect = true;
+
+  if (allAnswersCorrect) {
+    // 获取盖章元素
+    var stampEffect = document.getElementById('stampEffect');
+
+    // 显示盖章元素
+    stampEffect.style.display = 'flex'; // 使用flex布局居中
+  }
+</script>
+
+</body>
+</html>
