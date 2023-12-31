@@ -51,6 +51,7 @@
 </svg>
 </div>
 
+
 <script>
   // 假设你有一个变量来表示用户是否全部答对
   var allAnswersCorrect = true;
@@ -61,6 +62,12 @@
 
     // 显示盖章元素
     stampEffect.style.display = 'flex'; // 使用flex布局居中
+
+    // 添加动画结束事件监听器
+    stampEffect.addEventListener('animationend', function() {
+      // 添加旋转动画
+      stampEffect.style.animation = 'rotateThumb 1s ease-in-out';
+    });
   }
 </script>
 
