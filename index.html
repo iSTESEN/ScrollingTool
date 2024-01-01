@@ -449,6 +449,7 @@
             }
         }
 
+
         // 初始化函数
         function initTool() {
             getTrueFalseNums();
@@ -491,6 +492,10 @@
             }, 5 * 60 * 1000); // 5分钟
             // 恢复护眼配置
             changeFace(0);
+            // 测试缩放恢复
+            document.addEventListener('gesturechange', function (e) {
+                e.preventDefault();
+            });
         }
 
         // 全局题目
