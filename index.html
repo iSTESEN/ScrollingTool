@@ -672,7 +672,7 @@
                     opIndex++;
                 });
                 htmlText += `
-                <div class="row justify-content-end" style="padding-left: 16px;padding-right: 16px;">
+                <div class="row justify-content-center" style="padding-left: 16px;padding-right: 16px;">
                  <span class="align-self-center" style="padding-top:7px" onclick="gotoEle('single',${qIndex});">next</span>
                     </div>
                 </div></div>`;
@@ -750,8 +750,10 @@
                     opIndex++;
                 });
                 htmlText += `
-                    <div class="row justify-content-between" style="padding-left: 16px;padding-right: 16px;">
+                    <div class="row justify-content-center" style="padding-left: 16px;padding-right: 16px;">
                         <button style="margin-top: 10px;" class="btn btn-outline-secondary btn-sm" onclick="checkMultiOpt(${qIndex})">检查答案</button>
+                    </div>
+                    <div class="row justify-content-center" style="padding-left: 16px;padding-right: 16px;">
                         <span class="align-self-center" style="padding-top:7px" onclick="gotoEle('multi',${qIndex});">next</span>
                     </div>
                     </div> </div>`;
