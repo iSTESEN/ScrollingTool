@@ -745,9 +745,6 @@
                 }
                 htmlText += `
                         </p>
-                        <div class="row justify-content-end" style="padding-right:20px">
-                            <span class="font-weight-light"  onclick="addCollect('single','${ques.description}')">收藏</span>
-                        </div>
                         <div style="height: 20px;"></div>
                 `;
                 // 加载选项
@@ -760,9 +757,18 @@
                     opIndex++;
                 });
                 htmlText += `
-                <div class="row justify-content-center" style="padding-left: 16px;padding-right: 16px;">
-                 <span class="align-self-center" style="padding-top:7px" onclick="gotoEle('single',${qIndex});">next</span>
+                    <div class="row" style="padding-left: 16px;padding-right: 16px;">
+                        <div class="col" style="padding-left:0px">
+                            <span class="font-weight-light"  onclick="addCollect('single','${ques.description}')">收藏</span>
+                        </div>
+                        <div class="col">
+                             <div class="row justify-content-center">
+                                <span class="align-self-center" style="padding-top:7px" onclick="gotoEle('single',${qIndex});">next</span>
+                            </div>
+                        </div>
+                        <div class="col"></div>
                     </div>
+                    
                 </div></div>`;
                 quesDiv.innerHTML = htmlText;
                 examDiv.appendChild(quesDiv);
@@ -835,10 +841,7 @@
                 }
                 htmlText += `
                         </p>
-                        <div class="row justify-content-end" style="padding-right:20px">
-                            <span class="font-weight-light"  onclick="addCollect('multi','${ques.description}')">收藏</span>
-                        </div>
-                            <div style="height: 20px;"></div>
+                        <div style="height: 20px;"></div>
                 `;
                 // 加载选项
                 var opIndex = 0;
@@ -854,8 +857,16 @@
                     <div class="row justify-content-center" style="padding-left: 16px;padding-right: 16px;">
                         <button style="margin-top: 10px;" class="btn btn-outline-secondary btn-sm" onclick="checkMultiOpt(${qIndex})">检查答案</button>
                     </div>
-                    <div class="row justify-content-center" style="padding-left: 16px;padding-right: 16px;">
-                        <span class="align-self-center" style="padding-top:7px" onclick="gotoEle('multi',${qIndex});">next</span>
+                    <div class="row" style="padding-left: 16px;padding-right: 16px;">
+                        <div class="col" style="padding-left:0px">
+                            <span class="font-weight-light"  onclick="addCollect('multi','${ques.description}')">收藏</span>
+                        </div>
+                        <div class="col">
+                             <div class="row justify-content-center">
+                                <span class="align-self-center" style="padding-top:7px" onclick="gotoEle('multi',${qIndex});">next</span>
+                            </div>
+                        </div>
+                        <div class="col"></div>
                     </div>
                     </div> </div>`;
                 quesDiv.innerHTML = htmlText;
