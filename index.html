@@ -174,6 +174,13 @@
                                         aria-label="限制来源" aria-describedby="basic-addon1">
                                 </div>
                             </div>
+                            <!-- 显示题目来源标签 -->
+                            <div class="row">
+                                <div class="custom-control custom-switch">
+                                      <input type="checkbox" class="custom-control-input" id="showQsource">
+                                      <label class="custom-control-label font-weight-normal" for="showQsource">显示题目来源</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -647,6 +654,8 @@
             var nums = document.getElementById('quesnums').value;
             var examDiv = document.getElementById('singleExamDiv');
             examDiv.innerHTML = '';
+            // 获取是否显示来源
+            var showQ = document.getElementById('showQsource');
             // 洗牌
             for (let i = liveQuestions.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -673,7 +682,14 @@
                 var htmlText = `
                     <div id="singleques_div_${qIndex}" class="card border-secondary mb-3">
                     <div class="card-body text-secondary">
-                        <p class="card-title text-dark">${qIndex + 1}、${ques.description}（${ques.source}）</p>
+                        <p class="card-title text-dark">${qIndex + 1}、${ques.description}`
+                if(showQ.checked) {
+                    htmlText += `
+                        （${ques.source}）
+                    `;
+                }
+                htmlText += `
+                        </p>
                         <div style="height: 20px;"></div>
                 `;
                 // 加载选项
@@ -724,6 +740,8 @@
             var nums = document.getElementById('quesnums').value;
             var examDiv = document.getElementById('multiExamDiv');
             examDiv.innerHTML = '';
+            // 获取是否显示来源
+            var showQ = document.getElementById('showQsource');
             // 洗牌
             for (let i = liveQuestions.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -750,7 +768,13 @@
                 var htmlText = `
                     <div id="multiques_div_${qIndex}" class="card border-secondary mb-3">
                         <div class="card-body text-secondary">
-                            <p class="card-title text-dark">${qIndex + 1}、${ques.description}（${ques.source}）</p>
+                            <p class="card-title text-dark">${qIndex + 1}、${ques.description}`
+                if(showQ.checked) {
+                    htmlText += `
+                        （${ques.source}）
+                    `;
+                }
+                htmlText += `</p>
                             <div style="height: 20px;"></div>
                 `;
                 // 加载选项
@@ -815,6 +839,8 @@
             var nums = document.getElementById('quesnums').value;
             var examDiv = document.getElementById('blankExamDiv');
             examDiv.innerHTML = '';
+            // 获取是否显示来源
+            var showQ = document.getElementById('showQsource');
             // 洗牌
             for (let i = liveQuestions.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -834,7 +860,13 @@
                     <div class="card border-secondary mb-3">
                     <div class="card-body text-secondary">
                         <p class="card-title text-dark">
-                            ${qIndex + 1}、${ques.description}（${ques.source}）</p>
+                            ${qIndex + 1}、${ques.description}`
+                if(showQ.checked) {
+                    htmlText += `
+                        （${ques.source}）
+                    `;
+                }    
+                htmlText += `</p>
                         <div style="height: 20px;"></div>
                 `;
                 htmlText += `
