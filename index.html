@@ -794,8 +794,10 @@
                 } 
             }
             // 取前nums条数据
-            if (nums != 0) {
-                liveQuestions = liveQuestions.slice(0, nums);
+            if(!unloadQues) {
+                if (nums != 0) {
+                    liveQuestions = liveQuestions.slice(0, nums);
+                }
             }
             // 转换答案形式
             var qIndex = 0;
@@ -915,8 +917,10 @@
                 }
             }
             // 取前nums条数据
-            if (nums != 0) {
-                liveQuestions = liveQuestions.slice(0, nums);
+            if(!unloadQues) {
+                if (nums != 0) {
+                    liveQuestions = liveQuestions.slice(0, nums);
+                }
             }
             // 转换答案形式
             var qIndex = 0;
@@ -1050,8 +1054,10 @@
                 }
             }
             // 取前nums条数据
-            if (nums != 0) {
-                liveQuestions = liveQuestions.slice(0, nums);
+            if(!unloadQues) {
+                if (nums != 0) {
+                    liveQuestions = liveQuestions.slice(0, nums);
+                }
             }
             // 转换答案形式
             var qIndex = 0;
