@@ -4,53 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QR Code Scanner</title>
-  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quagga"></script>
 </head>
 <body>
 
   <h1>QR Code Scanner</h1>
 
-  <!-- 用于显示摄像头画面的容器 -->
-  <video id="preview"></video>
+  <!-- 显示扫描结果的容器 -->
+  <div id="result"></div>
 
-  <!-- 切换摄像头的按钮 -->
-  <button onclick="toggleCamera()">切换摄像头</button>
+  <!-- 用于触发扫码的按钮 -->
+  <button onclick="startScan()">开始扫码</button>
 
   <script>
-    // 获取用于显示摄像头画面的video元素
-    const videoElement = document.getElementById('preview');
-
-    // 使用Instascan库创建扫描器
-    const scanner = new Instascan.Scanner({ video: videoElement });
-
-    // 在扫描到二维码时的回调
-    scanner.addListener('scan', function (content) {
-      alert('扫描结果： ' + content);
+    // 初始化 QuaggaJS
+    Quagga.init({
+      inputStream: {
+        name: "Live",
+        type: "LiveStream",
+        target: document.querySelector("#result"),
+      },
+      decoder: {
+        readers: ["ean_reader", "ean_8_reader", "code_128_reader", "2doubledigit_reader", "code128"]
+      },
     });
 
-    // 获取用户摄像头权限并启动扫描
-    Instascan.Camera.getCameras().then(function (cameras) {
-      if (cameras.length > 0) {
-        scanner.start(cameras[0]); // 使用第一个摄像头
-      } else {
-        console.error('没有可用的摄像头');
-      }
-    }).catch(function (e) {
-      console.error(e);
-    });
+    // 扫码成功的回调函数
+    function scanSuccess(result) {
+      document.getElementById('result').innerText = '扫描结果：' + result.codeResult.code;
+    }
 
-    // 切换摄像头的函数
-    function toggleCamera() {
-      Instascan.Camera.getCameras().then(function (cameras) {
-        const currentCamera = scanner.camera || cameras[0];
-        const newCamera = cameras.find(camera => camera.id !== currentCamera.id);
+    // 扫码失败的回调函数
+    function scanFail(error) {
+      console.error('扫码失败', error);
+    }
 
-        if (newCamera) {
-          scanner.stop(); // 停止当前摄像头
-          scanner.start(newCamera); // 启动新摄像头
-        }
-      }).catch(function (e) {
-        console.error(e);
+    // 开始扫码的函数
+    function startScan() {
+      Quagga.start();
+
+      // 监听扫码事件
+      Quagga.onDetected(function (result) {
+        Quagga.stop();
+        scanSuccess(result);
       });
     }
   </script>
