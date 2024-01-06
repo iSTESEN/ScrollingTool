@@ -11,7 +11,7 @@
   <h1>QR Code Scanner</h1>
 
   <!-- 显示扫描结果的容器 -->
-  <div id="result"></div>
+  <div id="result" style="height:100px;weight:100px;"></div>
 
   <!-- 用于触发扫码的按钮 -->
   <button onclick="startScan()">开始扫码</button>
@@ -31,7 +31,8 @@
 
     // 扫码成功的回调函数
     function scanSuccess(result) {
-      document.getElementById('result').innerText = '扫描结果：' + result.codeResult.code;
+      // document.getElementById('result').innerText = '扫描结果：' + result.codeResult.code;
+      alert('扫描结果：' + result.codeResult.code);
     }
 
     // 扫码失败的回调函数
