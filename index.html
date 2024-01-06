@@ -857,6 +857,17 @@
                 </div></div>`;
                 quesDiv.innerHTML = htmlText;
                 examDiv.appendChild(quesDiv);
+                // 显示答题进度
+                if((qIndex+1)%10==0) {
+                    quesDiv = document.createElement('div');
+                    htmlText = `
+                        <div class="row text-secondary justify-content-center font-weight-lighter" style="margin-bottom:20px">
+                            <span>${qIndex} / ${liveQuestions.length}</span>
+                        </div>
+                    `;
+                    quesDiv.innerHTML = htmlText;
+                    examDiv.appendChild(quesDiv);
+                }
                 qIndex++;
                 return ques;
             });
@@ -985,6 +996,17 @@
                     </div> </div>`;
                 quesDiv.innerHTML = htmlText;
                 examDiv.appendChild(quesDiv);
+                // 显示答题进度
+                if((qIndex+1)%10==0) {
+                    quesDiv = document.createElement('div');
+                    htmlText = `
+                        <div class="row text-secondary justify-content-center font-weight-lighter" style="margin-bottom:20px">
+                            <span>${qIndex} / ${liveQuestions.length}</span>
+                        </div>
+                    `;
+                    quesDiv.innerHTML = htmlText;
+                    examDiv.appendChild(quesDiv);
+                }
                 qIndex++;
                 return ques;
             });
@@ -1103,6 +1125,17 @@
                 </div>`;
                 quesDiv.innerHTML = htmlText;
                 examDiv.appendChild(quesDiv);
+                // 显示答题进度
+                if((qIndex+1)%10==0) {
+                    quesDiv = document.createElement('div');
+                    htmlText = `
+                        <div class="row text-secondary justify-content-center font-weight-lighter" style="margin-bottom:20px">
+                            <span>${qIndex} / ${liveQuestions.length}</span>
+                        </div>
+                    `;
+                    quesDiv.innerHTML = htmlText;
+                    examDiv.appendChild(quesDiv);
+                }
                 qIndex++;
                 return ques;
             });
