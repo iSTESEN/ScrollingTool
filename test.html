@@ -13,6 +13,9 @@
   <!-- 用于显示摄像头画面的容器 -->
   <video id="preview"></video>
 
+  <!-- 切换摄像头的按钮 -->
+  <button onclick="toggleCamera()">切换摄像头</button>
+
   <script>
     // 获取用于显示摄像头画面的video元素
     const videoElement = document.getElementById('preview');
@@ -35,10 +38,26 @@
     }).catch(function (e) {
       console.error(e);
     });
+
+    // 切换摄像头的函数
+    function toggleCamera() {
+      Instascan.Camera.getCameras().then(function (cameras) {
+        const currentCamera = scanner.camera || cameras[0];
+        const newCamera = cameras.find(camera => camera.id !== currentCamera.id);
+
+        if (newCamera) {
+          scanner.stop(); // 停止当前摄像头
+          scanner.start(newCamera); // 启动新摄像头
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
+    }
   </script>
 
 </body>
 </html>
+
 
 
 
