@@ -8,50 +8,7 @@
 </head>
 <body>
 
-  <h1>QR Code Scanner</h1>
-
-  <!-- 显示扫描结果的容器 -->
-  <div id="result" style="height:100px;weight:100px;"></div>
-
-  <!-- 用于触发扫码的按钮 -->
-  <button onclick="startScan()">开始扫码</button>
-
-  <script>
-    // 初始化 QuaggaJS
-    Quagga.init({
-      inputStream: {
-        name: "Live",
-        type: "LiveStream",
-        target: document.querySelector("#result"),
-      },
-      decoder: {
-        readers: ["ean_reader", "ean_8_reader", "code_128_reader", "2doubledigit_reader", "code128"]
-      },
-    });
-
-    // 扫码成功的回调函数
-    function scanSuccess(result) {
-      // document.getElementById('result').innerText = '扫描结果：' + result.codeResult.code;
-      alert('扫描结果：' + result.codeResult.code);
-    }
-
-    // 扫码失败的回调函数
-    function scanFail(error) {
-      console.error('扫码失败', error);
-    }
-
-    // 开始扫码的函数
-    function startScan() {
-      Quagga.start();
-
-      // 监听扫码事件
-      Quagga.onDetected(function (result) {
-        Quagga.stop();
-        scanSuccess(result);
-      });
-    }
-    startScan();
-  </script>
+<img src="https://badges.toozhao.com/badges/01HKFR55DPMKQ10T42Z7QNJMVH/blue.svg" />
 
 </body>
 </html>
