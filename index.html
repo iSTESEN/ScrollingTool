@@ -843,7 +843,7 @@
                 var htmlText = `
                     <div id="singleques_div_${qIndex}" class="card border-secondary mb-3">
                     <div class="card-body text-secondary">
-                        <span class="collect-icon-span"  onclick="addCollect('single','${qIndex}')">
+                        <span id="'collect_span_'+${qIndex}" class="collect-icon-span"  onclick="addCollect('single','${qIndex}')">
                             ${onlyCollectEle.checked ?
                               `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                   <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
@@ -981,7 +981,7 @@
                 var htmlText = `
                     <div id="multiques_div_${qIndex}" class="card border-secondary mb-3">
                         <div class="card-body text-secondary">
-                            <span class="collect-icon-span"  onclick="addCollect('multi','${qIndex}')">
+                            <span id="'collect_span_'+${qIndex}" class="collect-icon-span"  onclick="addCollect('multi','${qIndex}')">
                                 ${onlyCollectEle.checked ?
                               `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                   <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
@@ -1121,7 +1121,7 @@
                 var htmlText = `
                     <div  id="blankques_div_${qIndex}" class="card border-secondary mb-3">
                     <div class="card-body text-secondary">
-                        <span class="collect-icon-span"  onclick="addCollect('blank','${qIndex}')">
+                        <span id="'collect_span_'+${qIndex}" class="collect-icon-span"  onclick="addCollect('blank','${qIndex}')">
                             ${onlyCollectEle.checked ?
                               `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                   <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
