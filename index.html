@@ -215,6 +215,13 @@
                                       <label class="custom-control-label font-weight-normal" for="showQsource">显示题目来源</label>
                                 </div>
                             </div>
+                            <!-- 做错自动收藏 -->
+                            <div class="row">
+                                <div class="custom-control custom-switch">
+                                      <input type="checkbox" class="custom-control-input" id="doErrAutoCollect">
+                                      <label class="custom-control-label font-weight-normal" for="doErrAutoCollect">做错自动收藏</label>
+                                </div>
+                            </div>
                             <!-- 只刷收藏 -->
                             <div class="row">
                                 <div class="custom-control custom-switch">
@@ -973,6 +980,7 @@
         // questionNum等于qIndex
         function checkSingleOpt(questionNum, optNum) {
             var onlyCollectEle = document.getElementById('onlyCollect');
+            var doErrAutoCollectEle = document.getElementById('doErrAutoCollect');
             var ques = liveQuestions[questionNum];
             // console.log(liveQuestions);
             // console.log(ques);
@@ -984,6 +992,10 @@
             } else {
                 optDoc.classList.add('falseText');
                 setTrueFalseNums(0);
+                // 做错自动收藏，除了只刷收藏模式
+                if(!onlyCollectEle.checked && doErrAutoCollectEle.checked) {
+                    addCollect('single', questionNum);
+                }
             }
             // 如果不为刷收藏，则保存进度
             if(!onlyCollectEle.checked) {
@@ -1115,6 +1127,7 @@
         // 检查多选题对错
         function checkMultiOpt(questionNum) {
             var onlyCollectEle = document.getElementById('onlyCollect');
+            var doErrAutoCollectEle = document.getElementById('doErrAutoCollect');
             var ques = liveQuestions[questionNum];
             // 遍历选项
             for (let i = 0; i < ques.options.length; i++) {
@@ -1135,6 +1148,10 @@
                         // 如果选中，显示正确颜色
                         labelEle.classList.add('falseText');
                         setTrueFalseNums(0);
+                        // 做错自动收藏，除了只刷收藏模式
+                        if(!onlyCollectEle.checked && doErrAutoCollectEle.checked) {
+                            addCollect('multi', questionNum);
+                        }
                     }
                 }
             }
@@ -1247,6 +1264,7 @@
         }
         function checkBlankOpt(questionNum) {
             var onlyCollectEle = document.getElementById('onlyCollect');
+            var doErrAutoCollectEle = document.getElementById('doErrAutoCollect');
             var ques = liveQuestions[questionNum];
             var tag = document.getElementById('blankInputTag_' + questionNum);
             var tagAnswar = document.getElementById('blankAnswer_' + questionNum);
@@ -1259,6 +1277,10 @@
             } else {
                 tag.classList.add('falseText');
                 setTrueFalseNums(0);
+                // 做错自动收藏，除了只刷收藏模式
+                if(!onlyCollectEle.checked && doErrAutoCollectEle.checked) {
+                    addCollect('blank', questionNum);
+                }
             }
             // 如果不为刷收藏，则保存进度
             if(!onlyCollectEle.checked) {
