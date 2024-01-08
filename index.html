@@ -217,7 +217,7 @@
                             </div>
                             <!-- 做错自动收藏 -->
                             <div class="row">
-                                <div class="custom-control custom-switch">
+                                <div class="custom-control custom-switch"  onclick="localStorage.setItem('doErrAutoCollect', event.target.checked)">
                                       <input type="checkbox" class="custom-control-input" id="doErrAutoCollect">
                                       <label class="custom-control-label font-weight-normal" for="doErrAutoCollect">做错自动收藏（刷收藏时无效）</label>
                                 </div>
@@ -559,6 +559,8 @@
             }, 5 * 60 * 1000); // 5分钟
             // 恢复护眼配置
             changeFace(0);
+            // 恢复自动保存错题设置
+            document.getElementById('doErrAutoCollect').checked = JSON.parse(localStorage.getItem('doErrAutoCollect')) || false;
             // 检查刷题进度缓存
             setTimeout(() => afterInitCheckUndoQues(), 200);
             // 随机问卷
