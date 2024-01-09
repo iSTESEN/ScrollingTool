@@ -354,6 +354,20 @@
                                 class="btn btn-outline-secondary" type="button">导入</button>
                         </div>
                     </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">导入收藏</span>
+                        </div>
+                        <textarea id="importedCollectQuestions" class="form-control" aria-label="填空题数据"></textarea>
+                        <div class="input-group-append">
+                            <button onclick="importData('collect_single', 'importedCollectQuestions')"
+                                class="btn btn-outline-secondary" type="button">导入单选</button>
+                            <button onclick="importData('collect_multi', 'importedCollectQuestions')"
+                                class="btn btn-outline-secondary" type="button">导入多选</button>
+                            <button onclick="importData('collect_blank', 'importedCollectQuestions')"
+                                class="btn btn-outline-secondary" type="button">导入填空</button>
+                        </div>
+                    </div>
                     <hr>
                     <button onclick="updateDatasource('JSHistory', 0)"
                         class="btn btn-primary btn-sm">导入福建农林大学金山学院史纲期末考客观题 1-10章</button>
@@ -448,6 +462,12 @@
                             onclick="exportData('multiQuestion')">导出多选题</button>
                         <button type="button" class="btn btn-outline-primary"
                             onclick="exportData('blankQuestion')">导出填空题</button>
+                         <button type="button" class="btn btn-outline-primary"
+                            onclick="exportData('collect_single')">导出【收藏】单选题</button>
+                        <button type="button" class="btn btn-outline-primary"
+                            onclick="exportData('collect_multi')">导出【收藏】多选题</button>
+                        <button type="button" class="btn btn-outline-primary"
+                            onclick="exportData('collect_blank')">导出【收藏】填空题</button>
                     </div>
                     <hr>
                     <div class="input-group">
