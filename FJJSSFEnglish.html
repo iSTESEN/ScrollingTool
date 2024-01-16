@@ -1,1 +1,460 @@
 
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>福建技术师范英语数据2024</title>
+
+</head>
+
+<body>
+
+    <h1>福建技术师范英语数据2024</h1>
+
+    <h3>STESEN</h3>
+
+</body>
+
+<script>
+
+
+// 技术师范英语导入，导入完毕后发送事件
+function importJSExam() {
+            // 数据库标记 =======================
+            var datasourceName = 'JSSFEnglish';
+            var datasourceVer = '1（2024-1-16）';
+            // =================================
+    
+            localStorage.removeItem('singleQuestion');
+            localStorage.removeItem('blankQuestion');
+            localStorage.removeItem('multiQuestion');
+            // 导入单选
+            var dataJson = [];
+            
+
+            localStorage.setItem('singleQuestion', JSON.stringify(dataJson));
+
+
+            // 导入多选
+            dataJson = [];
+            
+            localStorage.setItem('multiQuestion', JSON.stringify(dataJson));
+
+            // 导入填空
+            dataJson = [
+  {
+    "source": "选词填空",
+    "description": "By    working   out    regularly,   you    improve   your    physical appearance,   _____   yourself,   and  accomplish   something Positive",
+    "correctAnswer": "energize"
+  },
+  {
+    "source": "选词填空",
+    "description": "Some fashion brands choose to _____ their products and\nservices when entering a foreign market.",
+    "correctAnswer": "localize"
+  },
+  {
+    "source": "选词填空",
+    "description": "The designer briefly _____  the most basic parts of her\ndesign at last night's launch event.",
+    "correctAnswer": "summarized"
+  },
+  {
+    "source": "选词填空",
+    "description": "As we  move  into the future,  3D  printing will  _______ the way we shop, the way we produce goods and the way we\ntreat sick people.",
+    "correctAnswer": "revolutionize"
+  },
+  {
+    "source": "选词填空",
+    "description": "There are people and associations claiming to ______ pay\nfor men's and women's football teams.",
+    "correctAnswer": "equalize"
+  },
+  {
+    "source": "选词填空",
+    "description": "It is the dream of many athletes to win _____ as an Olympic\nchampion.",
+    "correctAnswer": "glory"
+  },
+  {
+    "source": "选词填空",
+    "description": "The benefits of participating in sports and exercise ______\nthe risks of getting hurt.",
+    "correctAnswer": "outweigh"
+  },
+  {
+    "source": "选词填空",
+    "description": "If  role  models  _____ stress  positively,  they   set  a  good\nexample of how to deal with pressure.",
+    "correctAnswer": "handle"
+  },
+  {
+    "source": "选词填空",
+    "description": "The  athlete showed  his  ______ to  reach  the  men's\n200-meter final at the Olympics.",
+    "correctAnswer": "determination"
+  },
+  {
+    "source": "选词填空",
+    "description": "The  newly discovered ancient site  _____ us  of the great\ncivilizations of our past.",
+    "correctAnswer": "reminds"
+  },
+  {
+    "source": "选词填空",
+    "description": "She entered the construction industry 20 years ago, and now\nhas become a(n) _______ figure.",
+    "correctAnswer": "dominant"
+  },
+  {
+    "source": "选词填空",
+    "description": "The audience with _____ faces are waiting in the rain for\nthe concert to begin.",
+    "correctAnswer": "expectant"
+  },
+  {
+    "source": "选词填空",
+    "description": "It is a good game for a kid to participate in and learn to be\n______ of the things around them.",
+    "correctAnswer": "Observant"
+  },
+  {
+    "source": "选词填空",
+    "description": "This job requires a(n) ______ person who is used to dealing\nwith complaints and angry customers.",
+    "correctAnswer": "tolerant"
+  },
+  {
+    "source": "选词填空",
+    "description": "Gradually children  become less _____ on their parents and\ntake their first steps to independence.",
+    "correctAnswer": "reliant"
+  },
+  {
+    "source": "选词填空",
+    "description": "The film that  _____ the  development  of  the  country during the past 50 years will be released next week.",
+    "correctAnswer": "documents"
+  },
+  {
+    "source": "选词填空",
+    "description": "I stepped closer to Phyllis to see clearly the _____ patterns\non her dress.",
+    "correctAnswer": "intricate"
+  },
+  {
+    "source": "选词填空",
+    "description": "The system is unjust in that it enables the company owners\nto _____ the workers.",
+    "correctAnswer": "exploit"
+  },
+  {
+    "source": "选词填空",
+    "description": "I want to ____ to the children that reading is one of life's\ngreatest treats.",
+    "correctAnswer": "convey"
+  },
+  {
+    "source": "选词填空",
+    "description": "In  the   past,  the  Great  Wall  was  a(n)   _____ defense against   enemies;   today,   it   has   become   a   popular   tourist\nattraction.",
+    "correctAnswer": "powerful"
+  },
+  {
+    "source": "选词填空",
+    "description": "Since its opening, the park has attracted a great number of\nvisitors from home and abroad with its _____ sights.",
+    "correctAnswer": "splendid"
+  },
+  {
+    "source": "选词填空",
+    "description": "Alice was glad to ____ her mother to the National Art\nMuseum of China.",
+    "correctAnswer": "accompany"
+  },
+  {
+    "source": "选词填空",
+    "description": "The Arc de Triomphe (凯旋门) was built between 1806 and\n1836 to ____ the victories of the French army.",
+    "correctAnswer": "commemorate"
+  },
+  {
+    "source": "选词填空",
+    "description": "To ease congestion, the  number of visitors to the  national\npark will _____ 20,000 per day.",
+    "correctAnswer": "be limited to"
+  },
+  {
+    "source": "选词填空",
+    "description": "The  museum's  unreasonable  rules  for  visitors  should  have\nbeen _____ years ago.",
+    "correctAnswer": "done away with"
+  },
+  {
+    "source": "选词填空",
+    "description": "Because of bad weather, they can't predict with any degree\nof ____ when the package will arrive.",
+    "correctAnswer": "certainty"
+  },
+  {
+    "source": "选词填空",
+    "description": "Visitors are often _____ of polluting the local environment\nand putting pressure on natural resources.",
+    "correctAnswer": "accused"
+  },
+  {
+    "source": "选词填空",
+    "description": "Despite the tour guide's suggestion, the tourists refused to\n_____ and taste the local cuisine.",
+    "correctAnswer": "go native"
+  },
+  {
+    "source": "选词填空",
+    "description": "From  a  manufacturer's _____, there  continues to  be  a\ngrowing need to provide value-added services to agents.",
+    "correctAnswer": "viewpoint"
+  },
+  {
+    "source": "选词填空",
+    "description": "The well-known writer is _____ enough to admit that\nnot all his novels are of the highest quality.",
+    "correctAnswer": "open-minded"
+  },
+  {
+    "source": "选词填空",
+    "description": "She has a group of _____ friends — they have shared\ninterests in music and traveling.",
+    "correctAnswer": "like-minded"
+  },
+  {
+    "source": "选词填空",
+    "description": "Mary's _____ commitment to the job meant that she\nhad little time left for her family.",
+    "correctAnswer": "single-minded"
+  },
+  {
+    "source": "选词填空",
+    "description": "Some people easily give up a chance probably because of a(n)\n_____ and negative point of view.",
+    "correctAnswer": "narrow-minded"
+  },
+  {
+    "source": "选词填空",
+    "description": "The   tour    guide   was    rather    _____;   she    kept\nforgetting where she'd left her handbag.",
+    "correctAnswer": "absent-minded"
+  },
+  {
+    "source": "选词填空",
+    "description": "Three of the writer's novels have been _____ movies\nand have achieved a measure of success.",
+    "correctAnswer": "adapted into"
+  },
+  {
+    "source": "选词填空",
+    "description": "The teacher repeated the point three times in class just to\n________ to the students.",
+    "correctAnswer": "drive it home"
+  },
+  {
+    "source": "选词填空",
+    "description": "It is generally believed that there is ______ fresh\nwater, but people still need to protect water resources.",
+    "correctAnswer": "a good supply of"
+  },
+  {
+    "source": "选词填空",
+    "description": "We're all enormously proud of the athletes who competed\n_______ our country in the Olympics.",
+    "correctAnswer": "on behalf of"
+  },
+  {
+    "source": "选词填空",
+    "description": "Please wait a minute. I need to _____ my professor's office\nto hand in the assignment",
+    "correctAnswer": "pop into"
+  },
+  {
+    "source": "选词填空",
+    "description": "The  customer  repeatedly  asked  for  an  explanation  and  an\napology, but ______.",
+    "correctAnswer": "went nowhere"
+  },
+  {
+    "source": "选词填空",
+    "description": "Some   of   the   paintings   at   the   New   York   Metropolitan\nMuseum of Art ______ 300 years ago.",
+    "correctAnswer": "date back to"
+  },
+  {
+    "source": "选词填空",
+    "description": "The family moved to a new place and built a house that _______ their former one.",
+    "correctAnswer": "was modeled on"
+  },
+  {
+    "source": "选词填空",
+    "description": "The   company   keeps   strengthening   its   relationship   with\ncustomers to establish a strong _____ image.",
+    "correctAnswer": "corporate"
+  },
+  {
+    "source": "选词填空",
+    "description": "The   place   has   rapidly   developed   from   a   small   fishing\ncommunity into a(n) _____ tourist attraction.",
+    "correctAnswer": "thriving"
+  },
+  {
+    "source": "选词填空",
+    "description": "We  should  ____ our  efforts  to  lead  the  world  toward\npeace and freedom, prosperity and harmony.",
+    "correctAnswer": "intensify"
+  },
+  {
+    "source": "选词填空",
+    "description": "Katy  is  evidently  in  pain  —  her  physical  appearance  ______ how she feels.",
+    "correctAnswer": "is indicative of"
+  },
+  {
+    "source": "选词填空",
+    "description": "When the flowers bloom (开花) in spring they fill the night\nair with a(n) ____ that defies description.",
+    "correctAnswer": "fragrance"
+  },
+  {
+    "source": "选词填空",
+    "description": "The  system  has  been  designed  to  give  the  user  quick  and\neasy ____ to the required information.",
+    "correctAnswer": "access"
+  },
+  {
+    "source": "选词填空",
+    "description": "The fact that she had become wealthy did not ____ her to\nabandon her frugal (节俭的) way of life.",
+    "correctAnswer": "tempt"
+  },
+  {
+    "source": "选词填空",
+    "description": " The coach used some methods to ___ the players to realize\ntheir own highest potential.",
+    "correctAnswer": "spur"
+  },
+  {
+    "source": "选词填空",
+    "description": "Students  want to  discover the truth themselves,  and they\n___ taking conclusions forced upon them.",
+    "correctAnswer": "resist"
+  },
+  {
+    "source": "选词填空",
+    "description": "He is much younger than his classmates and _____\nin refusing unreasonable requests from other people.",
+    "correctAnswer": "inexperienced"
+  },
+  {
+    "source": "选词填空",
+    "description": "Football, basketball and other _____ sports encourage\nchildren to work together as a team.",
+    "correctAnswer": "competitive"
+  },
+  {
+    "source": "选词填空",
+    "description": "It would be ____ to buy a second-hand car if you do not have\ngood knowledge of cars.",
+    "correctAnswer": "risky"
+  },
+  {
+    "source": "选词填空",
+    "description": "You will  probably find Dave at the pool hall (台球房) — he\noften _____ there.",
+    "correctAnswer": "hangs out"
+  },
+  {
+    "source": "选词填空",
+    "description": "The boss disagreed with her idea at first, but she _____ and explained it in greater detail.",
+    "correctAnswer": "stood her ground"
+  },
+  {
+    "source": "选词填空",
+    "description": "The  newcomers  have  adopted  local  customs  and  tried  to\n______ with the community.",
+    "correctAnswer": "blend in"
+  },
+  {
+    "source": "选词填空",
+    "description": "Teenagers  are  encouraged  to  be  confident  in  themselves,\nand try to ______ their own values and opinions.",
+    "correctAnswer": "stand up for"
+  },
+  {
+    "source": "选词填空",
+    "description": "She's  not  afraid to _____ the company's senior staff\nmembers if she thinks they're wrong.",
+    "correctAnswer": "stand  up to"
+  },
+  {
+    "source": "选词填空",
+    "description": "The   poster  says  the   school  drama  society  will  give   a(n)\n_____ of Hamlet at the school hall.",
+    "correctAnswer": "Performance"
+  },
+  {
+    "source": "选词填空",
+    "description": "Dad gave me a lot of ____ on choosing a major when I\ncouldn't make a decision.",
+    "correctAnswer": "guidance"
+  },
+  {
+    "source": "选词填空",
+    "description": "To increase the regular _____ at lectures, the university\nintroduced a set of strict rules.",
+    "correctAnswer": "attendance"
+  },
+  {
+    "source": "选词填空",
+    "description": "Several years of development  has  completely  changed the\n_____ of the town center.",
+    "correctAnswer": "appearance"
+  },
+  {
+    "source": "选词填空",
+    "description": "His  _____ to  change  makes  him  unwilling  to  embrace\nnew trends in fashion, so he is unpopular among the youth.",
+    "correctAnswer": "resistance"
+  },
+  {
+    "source": "选词填空",
+    "description": "The makers of the film will want to see a _____ return on\ntheir investment.",
+    "correctAnswer": "decent"
+  },
+  {
+    "source": "选词填空",
+    "description": "On  my  way  home  yesterday,  I  ____  my  friend  Neville\nriding his mountain bike.",
+    "correctAnswer": "ran  into"
+  },
+  {
+    "source": "选词填空",
+    "description": "This   article   is    ____ reading   for   anyone   who   is\nproposing to work in a university department of music.",
+    "correctAnswer": "compulsory"
+  },
+  {
+    "source": "选词填空",
+    "description": " I  would  prefer  not  to  make  any  _____ before  I  have\nmore information on the case.",
+    "correctAnswer": "comments"
+  },
+  {
+    "source": "选词填空",
+    "description": "Because the band made little money, the members had day\njobs to ______.",
+    "correctAnswer": "get by"
+  },
+  {
+    "source": "选词填空",
+    "description": "It rained heavily and the wind blew wildly; we were _____ in the tent last night.",
+    "correctAnswer": "freezing cold"
+  },
+  {
+    "source": "选词填空",
+    "description": "The waiter appeared like magic from the kitchen with a bowl\nof _____ hot soup.",
+    "correctAnswer": "steaming"
+  },
+  {
+    "source": "选词填空",
+    "description": "Both writing and speech  require context to  ______ of\nwhat otherwise might cause misunderstanding.",
+    "correctAnswer": "make sense"
+  },
+  {
+    "source": "选词填空",
+    "description": "Larry  ____ that  he  would  always support the  research\nteam no matter how difficult the study project would be.",
+    "correctAnswer": "declared"
+  },
+  {
+    "source": "选词填空",
+    "description": "This approach does not ______ teaching teenagers who\nhave limited artistic skills.",
+    "correctAnswer": "lend itself to"
+  },
+  {
+    "source": "选词填空",
+    "description": "The species can and do live everywhere except in regions of\n____ snow or intense arid (干旱的) desert.",
+    "correctAnswer": "perpetual"
+  },
+  {
+    "source": "选词填空",
+    "description": "The island was beautiful, with amazing beaches and stunning\nsunsets;we had a(n) _____ time.",
+    "correctAnswer": "fabulous"
+  },
+  {
+    "source": "选词填空",
+    "description": "Most  tennis  is  played  on  hard  courts,  but  a(n)  ______\namount is played on clay (红土网球场).",
+    "correctAnswer": "substantial"
+  }
+];
+            
+            localStorage.setItem('blankQuestion', JSON.stringify(dataJson));
+
+            // 保存数据库版本
+            localStorage.setItem('STdataName', datasourceName);
+            localStorage.setItem('STdataVer', datasourceVer);
+            // 导入完毕后事件对象
+            var updateObj = {
+                type: 'loaddata',
+                updateData: true
+            };
+            window.parent.postMessage(JSON.stringify(updateObj), '*');
+            alert(`${datasourceName}_${datasourceVer}数据库导入完毕！`);
+        }
+
+
+    
+    importJSExam();
+  
+
+
+</script>
+
+</html>
