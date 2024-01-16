@@ -35,7 +35,999 @@ function importJSExam() {
             localStorage.removeItem('blankQuestion');
             localStorage.removeItem('multiQuestion');
             // 导入单选
-            var dataJson = [];
+            var dataJson = [
+  {
+    "source": "词汇选择",
+    "description": "When checking in for a flight, passengers have to pay ________ fees for their excess baggage.",
+    "options": [
+      "additional",
+      "optional",
+      "occasional",
+      "personal"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "Mary has been ________ a grudge against her manager ever since her promotion was refused.",
+    "options": [
+      "grasping",
+      "controlling",
+      "harboring",
+      "mastering"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The government will ________ an extra tax on tobacco next month in an effort to discourage people from buying it.",
+    "options": [
+      "dispose",
+      "impose",
+      "expose",
+      "depose"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The CEO ________ the collapse of the corporation by his incompetent leadership and reckless spending.",
+    "options": [
+      "brought with",
+      "brought to",
+      "brought in",
+      "brought about"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "Medical scientists claim that the advantages of the new drug ________ the risks it brings.",
+    "options": [
+      "overlook",
+      "overweight",
+      "outweigh",
+      "outlook"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "It is ________ to start considering job applications at the beginning of your fourth year in college.",
+    "options": [
+      "optimal",
+      "opposite",
+      "noticeable",
+      "notable"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "Due to global warming and deforestation, more and more species are ________ to die out.",
+    "options": [
+      "bind",
+      "bond",
+      "abound",
+      "bound"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "If the pain ________, I suggest you go to the hospital immediately to consult the doctor.",
+    "options": [
+      "resists",
+      "assists",
+      "insists",
+      "persists"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "People couldn't help ________ the foolish emperor in the procession.",
+    "options": [
+      "laugh at",
+      "to laugh at",
+      "laughing at",
+      "in laughing at"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "Tony, would you go and see if Sam has any difficulty ________ his car?",
+    "options": [
+      "to fix",
+      "fixing",
+      "for fixing",
+      "fix"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "Every spring she looks forward to ________ the flower-lined garden.",
+    "options": [
+      "visit",
+      "paying a visit",
+      "walk in",
+      "walking in"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "I suggested ________ the meeting to an end.",
+    "options": [
+      "bring",
+      "to bring",
+      "bringing",
+      "having brought"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "She forgot ________ her door one day, and a thief got in.",
+    "options": [
+      "locking",
+      "to lock",
+      "having locked",
+      "to have locked"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The famous actress Audrey Hepburn strikes me as a symbol of female grace and ________.",
+    "options": [
+      "diligence",
+      "elegance",
+      "integrity",
+      "integration"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The candidate tried to ________ the interviewers by adding his latest achievements to his résumé.",
+    "options": [
+      "depress",
+      "impress",
+      "compress",
+      "express"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "If you want to join the reading club, you need to fill in the ________ application form in the brochure.",
+    "options": [
+      "attached",
+      "detached",
+      "depended",
+      "Added"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The machine broke down last night and I ________ there was something wrong with the engine.",
+    "options": [
+      "expected",
+      "inspected",
+      "respected",
+      "suspected"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "Located in the Middle East, the country ________ rich oil and gas reserves.",
+    "options": [
+      "precedes",
+      "proceeds",
+      "possesses",
+      "processes"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The ________ of the earthquake was reported to reach a magnitude of 7.5 on the Richter scale (里氏震级), which led to tremendous destruction.",
+    "options": [
+      "strength",
+      "intensity",
+      "tension",
+      "Intention"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "Passengers could be ________ by high-speed railways to almost every part of the country.",
+    "options": [
+      "transformed",
+      "translated",
+      "transmitted",
+      "transported"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "We decided to ________ the meeting until the manager returned from his business trip.",
+    "options": [
+      "put up",
+      "put away",
+      "put on",
+      "put off"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "Everything ________ into consideration, they ought to have another chance.",
+    "options": [
+      "to take",
+      "taken",
+      "to be taken",
+      "taking"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "An expert ________ us, we will work out the problem.",
+    "options": [
+      "will help",
+      "helping",
+      "to help",
+      "having helped"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "Nobody ________ any more to say, the meeting was closed.",
+    "options": [
+      "has",
+      "having",
+      "to have",
+      "had"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "With nothing ________ to burn, the fire became weak and finally died out.",
+    "options": [
+      "leaving",
+      "leave",
+      "left",
+      "to leave"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "It was a pity that the great writer died ________ his works unfinished.",
+    "options": [
+      "without",
+      "with",
+      "of",
+      "from"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The man was ________ of misleading lenders and investors about the financial position of the firm.",
+    "options": [
+      "accessed",
+      "accused",
+      "ascended",
+      "assessed"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "In order to maintain competitiveness, the company has adjusted its policies to ________ to the changing market.",
+    "options": [
+      "adopt",
+      "adapt",
+      "adept",
+      "admit"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "It would be beneficial to get students ________ in the learning process through group discussions and other interactive activities.",
+    "options": [
+      "involved",
+      "evolved",
+      "revolved",
+      "Devolved"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The firm plans to ________ its range of products and services to meet the needs of more customers.",
+    "options": [
+      "darken",
+      "weaken",
+      "lengthen",
+      "broaden"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The English ________ of the novel is going to be published next year.",
+    "options": [
+      "chronicle",
+      "account",
+      "version",
+      "story"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "A profit-making company that is not ________, lying about its products, will not survive long in the business world because it hurts the interests of the clients.",
+    "options": [
+      "ethnical",
+      "ethical",
+      "mortal",
+      "Brutal"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The equipment was unfamiliar to us at first, but we ________ learned to cope with it after mastering the right techniques.",
+    "options": [
+      "greatly",
+      "initially",
+      "actually",
+      "gradually"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "A friend of the bride ________ a toast to offer her congratulations to the new couple on their wedding day.",
+    "options": [
+      "prospected",
+      "respected",
+      "presented",
+      "proposed"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": " I lost my old camera; it is a new ______.",
+    "options": [
+      "one",
+      "ones"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "— Can I borrow your pen?\n— Sorry, I'm using ______",
+    "options": [
+      "it",
+      "this"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "— May I help you? Would you like to try any of these shoes on?\n— Yes, I'd like to try on those white _____",
+    "options": [
+      "one",
+      "ones"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "I prefer the climate of Kunming to ______of Wuhan.",
+    "options": [
+      "it",
+      "that"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "His ideas are little different from ______of his friends.",
+    "options": [
+      "that",
+      "those"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The company can ________ the need for new energy cars that produce less pollution to the environment.",
+    "options": [
+      "foremost",
+      "foresee",
+      "forehead",
+      "forward"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "His brother was ________ from school because of his bad behavior and continuous absence from school.",
+    "options": [
+      "repelled",
+      "expelled",
+      "dispelled",
+      "excelled"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "At the end of each semester the school will send an academic ________ to inform parents of students' performance.",
+    "options": [
+      "transcript",
+      "manuscript",
+      "postscript",
+      "Prescript"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The university is going to comprehensively ________ the performance of every applicant according to the admissions policy.",
+    "options": [
+      "possess",
+      "excess",
+      "access",
+      "assess"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The interviewer was very pleased with the candidate and showed his ________ by nodding his head.",
+    "options": [
+      "criticism",
+      "essence",
+      "approval",
+      "tendency"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "The new power station is predicted to ________ enough electricity to supply all homes in the eastern part of the state.",
+    "options": [
+      "specify",
+      "generate",
+      "exist",
+      "Continue"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "Students are required to ________ their IELTS or TOEFL scores by the end of this month as part of their application.",
+    "options": [
+      "commit",
+      "admit",
+      "permit",
+      "submit"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "词汇选择",
+    "description": "Although she is already in debt, it's hard for her to ________ the temptation to buy new shoes.",
+    "options": [
+      "assist",
+      "consist",
+      "resist",
+      "insist"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "阅读理解1",
+    "description": "What is the main idea of the passage?",
+    "options": [
+      "Pollution generated by the fashion industry leads to innovation in new materials",
+      " Material Xperience is a leading show to find the latest advanced material",
+      "The fashion industry should design and produce high-quality materials",
+      "The fashion industry which causes pollution should be shut down"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "阅读理解1",
+    "description": "According to the passage, why does the author mention CO2 emission from the clothing industry?",
+    "options": [
+      "To show that clothing production is large",
+      "To explain the necessary production process",
+      "To illustrate the serious pollution brought to the environment",
+      "To encourage people to buy fewer clothes"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "阅读理解1",
+    "description": "What  will  be  the  developing  trend  of  new  materials  with  the  application  of  smart materials according to the passage?",
+    "options": [
+      "More fashionable",
+      "More functional",
+      "More affordable",
+      "More beautiful"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解1",
+    "description": "Which of the following words is closest in meaning to the underlined word \"resistant\" in Paragraph 3?",
+    "options": [
+      "Repeated",
+      "Control",
+      "Attractive",
+      "Proof"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  },
+  {
+    "source": "阅读理解1",
+    "description": "Which of the following innovations in new materials is NOT mentioned in the passage?",
+    "options": [
+      "Blending textile waste with bio-based plastic",
+      "Utilizing pineapple leaf fiber",
+      "Inventing super lightweight materials",
+      "Combining wood veneer and textiles"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "阅读理解2",
+    "description": "Which of the following statement can be inferred from the passage?",
+    "options": [
+      "Caring for others is important for a harmonious society",
+      "Talking to strangers is more beneficial than we expected",
+      "There are no strangers in the world, only friends",
+      "Talking to strangers doesn't actually create any anxiety"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解2",
+    "description": "What is the benefit of interacting with \"weak ties\" according to the passage?",
+    "options": [
+      "Boosting the mood and a sense of belonging",
+      "Expanding social networks",
+      "Reducing the sense of loneliness",
+      "Keeping in touch with many friends"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "阅读理解2",
+    "description": "Which  statement  is  true  about  the  series  of  studies  about  Chicago-area  commuters according to the passage?",
+    "options": [
+      "People who were told to stand felt better than the sitting people",
+      "People who struck up the conversation felt better",
+      "Many people don't like to be pleased by others",
+      "Most people don't feel anxious about talking to strangers"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解2",
+    "description": "What does the experiment in which introverts are asked to act more extroverted find according to the passage?",
+    "options": [
+      "Introverts can be improved with certain treatments",
+      "Introverts can benefit emotionally from connecting with strangers",
+      "Introverts have more chances of making good friends in life",
+      "Introverts should interact with strangers with positive attitudes"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解2",
+    "description": "Which of the following words is closest in meaning to the underlined word \"commiserate\" in the last paragraph?",
+    "options": [
+      "Commemorate",
+      "Commit",
+      "Sympathize",
+      "Misguide"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "阅读理解3",
+    "description": "What is the main idea of the passage?",
+    "options": [
+      "If you believe in yourself, you will be more confident",
+      "Self-confidence magically makes you better at what you do",
+      "There are some practical ways that can boost your confidence",
+      "Self-confidence helps you make improvements to your health"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "阅读理解3",
+    "description": "What are you supposed to do when having a chat with others according to the passage?",
+    "options": [
+      "Choose topics according to whom you are talking to",
+      "Tell them nothing about yourself",
+      "Tell them everything about yourself",
+      "Talk about something that interests you"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "阅读理解3",
+    "description": "Which of the following benefits of working out regularly is NOT mentioned in the passage?",
+    "options": [
+      "Enhancing your confidence",
+      "Making you more popular among people",
+      "Improving your mood",
+      "Promoting your health"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解3",
+    "description": "What is the purpose of stepping out of the comfort zone according to the passage?",
+    "options": [
+      "To make yourself more uncomfortable",
+      "To finally expand your comfort zone",
+      "To learn more about various people and food",
+      "To find more challenging jobs"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解3",
+    "description": "Which of the following words is closest in meaning to the underlined word \"daunting\" in the last paragraph?",
+    "options": [
+      "Different",
+      "Encouraging",
+      "Discouraging",
+      "Taunting"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "阅读理解4",
+    "description": "What is the main idea of the passage?",
+    "options": [
+      "Transformative travel can improve your health and mood",
+      "Transformative travel can inspire you and change you positively",
+      "Transformative travel can help you find your strengths",
+      "Transformative travel can help you learn more about the world"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解4",
+    "description": "What did Michael King learn from the trip to Mount Kilimanjaro?",
+    "options": [
+      "The sunrise of Mount Kilimanjaro is the most unforgettable memory",
+      "People can learn more about themselves through travel",
+      "It is important to share memorable moments with one's family",
+      "The job of travel advisors is all about facilitating the act of traveling"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "阅读理解4",
+    "description": "3.What do most memorable travel experiences involve for Samantha Brown?",
+    "options": [
+      "Boosting self-confidence",
+      "Interacting with local people",
+      "Improving communication skills",
+      "Appreciating beautiful scenery"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解4",
+    "description": "Which of the following effects of traveling for Ted Teng is NOT mentioned in the passage?",
+    "options": [
+      "Becoming a different person",
+      "Changing the way we see the past",
+      "Changing the way we envision the future",
+      "Being moved by the relationship between animals and nature"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "阅读理解4",
+    "description": "Which of the following words is closest in meaning to the underlined word \"symbiotic\" in the last paragraph?",
+    "options": [
+      "Different",
+      "Surprising",
+      "Coexisting",
+      "Symbolic"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "阅读理解5",
+    "description": "What does the passage mainly talk about?",
+    "options": [
+      "AI makes it possible for anyone to become a designer",
+      "AI is capable of surprising us with more superstar designers",
+      "AI is letting a lot of designers lose their jobs",
+      "AI design is the future of the design industry"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "阅读理解5",
+    "description": "How will AI enable amateur designers to improve their employability according to the passage?",
+    "options": [
+      "AI will enable amateur designers to use computers more easily",
+      "AI will  enable  amateur designers to  develop their  creativity and  social  intelligence skills",
+      "AI will enable amateur designers to increase the value of their brands",
+      "AI will enable amateur designers to write articles for Harvard Business Review"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解5",
+    "description": "What is the author's purpose of mentioning the examples of the classroom teacher and the hospital administrator?",
+    "options": [
+      "To show that the design will better serve schools and hospitals",
+      "To show that many disciplines will be incorporated with design thinking",
+      "To show that they have to learn AI in order to be qualified for future jobs",
+      "To show that they can be trained as professional designers"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解5",
+    "description": "Which of the following words is closest in meaning to the underlined word \"optimize\" in Paragraph 3?",
+    "options": [
+      "Occupy",
+      "Oppose",
+      "Perfect",
+      "Employ"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "阅读理解5",
+    "description": "Which  of  the  following  is  NOT  a  purpose  of  the  projects  beginning  to  use  design thinking according to Paragraph 4?",
+    "options": [
+      "To increase the rate of employment",
+      "To train future doctors in design thinking",
+      "To encourage more human-centered design",
+      "To cultivate the creativity of amateur designers"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "阅读理解6",
+    "description": "Which statement is NOT true about the characteristics of teenagers in their decision-making according to Laurence Steinberg?",
+    "options": [
+      "Teenagers tend to be impulsive and not think ahead",
+      "Teenagers tend to overestimate the potential risks",
+      "Teenagers are easily attracted by immediate benefits",
+      "Teenagers are easily influenced by pressure from others"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解6",
+    "description": "What does the study in which teenagers play the video driving game show?",
+    "options": [
+      "Teens are more decisive when they play games",
+      "Teens take more risks with their peers around",
+      "Teens take more risks when they play games on their own",
+      "Teens tend to play games with their peers"
+    ],
+    "correctAnswer": [
+      2
+    ]
+  },
+  {
+    "source": "阅读理解6",
+    "description": "Which of the following is NOT a positive effect of peer influence on teens?",
+    "options": [
+      "It can lead teens to resist bad influences",
+      "It can encourage teens to get good grades",
+      "It can let teens participate in volunteer projects",
+      "It can encourage teens to pursue sports and artistic interests"
+    ],
+    "correctAnswer": [
+      1
+    ]
+  },
+  {
+    "source": "阅读理解6",
+    "description": "What is the influence of taking part in skill-building activities on the brain?",
+    "options": [
+      "It can increase the rarely used neural links",
+      "It can connect different events in the brain",
+      "It can help build strong pathways in the brain",
+      "It can redirect resources to the brain"
+    ],
+    "correctAnswer": [
+      3
+    ]
+  },
+  {
+    "source": "阅读理解6",
+    "description": "Which of the following statement can be inferred from the passage?",
+    "options": [
+      "Peer pressure only happens to teenagers",
+      "Peer pressure always has a negative influence",
+      "It is unlikely for teens to resist the influence of peer pressure",
+      "The final decision is up to you despite the influence around you"
+    ],
+    "correctAnswer": [
+      4
+    ]
+  }
+];
             
 
             localStorage.setItem('singleQuestion', JSON.stringify(dataJson));
