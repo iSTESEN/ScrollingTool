@@ -129,7 +129,7 @@
 
 <body class="container-fluid">
 <!--     问卷 -->
-    <div id="wenjuan"></div>
+<!--     <div id="wenjuan"></div> -->
 <!--     头部 -->
     <div class="jumbotron" style="padding-bottom: 10px; margin-bottom: 20px; margin-top:20px;">
         <h1 class="display-6">通用刷题工具</h1>
@@ -140,18 +140,18 @@
         <!--   流量统计，怪方便的  -->
         <p id="visitShow" style="margin-top:30px;"></p>
         <p><b>数据库版本：</b><span class="badge badge-info" id="dataversionTag"></span></p>
-        <p><b>数据贡献：</b>k3-411、A9-303-2、一杯橙C美少女、Aurora</p>
+<!--         <p><b>数据贡献：</b>k3-411、A9-303-2、一杯橙C美少女、Aurora</p> -->
         <p><b>计数牌：
             <span id="totalTrueNum" class="badge badge-success">0</span> : <span id="totalFalseNum" class="badge badge-danger">0</span>
         </p>
-        <p id="lastTip">
+<!--         <p id="lastTip">
             <span class="text-danger">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cone-striped" viewBox="0 0 16 16">
                   <path d="m9.97 4.88.953 3.811C10.159 8.878 9.14 9 8 9c-1.14 0-2.158-.122-2.923-.309L6.03 4.88C6.635 4.957 7.3 5 8 5s1.365-.043 1.97-.12zm-.245-.978L8.97.88C8.718-.13 7.282-.13 7.03.88L6.275 3.9C6.8 3.965 7.382 4 8 4c.618 0 1.2-.036 1.725-.098zm4.396 8.613a.5.5 0 0 1 .037.96l-6 2a.5.5 0 0 1-.316 0l-6-2a.5.5 0 0 1 .037-.96l2.391-.598.565-2.257c.862.212 1.964.339 3.165.339s2.303-.127 3.165-.339l.565 2.257 2.391.598z"></path>
                 </svg>
                 在"设置"中新增收藏导出与导入功能，供大家在不同设备转移收藏，注意要题型匹配上，不要点错
             </span>
-        </p>
+        </p> -->
     </div>
 
 
@@ -382,6 +382,8 @@
                     <hr>
                     <button onclick="updateDatasource('JSHistory', 0)"
                         class="btn btn-primary btn-sm">导入福建农林大学金山学院史纲期末考客观题 1-10章</button>
+                    <button onclick="updateDatasource('FJJSSFEnglish', 0)"
+                        class="btn btn-primary btn-sm">导入福建技术师范2024英语</button>
                 </div>
             </div>
         </div>
@@ -596,7 +598,7 @@
             // 检查刷题进度缓存
             setTimeout(() => afterInitCheckUndoQues(), 200);
             // 随机问卷
-            randShowWhenjuan();
+            // randShowWhenjuan();
             // 加载访问统计
             setTimeout(() => {
                 var visitEle = document.getElementById('visitShow');
@@ -605,16 +607,7 @@
                     <img style="border-radius:3px;height:18px;" src="https://badges.toozhao.com/badges/01HKFR55DPMKQ10T42Z7QNJMVH/blue.svg" onclick="window.location.href='https://badges.toozhao.com/stats/01HKFR55DPMKQ10T42Z7QNJMVH'">
                 `;
             }, 50);
-            // 随机lastTip
-            if(Math.random()>0.5) {
-                document.getElementById('lastTip').innerHTML = `
-                    <span class="text-success">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"></path>
-                        </svg> 考的全会，蒙的全对，我们下次再见！
-                    </span>
-                `;
-            }
+            
         }
 
         // 全局题目
@@ -627,28 +620,7 @@
             blankNums: 0
         };
 
-        var zhuGuan =  [
-              "近代中国社会的主要矛盾和近代以来中华民族面临的历史任务。",
-              "中国近代史，是一部充满磨难、落后挨打的悲惨屈辱史，更是一部中华民族抵抗外来侵略、实现民族独立的伟大斗争史。谈谈你的个人感悟。",
-              "太平天国农民起义的历史意义。",
-              "洋务运动的目的、戊戌维新变法的背景、维新派与洋务派的思想相比有哪些进步？ ",
-              "辛亥革命失败的原因。",
-              "中国同盟会相关知识点。",
-              "五四运动的历史意义。",
-              "大革命中的中国共产党的作用。",
-              "红军长征胜利的意义。",
-              "国民党政府是怎样实行一党专政的军事独裁统治。",
-              "毛泽东在《论持久战》一文中对中日双方存在互相矛盾的四个特点的分析。",
-              "分析抗日战争战略防御阶段，国民党正面战场大部分战役以退却、失败而结束的原因。",
-              "抗战结束后，美国实行扶蒋反共方针的原因及其措施。",
-              "分析中国革命胜利的原因。",
-              "抗美援朝的相关知识点（原因目的、时间、总司令、战役、英雄功臣、人民群众支持（常香玉)、伟大抗美援朝精神内涵）",
-              "全面建设社会主义的成就。",
-              "中共十四大作出三项具有深远意义的决策。",
-              "了解邓小平对《关于建国以来党的若干历史问题的决议》的起䓍提出的三条指导原则。",
-              "党的十九届六中全会通过的《中共中央关于党的百年奋斗重大成就和历史经验的决议》，是如何科学阐明了习近平新时代中国特色社会主义思想在马克思主义发展史、中华文化发展史上的重要历史地位。",
-              "理解中国特色社会主义进入新时代，是对党和人民事业具有重大现实意义和深远历史意义的大事。"
-        ];
+        var zhuGuan =  [];
         // 随机显示问卷
         function randShowWhenjuan() {
           //   var randomNumber = Math.random();
@@ -822,6 +794,8 @@
                     thank();
                 }
                 src = '/ScrollingTool/JSHistorydata.html';
+            } else if(datasourceName == 'FJJSSFEnglish') {
+                src = '/ScrollingTool/FJJSSFEnglish.html';
             }
             // 开始加载更新
             var iframe = document.getElementById('updateDataSourceiFrame');
