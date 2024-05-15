@@ -198,14 +198,9 @@
                                     <!--   这里应该是根据题库类型展示可选的，但是临时版本写死   -->
                                     <select class="custom-select mr-sm-2" id="quesSource">
                                         <option selected="" value="">未限制</option>
-                                        <option value="选词填空">选词填空</option>
-                                        <option value="词汇选择">词汇选择</option>
-                                        <option value="阅读理解1">阅读理解1</option>
-                                        <option value="阅读理解2">阅读理解2</option>
-                                        <option value="阅读理解3">阅读理解3</option>
-                                        <option value="阅读理解4">阅读理解4</option>
-                                        <option value="阅读理解5">阅读理解5</option>
-                                        <option value="阅读理解6">阅读理解6</option>
+                                        <option value="第一章">第一章</option>
+                                        <option value="第二章">第二章</option>
+                                        <option value="第三章">第三章</option>
                                       </select>
                                 </div>
                             </div>
@@ -378,8 +373,10 @@
                         </div>
                     </div>
                     <hr>
+                    <button onclick="updateDatasource('JSMarxdata', 0)"
+                        class="btn btn-primary btn-sm">导入农大学金山-马克思期末考客观题 1-3章</button>
                     <button onclick="updateDatasource('JSHistory', 0)"
-                        class="btn btn-primary btn-sm">导入福建农林大学金山学院史纲期末考客观题 1-10章</button>
+                        class="btn btn-primary btn-sm">导入农大学金山-史纲期末考客观题 1-10章</button>
                     <button onclick="updateDatasource('FJJSSFEnglish', 0)"
                         class="btn btn-primary btn-sm">导入福建技术师范2024英语</button>
                 </div>
