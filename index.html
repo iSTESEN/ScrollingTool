@@ -510,6 +510,8 @@
                             onclick="clearQuestionBank('multiQuestion')">清空多选题</button>
                         <button type="button" class="btn btn-outline-secondary"
                             onclick="clearQuestionBank('blankQuestion')">清空填空题</button>
+                        <button type="button" class="btn btn-outline-secondary"
+                            onclick="clearQuestionBank('collect')">清空所有收藏</button>
                     </div>
                 </div>
             </div>
@@ -1347,6 +1349,17 @@
 
 
         function clearQuestionBank(dataSource) {
+            // 收藏
+            if(dataSource==='collect') {
+                localStorage.removeItem('collect_multi');
+                localStorage.removeItem('collect_blank');
+                localStorage.removeItem('collect_single');
+                alert('收藏已清空！');
+                initTool();
+                return;
+            } 
+            
+            // 非收藏
             // 清除一键导入数据库标记
             localStorage.removeItem('STdataName');
             localStorage.removeItem('STdataVer');
