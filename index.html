@@ -223,6 +223,13 @@
                                       <label class="custom-control-label font-weight-normal" for="showQsource">显示题目来源</label>
                                 </div>
                             </div>
+                            <!-- 是否打乱标签 -->
+                            <div class="row">
+                                <div class="custom-control custom-switch">
+                                      <input type="checkbox" class="custom-control-input" id="dontChaoc">
+                                      <label class="custom-control-label font-weight-normal" for="dontChaoc">不打乱题目</label>
+                                </div>
+                            </div>
                             <!-- 做错自动收藏 -->
                             <div class="row">
                                 <div class="custom-control custom-switch"  onclick="localStorage.setItem('doErrAutoCollect', event.target.checked)">
@@ -901,10 +908,13 @@
             examDiv.innerHTML = '';
             // 获取是否显示来源
             var showQ = document.getElementById('showQsource');
+            // 获取打乱（不打乱1，打乱0）
+            var dontChaoc = document.getElementById('dontChaoc');
             // 显示粗体
             var showBo = document.getElementById('showBold');
-            // 洗牌
-            if(doChaos) {
+            // 洗牌题目
+            // doChaos是形参，供恢复记录（0）和开始刷题（1）时传入。0则不考虑是否勾选“不打乱”，1则考虑，以是否勾选为准
+            if(doChaos ? (dontChaoc.checked) : false) {
                 for (let i = liveQuestions.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [liveQuestions[i], liveQuestions[j]] = [liveQuestions[j], liveQuestions[i]];
@@ -926,7 +936,7 @@
                     ques.correctAnswer = answerArr.join(",");
                 }
                 // 打乱选项
-                if(doChaos) {
+                if(doChaos ? (dontChaoc.checked) : false) {
                     for (let i = ques.options.length - 1; i > 0; i--) {
                         const j = Math.floor(Math.random() * (i + 1));
                         [ques.options[i], ques.options[j]] = [ques.options[j], ques.options[i]];
@@ -1044,10 +1054,13 @@
             examDiv.innerHTML = '';
             // 获取是否显示来源
             var showQ = document.getElementById('showQsource');
+            // 获取打乱（不打乱1，打乱0）
+            var dontChaoc = document.getElementById('dontChaoc');
             // 显示粗体
             var showBo = document.getElementById('showBold');
-            // 洗牌
-            if(doChaos) {
+            // 洗牌题目
+            // doChaos是形参，供恢复记录（0）和开始刷题（1）时传入。0则不考虑是否勾选“不打乱”，1则考虑，以是否勾选为准
+            if(doChaos ? (dontChaoc.checked) : false) {
                 for (let i = liveQuestions.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [liveQuestions[i], liveQuestions[j]] = [liveQuestions[j], liveQuestions[i]];
@@ -1069,7 +1082,7 @@
                     ques.correctAnswer = answerArr.join(",");
                 }
                 // 打乱选项
-                if(doChaos) {
+                if(doChaos ? (dontChaoc.checked) : false) {
                     for (let i = ques.options.length - 1; i > 0; i--) {
                         const j = Math.floor(Math.random() * (i + 1));
                         [ques.options[i], ques.options[j]] = [ques.options[j], ques.options[i]];
@@ -1205,10 +1218,13 @@
             examDiv.innerHTML = '';
             // 获取是否显示来源
             var showQ = document.getElementById('showQsource');
+            // 获取打乱（不打乱1，打乱0）
+            var dontChaoc = document.getElementById('dontChaoc');
             // 显示粗体
             var showBo = document.getElementById('showBold');
-            // 洗牌
-            if(doChaos) {
+            // 洗牌题目
+            // doChaos是形参，供恢复记录（0）和开始刷题（1）时传入。0则不考虑是否勾选“不打乱”，1则考虑，以是否勾选为准
+            if(doChaos ? (dontChaoc.checked) : false) {
                 for (let i = liveQuestions.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [liveQuestions[i], liveQuestions[j]] = [liveQuestions[j], liveQuestions[i]];
