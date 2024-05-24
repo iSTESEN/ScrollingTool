@@ -792,8 +792,12 @@
                 //     behavior: 'smooth', 
                 //     block: 'start' 
                 // });
+
+                // window.scrollTo 滚动是对于整个网页滚动
+                // ele.getBoundingClientRect() 是相对于视窗的参数
+                // window.pageYOffset 是视窗对于整个网页的Y
                 window.scrollTo({
-                    top: ele.getBoundingClientRect().top - (window.innerHeight/4),
+                    top: (window.pageYOffset + ele.getBoundingClientRect().top) - (window.innerHeight/4),
                     behavior: 'smooth'
                 });
             } else {
