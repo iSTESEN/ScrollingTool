@@ -793,7 +793,7 @@
                 //     block: 'start' 
                 // });
                 window.scrollTo({
-                    top: ele.getBoundingClientRect() - (window.innerHeight/4),
+                    top: ele.getBoundingClientRect().top - (window.innerHeight/4),
                     behavior: 'smooth'
                 });
             } else {
