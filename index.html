@@ -140,9 +140,8 @@
         <span class="badge badge-dark" style="margin-left:10px;" onclick="window.location.href='https://github.com/iSTESEN/ScrollingTool'"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="9" fill="currentColor" class="bi bi-github" viewBox="0 2 16 16">
         <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
         </svg> STESEN</span>
-        <!--   流量统计，怪方便的  -->
-        <p id="visitShow" style="margin-top:30px;"></p>
-        <p><b>数据库版本：</b><span class="badge badge-info" id="dataversionTag"></span></p>
+        
+        <p style="margin-top:30px;"><b>数据库版本：</b><span class="badge badge-info" id="dataversionTag"></span></p>
 <!--         <p><b>数据贡献：</b>k3-411、A9-303-2、一杯橙C美少女、Aurora</p> -->
         <p><b>计数牌：
             <span id="totalTrueNum" class="badge badge-success">0</span> : <span id="totalFalseNum" class="badge badge-danger">0</span>
@@ -527,8 +526,14 @@
             </div>
         </div>
 
-
-
+        <!--   流量统计，怪方便的  -->
+        <div class="container-fluid" style="margin-top: 20px;">
+            <div class="card">
+                <div class="card-body">
+                    <p id="visitShow"></p>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -549,18 +554,6 @@
 
 
     <script>
-        // 数据库标志 临时补丁，只有一个数据库时适用
-        function tempPatch() {
-            if (datasourceName == '' && dataNumObj.singleNums > 250) {
-                // 数据库名
-                datasourceName = 'JSHistory';
-                // 数据库版本
-                datasourceVer = 'DATA_1（2023-12-28）';
-                localStorage.setItem('STdataName', datasourceName);
-                localStorage.setItem('STdataVer', datasourceVer);
-            }
-        }
-
 
         // 初始化函数
         function initTool() {
@@ -573,9 +566,6 @@
             list = JSON.parse(localStorage.getItem('blankQuestion')) || [];
             dataNumObj.blankNums = list.length;
             list = [];
-
-            // 临时补丁
-            tempPatch();
 
             // 显示页面数据
             var docEle = document.getElementById('singleNumsTag');
