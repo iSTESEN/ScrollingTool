@@ -788,9 +788,13 @@
         function gotoEle(qType, qIndex) {
             var ele = document.getElementById(`${qType}ques_div_${qIndex+1}`);
             if(ele) {
-                ele.scrollIntoView({
-                    behavior: 'smooth', 
-                    block: 'start' 
+                // ele.scrollIntoView({
+                //     behavior: 'smooth', 
+                //     block: 'start' 
+                // });
+                window.scrollTo({
+                    top: ele.getBoundingClientRect() - (window.innerHeight/4),
+                    behavior: 'smooth'
                 });
             } else {
                 window.scrollTo({ 
