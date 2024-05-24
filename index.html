@@ -1030,7 +1030,7 @@
                 setTrueFalseNums(1);
                 // 勾选自动跳转则自动跳转next
                 if(autoNext.checked) {
-                    setTimeout(() => gotoEle('single', questionNum), 1200);
+                    setTimeout(() => gotoEle('single', questionNum), 1000);
                 }
             } else {
                 optDoc.classList.add('falseText');
@@ -1215,7 +1215,7 @@
             }
             // 勾选自动跳转则自动跳转next
             if(autoNext.checked && neverFalse) {
-                setTimeout(() => gotoEle('single', questionNum), 1200);
+                setTimeout(() => gotoEle('multi', questionNum), 1000);
             }
         }
 
