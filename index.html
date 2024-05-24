@@ -1326,6 +1326,7 @@
         function checkBlankOpt(questionNum) {
             var onlyCollectEle = document.getElementById('onlyCollect');
             var doErrAutoCollectEle = document.getElementById('doErrAutoCollect');
+            var autoNext = document.getElementById('autoNext');
             var ques = liveQuestions[questionNum];
             var tag = document.getElementById('blankInputTag_' + questionNum);
             var tagAnswar = document.getElementById('blankAnswer_' + questionNum);
@@ -1335,6 +1336,10 @@
             if (ques.correctAnswer == input && input != '') {
                 tag.classList.add('trueText');
                 setTrueFalseNums(1);
+                // 勾选自动跳转则自动跳转next
+                if(autoNext.checked) {
+                    setTimeout(() => gotoEle('blank', questionNum), 1000);
+                }
             } else {
                 tag.classList.add('falseText');
                 setTrueFalseNums(0);
