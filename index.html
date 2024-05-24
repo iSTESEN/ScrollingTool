@@ -81,6 +81,8 @@
     function releaseTip() {
         alert(`
             RELEASE_13 (2024-5-23)
+            -新增答对滚动选项
+            -修改源加速访问
             -新增不打乱选项
             RELEASE_12 (2024-1-9)
             -新增收藏导出导入
@@ -223,6 +225,13 @@
                                 <div class="custom-control custom-switch">
                                       <input type="checkbox" class="custom-control-input" id="showQsource">
                                       <label class="custom-control-label font-weight-normal" for="showQsource">显示题目来源</label>
+                                </div>
+                            </div>
+                            <!-- 答对自动next标签 -->
+                            <div class="row">
+                                <div class="custom-control custom-switch" onclick="localStorage.setItem('autoNext', event.target.checked)">
+                                      <input type="checkbox" class="custom-control-input" id="autoNext">
+                                      <label class="custom-control-label font-weight-normal" for="autoNext">答对自动next</label>
                                 </div>
                             </div>
                             <!-- 是否打乱标签 -->
@@ -599,6 +608,8 @@
             document.getElementById('doErrAutoCollect').checked = JSON.parse(localStorage.getItem('doErrAutoCollect')) || false;
             // 恢复不打乱顺序设置
             document.getElementById('dontChaoc').checked = JSON.parse(localStorage.getItem('dontChaoc')) || false;
+            // 恢复autoNext设置
+            document.getElementById('autoNext').checked = JSON.parse(localStorage.getItem('autoNext')) || false;
             // 检查刷题进度缓存
             setTimeout(() => afterInitCheckUndoQues(), 200);
             // 随机问卷
@@ -773,7 +784,7 @@
 
         // 滚动到指定ele
         // qType:题目类型字符串'single','multi','blank'
-        // qIndex:题目索引
+        // qIndex:当前题目索引
         function gotoEle(qType, qIndex) {
             var ele = document.getElementById(`${qType}ques_div_${qIndex+1}`);
             if(ele) {
@@ -1008,6 +1019,7 @@
         function checkSingleOpt(questionNum, optNum) {
             var onlyCollectEle = document.getElementById('onlyCollect');
             var doErrAutoCollectEle = document.getElementById('doErrAutoCollect');
+            var autoNext = document.getElementById('autoNext');
             var ques = liveQuestions[questionNum];
             // console.log(liveQuestions);
             // console.log(ques);
@@ -1016,6 +1028,10 @@
             if (ques.correctAnswer.includes(ques.options[optNum])) {
                 optDoc.classList.add('trueText');
                 setTrueFalseNums(1);
+                // 勾选自动跳转则自动跳转next
+                if(autoNext.checked) {
+                    gotoEle('single', questionNum);
+                }
             } else {
                 optDoc.classList.add('falseText');
                 setTrueFalseNums(0);
