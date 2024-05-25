@@ -949,6 +949,7 @@
                         return ';' + ques.options[index - 1] + ';'; // index是答案数组中的值，导入时序号要-1
                     });
                     ques.correctAnswer = answerArr.join(",");
+                    console.log('转换后', ques.correctAnswer);
                 }
                 // 打乱选项
                 if(doChaos ? !(dontChaoc.checked) : false) {
@@ -1035,6 +1036,8 @@
             var optDoc = document.getElementById('sing_opt_' + questionNum + '_' + optNum);
             optDoc.className = '';
             var selectAnswer = ';' + ques.options[optNum] + ';';
+            console.log('核对', selectAnswer);
+            console.log('核对2', ques.correctAnswer);
             if (ques.correctAnswer.includes(selectAnswer)) {
                 optDoc.classList.add('trueText');
                 setTrueFalseNums(1);
@@ -1101,6 +1104,7 @@
                         return ';' + ques.options[index - 1] + ';'; // index是答案数组中的值，导入时序号要-1
                     });
                     ques.correctAnswer = answerArr.join(",");
+                    console.log('转换后', ques.correctAnswer);
                 }
                 // 打乱选项
                 if(doChaos ? (!dontChaoc.checked) : false) {
@@ -1193,6 +1197,8 @@
                 var labelEle = document.getElementById('multiLabel_' + questionNum + '_' + i);
                 labelEle.className = '';
                 var oneAnswer = ';' + ques.options[i] + ';'; // 默认检查全部的选项，所以这个是其中之一选项值
+                console.log('核对', oneAnswer);
+                console.log('核对2', ques.correctAnswer);
                 if (ques.correctAnswer.includes(oneAnswer)) {
                     labelEle.classList.add('trueText');
                     if (checkBoxOpt.checked) {
