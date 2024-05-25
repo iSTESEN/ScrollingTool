@@ -946,7 +946,7 @@
             liveQuestions = liveQuestions.map(function (ques) {
                 if(!unturnAnswer) {
                     var answerArr = ques.correctAnswer.map(function (index) {
-                        return ques.options[index - 1]; // 导入时序号要-1
+                        return ';' + ques.options[index - 1] + ';'; // index是答案数组中的值，导入时序号要-1
                     });
                     ques.correctAnswer = answerArr.join(",");
                 }
@@ -1034,7 +1034,8 @@
             // console.log(ques);
             var optDoc = document.getElementById('sing_opt_' + questionNum + '_' + optNum);
             optDoc.className = '';
-            if (ques.correctAnswer.includes(ques.options[optNum])) {
+            var selectAnswer = ';' + ques.options[optNum] + ';';
+            if (ques.correctAnswer.includes(selectAnswer)) {
                 optDoc.classList.add('trueText');
                 setTrueFalseNums(1);
                 // 勾选自动跳转则自动跳转next
@@ -1097,7 +1098,7 @@
             liveQuestions = liveQuestions.map(function (ques) {
                 if(!unturnAnswer) {
                     var answerArr = ques.correctAnswer.map(function (index) {
-                        return ques.options[index - 1]; // 导入时序号要-1
+                        return ';' + ques.options[index - 1] + ';'; // index是答案数组中的值，导入时序号要-1
                     });
                     ques.correctAnswer = answerArr.join(",");
                 }
@@ -1191,7 +1192,8 @@
                 var checkBoxOpt = document.getElementById('multi_' + questionNum + '_' + i);
                 var labelEle = document.getElementById('multiLabel_' + questionNum + '_' + i);
                 labelEle.className = '';
-                if (ques.correctAnswer.includes(ques.options[i])) {
+                var oneAnswer = ';' + ques.options[i] + ';'; // 默认检查全部的选项，所以这个是其中之一选项值
+                if (ques.correctAnswer.includes(oneAnswer)) {
                     labelEle.classList.add('trueText');
                     if (checkBoxOpt.checked) {
                         // 计数正确与否
