@@ -145,7 +145,6 @@
         </svg> STESEN</span>
         
         <p style="margin-top:30px;"><b>数据库版本：</b><span class="badge badge-info" id="dataversionTag"></span></p>
-<!--         <p><b>数据贡献：</b>k3-411、A9-303-2、一杯橙C美少女、Aurora</p> -->
         <p><b>计数牌：
             <span id="totalTrueNum" class="badge badge-success">0</span> : <span id="totalFalseNum" class="badge badge-danger">0</span>
         </p>
@@ -1200,10 +1199,9 @@
                 if (ques.correctAnswer.includes(oneAnswer)) {
                     labelEle.classList.add('trueText');
                     if (checkBoxOpt.checked) {
-                        // 计数正确与否
-                        setTrueFalseNums(1);
+                        // 选对了
+                        
                     } else {
-                        setTrueFalseNums(0);
                         // 做错自动收藏，除了只刷收藏模式
                         if(!onlyCollectEle.checked && doErrAutoCollectEle.checked) {
                             addCollect('multi', questionNum);
@@ -1213,9 +1211,8 @@
                 } else {
                     // i不是正确答案
                     if (checkBoxOpt.checked) {
-                        // 如果选中，显示正确颜色
+                        // 如果选中，显示错误颜色
                         labelEle.classList.add('falseText');
-                        setTrueFalseNums(0);
                         // 做错自动收藏，除了只刷收藏模式
                         if(!onlyCollectEle.checked && doErrAutoCollectEle.checked) {
                             addCollect('multi', questionNum);
@@ -1229,9 +1226,18 @@
                 localStorage.setItem('liveQuestions_do', `multi_${questionNum}`);
             }
             // 勾选自动跳转则自动跳转next
-            if(autoNext.checked && neverFalse) {
-                setTimeout(() => gotoEle('multi', questionNum), 1000);
+            if(neverFalse) {
+                // 多选做对了
+                setTrueFalseNums(1);
+                // 如果自动next
+                if(autoNext.checked) {
+                    setTimeout(() => gotoEle('multi', questionNum), 1000);
+                }
+            } else {
+                // 做错了
+                setTrueFalseNums(0);
             }
+            
         }
 
         // 显示填空题
