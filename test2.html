@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="/ScrollingTool/fingerprintjs/fp.min.js"></script>
+</head>
+<body>
+    <p id="showid"></p>
+
+
+    <script>
+        // Initialize the FingerprintJS library
+        FingerprintJS.load().then(fp => {
+            fp.get().then(result => {
+                // This is the visitor identifier:
+                const visitorId = result.visitorId;
+                console.log(visitorId);
+                document.getElementById('showid').innerHTML = visitorId;
+            });
+        });
+    </script>
+</body>
+</html>
