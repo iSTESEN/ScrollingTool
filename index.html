@@ -49,17 +49,7 @@
                 iframe.src = '/ScrollingTool/generateLimitOpts.html?' + Math.floor(Math.random() * 900) + 100;;
             } else if(receivedData.type == 'generatelimit') {
                 if(receivedData.done) {
-                    // 生成选项成功，根据当前模式（刷题/刷收藏）写入页面
-                    var selectEle = document.getElementById('quesSource')
-                    var scontext = '<option selected="" value="">未限制</option>';
-                    selectEle.innerHTML = scontext;
-                    var loptions = document.getElementById('onlyCollect').checked ? 
-                                            JSON.parse(localStorage.getItem('collectLimitOpts') || '[]') 
-                                            : JSON.parse(localStorage.getItem('quesLimitOpts') || '[]');
-                    loptions.forEach(ele => {
-                        scontext += `<option value="${ele}">${ele}</option>`
-                    })
-                    selectEle.innerHTML = scontext;
+                    afterGenerateLimitOpts();
                 }
                 // 生成完毕
                 var iframe = document.getElementById('updateDataSourceiFrame');
@@ -651,6 +641,20 @@
             multiNums: 0,
             blankNums: 0
         };
+
+        // generateLimitOpts.html生成选项成功，根据当前模式（刷题/刷收藏）写入页面
+        function afterGenerateLimitOpts() {
+            var selectEle = document.getElementById('quesSource')
+            var scontext = '<option selected="" value="">未限制</option>';
+            selectEle.innerHTML = scontext;
+            var loptions = document.getElementById('onlyCollect').checked ? 
+                                    JSON.parse(localStorage.getItem('collectLimitOpts') || '[]') 
+                                    : JSON.parse(localStorage.getItem('quesLimitOpts') || '[]');
+            loptions.forEach(ele => {
+                scontext += `<option value="${ele}">${ele}</option>`
+            })
+            selectEle.innerHTML = scontext;
+        }
 
         var zhuGuan =  [];
         // 随机显示问卷
