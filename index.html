@@ -12,7 +12,7 @@
 
 <script>
     // 当前版本号
-    var toolVersion = 'RELEASE_13 (2024-5-23)';
+    var toolVersion = 'RELEASE_14 (2024-6-8)';
     // 数据库名
     var datasourceName = '';
     // 数据库版本
@@ -45,6 +45,25 @@
                     getDatasourceInfo(); // 读数据库版本
                     initTool(); // 初始化数据库数据
                 }
+                // 生成限制来源选项
+                iframe.src = '/ScrollingTool/generateLimitOpts.html';
+            } else if(receivedData.type == 'generatelimit') {
+                if(receivedData.done) {
+                    // 生成选项成功，根据当前模式（刷题/刷收藏）写入页面
+                    var selectEle = document.getElementById('quesSource')
+                    var scontext = '<option selected="" value="">未限制</option>';
+                    selectEle.innerHTML = scontext;
+                    var loptions = document.getElementById('onlyCollect').checked ? 
+                                            JSON.parse(localStorage.getItem('collectLimitOpts') || '[]') 
+                                            : JSON.parse(localStorage.getItem('quesLimitOpts') || '[]');
+                    loptions.forEach(ele => {
+                        scontext += `<option value="${ele}">${ele}</option>`
+                    })
+                    selectEle.innerHTML = scontext;
+                }
+                // 生成完毕
+                var iframe = document.getElementById('updateDataSourceiFrame');
+                iframe.src = '';
             }
         } catch (error) {
             console.error('解析JSON时出错:', error);
@@ -80,6 +99,8 @@
     // 版本说明
     function releaseTip() {
         alert(`
+            RELEASE_14 (2024-6-8)
+            -生成限制选项
             RELEASE_13 (2024-5-23)
             -优化滚动距离
             -新增答对滚动选项
@@ -199,27 +220,18 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">限制来源</span>
                                     </div>
-                                    <!--   这里应该是根据题库类型展示可选的，但是临时版本写死   -->
                                     <select class="custom-select mr-sm-2" id="quesSource">
                                         <option selected="" value="">未限制</option>
-                                        <option value="导论">导论</option>
-                                        <option value="第一章">第一章</option>
-                                        <option value="第二章">第二章</option>
-                                        <option value="第三章">第三章</option>
-                                        <option value="第四章">第四章</option>
-                                        <option value="第五章">第五章</option>
-                                        <option value="第六章">第六章</option>
-                                        <option value="第七章">第七章</option>
                                       </select>
                                 </div>
                             </div>
                             <!-- 显示粗体 -->
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="custom-control custom-switch">
                                       <input type="checkbox" class="custom-control-input" id="showBold">
                                       <label class="custom-control-label font-weight-normal" for="showBold">文本粗体</label>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- 显示题目来源标签 -->
                             <div class="row">
                                 <div class="custom-control custom-switch">
@@ -251,7 +263,7 @@
                             <hr>
                             <!-- 只刷收藏 -->
                             <div class="row">
-                                <div class="custom-control custom-switch">
+                                <div class="custom-control custom-switch" onclick="document.getElementById('updateDataSourceiFrame').src='/ScrollingTool/generateLimitOpts.html'">
                                       <input type="checkbox" class="custom-control-input" id="onlyCollect">
                                       <label class="custom-control-label font-weight-normal" for="onlyCollect">只刷收藏</label>
                                 </div>
