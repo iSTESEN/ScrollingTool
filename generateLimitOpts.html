@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>生成限制选项数据</title>
+
+</head>
+
+<body>
+
+    <h1>生成限制选项数据</h1>
+
+    <h3>STESEN</h3>
+
+</body>
+
+<script>
+
+  /*
+    1、刚导入题库完成时调用
+            如果localstorage无'quesLimitOpts'：遍历singleQuestion、multiQuestion、blankQuestion，生成quesLimitOpts并存储
+            如果有，则无动作
+    2、只刷题库时调用
+            遍历collect_single、collect_multi、collect_blank，生成新的'collectLimitOpts'
+    3、完成后发出消息
+  */
+
+    
+function generator() {
+    // 如果localstorage无'quesLimitOpts'：遍历singleQuestion、multiQuestion、blankQuestion，生成quesLimitOpts并存储
+    // 如果有，则无动作
+    var singQues = JSON.parse(localStorage.getItem('singleQuestion') || '[]')
+    var multiQues = JSON.parse(localStorage.getItem('multiQuestion') || '[]')
+    var blankQues = JSON.parse(localStorage.getItem('blankQuestion') || '[]')
+    if(localStorage.getItem('quesLimitOpts')==undefined && (singQues.length!=0 || multiQues.length!=0 || blankQues.length!=0)) {
+        const quesSourceSet = new Set();
+        singQues.forEach(ele => {
+            quesSourceSet.add(ele.source)
+        });
+        multiQues.forEach(ele => {
+            quesSourceSet.add(ele.source)
+        });
+        blankQues.forEach(ele => {
+            quesSourceSet.add(ele.source)
+        });
+        var arr = [...quesSourceSet]
+        localStorage.setItem('quesLimitOpts', JSON.stringify(arr))
+    }
+
+    // 遍历collect_single、collect_multi、collect_blank，生成新的'collectLimitOpts'
+    singQues = []; multiQues = []; blankQues = [];
+    var csingQues = JSON.parse(localStorage.getItem('collect_single') || '[]')
+    var cmultiQues = JSON.parse(localStorage.getItem('collect_multi') || '[]')
+    var cblankQues = JSON.parse(localStorage.getItem('collect_blank') || '[]')
+    const cquesSourceSet = new Set();
+    csingQues.forEach(ele => {
+        cquesSourceSet.add(ele.source)
+    });
+    cmultiQues.forEach(ele => {
+        cquesSourceSet.add(ele.source)
+    });
+    cblankQues.forEach(ele => {
+        cquesSourceSet.add(ele.source)
+    });
+    var arr2 = [...cquesSourceSet]
+    localStorage.setItem('collectLimitOpts', JSON.stringify(arr2))
+
+
+    // 3、完成后发出消息
+    var messObj = {
+        type: 'generatelimit',
+        done: true
+    };
+    window.parent.postMessage(JSON.stringify(messObj), '*');
+}
+
+generator();
+
+
+</script>
+
+</html>
