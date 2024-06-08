@@ -46,7 +46,7 @@
                     initTool(); // 初始化数据库数据
                 }
                 // 生成限制来源选项
-                iframe.src = '/ScrollingTool/generateLimitOpts.html';
+                iframe.src = '/ScrollingTool/generateLimitOpts.html?' + Math.floor(Math.random() * 900) + 100;;
             } else if(receivedData.type == 'generatelimit') {
                 if(receivedData.done) {
                     // 生成选项成功，根据当前模式（刷题/刷收藏）写入页面
@@ -100,6 +100,7 @@
     function releaseTip() {
         alert(`
             RELEASE_14 (2024-6-8)
+            -修复检测更新失败
             -生成限制选项
             RELEASE_13 (2024-5-23)
             -优化滚动距离
@@ -616,7 +617,7 @@
             setInterval(function () {
                 var iframe = document.getElementById('updateiFrame');
                 // iframe.contentWindow.location.reload();
-                iframe.src = '/ScrollingTool/update.html';
+                iframe.src = '/ScrollingTool/update.html?' + Math.floor(Math.random() * 900) + 100;;
             }, 5 * 60 * 1000); // 5分钟
             // 恢复护眼配置
             changeFace(0);
@@ -832,11 +833,11 @@
                 if (!isAuto) {
                     thank();
                 }
-                src = '/ScrollingTool/JSHistorydata.html';
+                src = '/ScrollingTool/JSHistorydata.html?' + Math.floor(Math.random() * 900) + 100;
             } else if(datasourceName == 'FJJSSFEnglish') {
-                src = '/ScrollingTool/FJJSSFEnglish.html';
+                src = '/ScrollingTool/FJJSSFEnglish.html?' + Math.floor(Math.random() * 900) + 100;
             } else if(datasourceName == 'JSMarx') {
-                src = '/ScrollingTool/JSMarxdata.html';
+                src = '/ScrollingTool/JSMarxdata.html?' + Math.floor(Math.random() * 900) + 100;
             }
             // 开始加载更新
             var iframe = document.getElementById('updateDataSourceiFrame');
