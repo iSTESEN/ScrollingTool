@@ -175,6 +175,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#" onclick="showQuiz()">刷题</a></li>
+            <li class="breadcrumb-item"><a href="#" onclick="showStatistics()">统计</a></li>
             <li class="breadcrumb-item"><a href="#" onclick="showImportQuestions()">设置</a></li>
 <!--             <li class="breadcrumb-item"><a href="#" onclick="thank()">特别鸣谢</a></li> -->
             <li class="breadcrumb-item"><a href="#" onclick="changeFace(1)">护眼</a></li>
@@ -330,8 +331,14 @@
         
 
     </div>
+       <!-- 统计部分 -->
+    <div id="statistics" style="display: none;" class="container-fluid">
+       <p id="totalWorkTimeEle"></p>
 
-    <!-- 导入题目部分 -->
+
+    </div>
+
+    <!-- 设置部分 -->
     <div id="importQuestions" style="display: none;" class="container-fluid">
         <!-- 数据 -->
         <div class="container-fluid">
@@ -633,6 +640,30 @@
             afterGenerateLimitOpts();
         }
 
+        /**
+         * 答题计时定时器
+         */
+        var beforeTime = 0; // 不活跃时为0（不计时）；记录上一个时间点的时间戳
+        var workActive = false; // 用户是否答题活跃
+        // 每10秒检查一次
+        let workTimeCounter = null;
+        // let workTimeCounter = setInterval(function() {
+        //     if(workActive) {
+        //         workActive = false; // 重置活跃度
+        //         let nowTime = Date.now(); // 获取当前时间戳
+        //         // 如果beforeTime与nowTime间隔>=1分钟，则计时重新开始
+        //         if(beforeTime === 0 || nowTime - beforeTime >= 60000) {
+        //             beforeTime = nowTime; 
+        //         } else {
+        //             // 计算出与beforeTime的间隔时间
+        //             let elapsedTime = nowTime - beforeTime; // 计算时间间隔
+        //             beforeTime = nowTime; // 更新beforeTime为当前时间
+        //             // 更新数据库累计时间
+        //             localStorage.setItem('worktotaltime', parseInt(localStorage.getItem('worktotaltime') || 0) + elapsedTime)
+        //         }
+        //     }
+        // }, 10000);
+
         // 全局题目
         var liveQuestions = [];
 
@@ -930,6 +961,28 @@
         // unloadQues: 不加载题库，用于已经将题载入liveQuestions
         // unturnAnswer: 1不转换答案形式，用于liveQuestions答案形式已经转换过
         function showSingleQuestions(doChaos, unloadQues, unturnAnswer) {
+            // 开始计时
+            if(workTimeCounter == null) {
+                console.log('123')
+                workTimeCounter = setInterval(function() {
+                    if(workActive) {
+                        workActive = false; // 重置活跃度
+                        let nowTime = Date.now(); // 获取当前时间戳
+                        // 如果beforeTime与nowTime间隔>=1分钟，则计时重新开始
+                        if(beforeTime === 0 || nowTime - beforeTime >= 60000) {
+                            beforeTime = nowTime; 
+                        } else {
+                            // 计算出与beforeTime的间隔时间
+                            let elapsedTime = nowTime - beforeTime; // 计算时间间隔
+                            beforeTime = nowTime; // 更新beforeTime为当前时间
+                            // 更新数据库累计时间
+                            localStorage.setItem('worktotaltime', parseInt(localStorage.getItem('worktotaltime') || 0) + elapsedTime)
+                        }
+                    }
+                }, 10000);
+            }
+
+
             examDisplay('singleExam');
             var onlyCollectEle = document.getElementById('onlyCollect');
             if(!unloadQues) {
@@ -1047,6 +1100,7 @@
         // 单选题检查对错
         // questionNum等于qIndex
         function checkSingleOpt(questionNum, optNum) {
+            workActive = true; // 保持答题活跃
             var onlyCollectEle = document.getElementById('onlyCollect');
             var doErrAutoCollectEle = document.getElementById('doErrAutoCollect');
             var autoNext = document.getElementById('autoNext');
@@ -1082,6 +1136,28 @@
         // unloadQues: 1不加载题库，用于已经将题载入liveQuestions
         // unturnAnswer: 1不转换答案形式，用于liveQuestions答案形式已经转换过
         function showMultiQuestions(doChaos, unloadQues, unturnAnswer) {
+            // 开始计时
+            if(workTimeCounter == null) {
+                console.log('123')
+                workTimeCounter = setInterval(function() {
+                    if(workActive) {
+                        workActive = false; // 重置活跃度
+                        let nowTime = Date.now(); // 获取当前时间戳
+                        // 如果beforeTime与nowTime间隔>=1分钟，则计时重新开始
+                        if(beforeTime === 0 || nowTime - beforeTime >= 60000) {
+                            beforeTime = nowTime; 
+                        } else {
+                            // 计算出与beforeTime的间隔时间
+                            let elapsedTime = nowTime - beforeTime; // 计算时间间隔
+                            beforeTime = nowTime; // 更新beforeTime为当前时间
+                            // 更新数据库累计时间
+                            localStorage.setItem('worktotaltime', parseInt(localStorage.getItem('worktotaltime') || 0) + elapsedTime)
+                        }
+                    }
+                }, 10000);
+            }
+
+
             examDisplay('multiExam');
             var onlyCollectEle = document.getElementById('onlyCollect');
             if(!unloadQues) {
@@ -1203,6 +1279,7 @@
         }
         // 检查多选题对错
         function checkMultiOpt(questionNum) {
+            workActive = true; // 保持答题活跃
             var onlyCollectEle = document.getElementById('onlyCollect');
             var doErrAutoCollectEle = document.getElementById('doErrAutoCollect');
             var autoNext = document.getElementById('autoNext');
@@ -1262,6 +1339,28 @@
         // doChaos: 1打乱题序，打乱选项，0不打乱
         // unloadQues: 不加载题库，用于已经将题载入liveQuestions
         function showBlankQuestions(doChaos, unloadQues) {
+            // 开始计时
+            if(workTimeCounter == null) {
+                console.log('123')
+                workTimeCounter = setInterval(function() {
+                    if(workActive) {
+                        workActive = false; // 重置活跃度
+                        let nowTime = Date.now(); // 获取当前时间戳
+                        // 如果beforeTime与nowTime间隔>=1分钟，则计时重新开始
+                        if(beforeTime === 0 || nowTime - beforeTime >= 60000) {
+                            beforeTime = nowTime; 
+                        } else {
+                            // 计算出与beforeTime的间隔时间
+                            let elapsedTime = nowTime - beforeTime; // 计算时间间隔
+                            beforeTime = nowTime; // 更新beforeTime为当前时间
+                            // 更新数据库累计时间
+                            localStorage.setItem('worktotaltime', parseInt(localStorage.getItem('worktotaltime') || 0) + elapsedTime)
+                        }
+                    }
+                }, 10000);
+            }
+
+
             examDisplay('blankExam');
             var onlyCollectEle = document.getElementById('onlyCollect');
             if(!unloadQues) {
@@ -1363,6 +1462,7 @@
             }
         }
         function checkBlankOpt(questionNum) {
+            workActive = true; // 保持答题活跃
             var onlyCollectEle = document.getElementById('onlyCollect');
             var doErrAutoCollectEle = document.getElementById('doErrAutoCollect');
             var autoNext = document.getElementById('autoNext');
@@ -1451,12 +1551,28 @@
 
         function showQuiz() {
             document.getElementById('quiz').style.display = 'block';
+            document.getElementById('statistics').style.display = 'none';
             document.getElementById('importQuestions').style.display = 'none';
         }
 
         function showImportQuestions() {
             document.getElementById('quiz').style.display = 'none';
+            document.getElementById('statistics').style.display = 'none';
             document.getElementById('importQuestions').style.display = 'block';
+        }
+
+        function showStatistics() {
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('importQuestions').style.display = 'none';
+            document.getElementById('statistics').style.display = 'block';
+
+            // 刷新workTime数字
+            var totalT = parseInt(localStorage.getItem('worktotaltime') || 0) / 1000;
+            var totalTText = `${Math.floor(totalT/60/60 % 60)}:${Math.floor(totalT/60 % 60)}:${Math.floor(totalT%60)}`;
+            document.getElementById('totalWorkTimeEle').innerHTML = totalTText;
+
+
+
         }
 
         function examDisplay(tag) {
