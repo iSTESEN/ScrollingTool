@@ -19,10 +19,7 @@
     var datasourceVer = '';
     // 读取数据库名称、版本
     function getDatasourceInfo() {
-        datasourceName = localStorage.getItem('STdataNameChinese') || '';
-        if(datasourceName == '') {
-            datasourceName = localStorage.getItem('STdataName') || '';
-        }
+        datasourceName = localStorage.getItem('STdataName') || '';
         if (datasourceName != '') {
             datasourceVer = localStorage.getItem('STdataVer') || '';
         }
@@ -79,7 +76,7 @@
             var newVer = updateObj.dataSource[datasourceName] || '';
             if (newVer != '' && datasourceVer != newVer) {
                 // 是否强制更新（localStorage.getItem('STdataName') || ''获取数据库英文名称，版本检查以英文名称为准）
-                if(updateObj.dataSourceMust[localStorage.getItem('STdataName') || '']) {
+                if(updateObj.dataSourceMust[datasourceName]) {
                     alert(`数据库重要更新：${datasourceName}_${newVer}`);
                     // 开始更新数据库
                     updateDatasource(datasourceName, 1);
