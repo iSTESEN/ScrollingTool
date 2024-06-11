@@ -78,8 +78,8 @@
         if (datasourceName != '') {
             var newVer = updateObj.dataSource[datasourceName] || '';
             if (newVer != '' && datasourceVer != newVer) {
-                // 是否强制更新
-                if(updateObj.dataSourceMust[datasourceName]) {
+                // 是否强制更新（localStorage.getItem('STdataName') || ''获取数据库英文名称，版本检查以英文名称为准）
+                if(updateObj.dataSourceMust[localStorage.getItem('STdataName') || '']) {
                     alert(`数据库重要更新：${datasourceName}_${newVer}`);
                     // 开始更新数据库
                     updateDatasource(datasourceName, 1);
