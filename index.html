@@ -78,13 +78,20 @@
         if (datasourceName != '') {
             var newVer = updateObj.dataSource[datasourceName] || '';
             if (newVer != '' && datasourceVer != newVer) {
-                // 发现数据库新版本
-                var userResponse = window.confirm(`数据库更新${newVer}，\n是否立即更新？\n注意：自己录的题会消失，如果有自行录入题目，更新前请先导出`);
-                if (userResponse) {
+                // 是否强制更新
+                if(updateObj.dataSourceMust[datasourceName]) {
+                    alert(`数据库重要更新：${datasourceName}_${newVer}`);
                     // 开始更新数据库
                     updateDatasource(datasourceName, 1);
                 } else {
-                    console.log('用户取消更新数据库');
+                    // 发现数据库新版本，非强制
+                    var userResponse = window.confirm(`数据库更新：${datasourceName}_${newVer}，\n是否立即更新？`);
+                    if (userResponse) {
+                        // 开始更新数据库
+                        updateDatasource(datasourceName, 1);
+                    } else {
+                        console.log('用户取消更新数据库');
+                    }
                 }
             }
         }
