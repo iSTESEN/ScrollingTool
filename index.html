@@ -12,7 +12,7 @@
 
 <script>
     // 当前版本号
-    var toolVersion = 'RELEASE_14 (2024-6-8)';
+    var toolVersion = 'RELEASE_15 (2024-6-11)';
     // 数据库名
     var datasourceName = '';
     // 数据库版本
@@ -598,11 +598,11 @@
         function initTool() {
             getTrueFalseNums();
             // 统计数据库数量
-            var list = JSON.parse(localStorage.getItem('singleQuestion')) || [];
+            var list = JSON.parse(localStorage.getItem('singleQuestion')|| '[]') ;
             dataNumObj.singleNums = list.length;
-            list = JSON.parse(localStorage.getItem('multiQuestion')) || [];
+            list = JSON.parse(localStorage.getItem('multiQuestion')|| '[]');
             dataNumObj.multiNums = list.length;
-            list = JSON.parse(localStorage.getItem('blankQuestion')) || [];
+            list = JSON.parse(localStorage.getItem('blankQuestion')|| '[]');
             dataNumObj.blankNums = list.length;
             list = [];
 
@@ -635,11 +635,11 @@
             // 恢复护眼配置
             changeFace(0);
             // 恢复自动保存错题设置
-            document.getElementById('doErrAutoCollect').checked = JSON.parse(localStorage.getItem('doErrAutoCollect')) || false;
+            document.getElementById('doErrAutoCollect').checked = JSON.parse(localStorage.getItem('doErrAutoCollect') || false) ;
             // 恢复不打乱顺序设置
-            document.getElementById('dontChaoc').checked = JSON.parse(localStorage.getItem('dontChaoc')) || false;
+            document.getElementById('dontChaoc').checked = JSON.parse(localStorage.getItem('dontChaoc') || false);
             // 恢复autoNext设置
-            document.getElementById('autoNext').checked = JSON.parse(localStorage.getItem('autoNext')) || false;
+            document.getElementById('autoNext').checked = JSON.parse(localStorage.getItem('autoNext') || false);
             // 检查刷题进度缓存
             setTimeout(() => afterInitCheckUndoQues(), 200);
             // 随机问卷
@@ -654,6 +654,8 @@
             }, 50);
             // 载入可选项限制
             afterGenerateLimitOpts();
+            // 汇总temp答题记录情况
+            sumTempSituation();
         }
 
         /**
@@ -680,6 +682,12 @@
         //     }
         // }, 10000);
 
+
+        /**
+         * 统计答题情况相关
+         */ 
+        var storeTempIndex = 0; // 在localstorage中临时保存的答题情况索引到哪了
+
         // 全局题目
         var liveQuestions = [];
 
@@ -689,6 +697,51 @@
             multiNums: 0,
             blankNums: 0
         };
+
+
+        // 汇总localstorage中的所有tempSituatXX，并更新storeTempIndex值
+        // workSituation = [
+        //     ["JSMarx", [
+        //                      ["JSMarx_single_1", [5, 10]] // 对次数,错次数
+        //                  ]
+        //      ]
+        // ]
+        function sumTempSituation() {
+            // 获取当前已有的汇总情况
+            var hadSituation = JSON.parse(localStorage.getItem('workSituation') || '[]')
+            hadSituation = new Map(hadSituation);
+            // 遍历store获取缓存
+            var i = 0
+            storeTempIndex = 0; // 重置临时存储索引
+            while(true) {
+                var e = localStorage.getItem('tempSituat' + i) 
+                if(e!=undefined) {
+                    localStorage.removeItem('tempSituat' + i);
+                    i++;
+                    e = JSON.parse(e);  // ["JSMarx", "JSMarx_single_1", 1, 0]  ["JSMarx", "JSMarx_single_1", 0, 1]
+                    // 获取对应数据库数据
+                    var nowDatasourceSituation = hadSituation.get(e[0]) || [];
+                    nowDatasourceSituation = new Map(nowDatasourceSituation);
+                    // 获取数据库中当前题目id的情况
+                    var s = nowDatasourceSituation.get(e[1]) || [];
+                    s[0] = (s[0]||0) + e[2];
+                    s[1] = (s[1]||0) + e[3];
+                    nowDatasourceSituation.set(e[1], s);
+                    hadSituation.set(e[0], [...nowDatasourceSituation]);
+                } else {
+                    // 到头了，并保存
+                    localStorage.setItem('workSituation', JSON.stringify([...hadSituation]));
+                    break;
+                }
+            }
+        }
+
+        // 添加答题情况
+        function addTempSituation(id, trueNum, falseNum) {
+            localStorage.setItem('tempSituat' + storeTempIndex, JSON.stringify([datasourceName, id, trueNum, falseNum]));
+            // ["JSMarx", "JSMarx_single_1", 1, 0]  ["JSMarx", "JSMarx_single_1", 0, 1]
+            storeTempIndex++;
+        }
 
         // generateLimitOpts.html生成选项成功，根据当前模式（刷题/刷收藏）写入页面
         function afterGenerateLimitOpts() {
@@ -979,7 +1032,6 @@
         function showSingleQuestions(doChaos, unloadQues, unturnAnswer) {
             // 开始计时
             if(workTimeCounter == null) {
-                console.log('123')
                 workTimeCounter = setInterval(function() {
                     if(workActive) {
                         workActive = false; // 重置活跃度
@@ -1133,12 +1185,20 @@
                 if(autoNext.checked) {
                     setTimeout(() => gotoEle('single', questionNum), 800);
                 }
+                // 记录答题情况
+                if(ques.id!=undefined) {
+                    addTempSituation(ques.id, 1, 0);
+                }
             } else {
                 optDoc.classList.add('falseText');
                 setTrueFalseNums(0);
                 // 做错自动收藏，除了只刷收藏模式
                 if(!onlyCollectEle.checked && doErrAutoCollectEle.checked) {
                     addCollect('single', questionNum);
+                }
+                // 记录答题情况
+                if(ques.id!=undefined) {
+                    addTempSituation(ques.id, 0, 1);
                 }
             }
             // 如果不为刷收藏，则保存进度
@@ -1154,7 +1214,6 @@
         function showMultiQuestions(doChaos, unloadQues, unturnAnswer) {
             // 开始计时
             if(workTimeCounter == null) {
-                console.log('123')
                 workTimeCounter = setInterval(function() {
                     if(workActive) {
                         workActive = false; // 重置活跃度
@@ -1344,9 +1403,17 @@
                 if(autoNext.checked) {
                     setTimeout(() => gotoEle('multi', questionNum), 800);
                 }
+                // 记录答题情况
+                if(ques.id!=undefined) {
+                    addTempSituation(ques.id, 1, 0);
+                }
             } else {
                 // 做错了
                 setTrueFalseNums(0);
+                // 记录答题情况
+                if(ques.id!=undefined) {
+                    addTempSituation(ques.id, 0, 1);
+                }
             }
             
         }
@@ -1357,7 +1424,6 @@
         function showBlankQuestions(doChaos, unloadQues) {
             // 开始计时
             if(workTimeCounter == null) {
-                console.log('123')
                 workTimeCounter = setInterval(function() {
                     if(workActive) {
                         workActive = false; // 重置活跃度
@@ -1495,12 +1561,20 @@
                 if(autoNext.checked) {
                     setTimeout(() => gotoEle('blank', questionNum), 1000);
                 }
+                // 记录答题情况
+                if(ques.id!=undefined) {
+                    addTempSituation(ques.id, 1, 0);
+                }
             } else {
                 tag.classList.add('falseText');
                 setTrueFalseNums(0);
                 // 做错自动收藏，除了只刷收藏模式
                 if(!onlyCollectEle.checked && doErrAutoCollectEle.checked) {
                     addCollect('blank', questionNum);
+                }
+                // 记录答题情况
+                if(ques.id!=undefined) {
+                    addTempSituation(ques.id, 0, 1);
                 }
             }
             // 如果不为刷收藏，则保存进度
@@ -1586,7 +1660,8 @@
             var totalT = parseInt(localStorage.getItem('worktotaltime') || 0) / 1000;
             var totalTText = `${Math.floor(totalT/60/60 % 60)}:${Math.floor(totalT/60 % 60)}:${Math.floor(totalT%60)}`;
             document.getElementById('totalWorkTimeEle').innerHTML = totalTText;
-
+            // 统计答题情况
+            sumTempSituation();
 
 
         }
