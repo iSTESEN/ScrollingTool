@@ -17,9 +17,12 @@
     var datasourceName = '';
     // 数据库版本
     var datasourceVer = '';
-    // 读取数据库版本
+    // 读取数据库名称、版本
     function getDatasourceInfo() {
-        datasourceName = localStorage.getItem('STdataName') || '';
+        datasourceName = localStorage.getItem('STdataNameChinese') || '';
+        if(datasourceName == '') {
+            datasourceName = localStorage.getItem('STdataName') || '';
+        }
         if (datasourceName != '') {
             datasourceVer = localStorage.getItem('STdataVer') || '';
         }
