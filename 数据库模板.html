@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>福建技术师范英语2024-2</title>
+
+</head>
+
+<body>
+
+    <h1>福建技术师范英语2024-2</h1>
+
+    <h3>STESEN</h3>
+
+</body>
+
+
+<!-- 为题目赋予id -->
+<!--
+var list = []
+var dataname = '数据库名'
+var typename = 'single' | 'multi' | 'blank'
+list.map((e,i) => {
+    e.id = dataname + '_' + typename + '_' + i;
+    return e;
+})
+-->
+
+
+<!-- 生成索引 -->
+<!--
+var list = [] // 包含id的题库
+list.map((e,i) => {
+    return [e.id, i];
+})
+-->
+
+
+<script>
+  /*
+    1、导入题库
+    2、导入完成发出消息
+  */
+
+// 农林金山马克思导入，导入完毕后发送事件
+function importJSExam() {
+            // 数据库标记 =======================
+            var datasourceName = 'FJSEnglish2';
+            var datasourceVer = '1（2024-6-12）';
+            var datasourceNameChinese = '英语'
+            // =================================
+            
+            localStorage.removeItem('quesLimitOpts');
+            localStorage.removeItem('singleQuestion');
+            localStorage.removeItem('blankQuestion');
+            localStorage.removeItem('multiQuestion');
+            // 导入单选
+            var dataJson = 
+
+
+
+
+            localStorage.setItem('singleQuestion', JSON.stringify(dataJson));
+
+
+        // 单选题索引
+            dataJson = 
+            
+
+
+           localStorage.setItem('singleQuestionIndex', JSON.stringify(dataJson));
+
+
+    
+
+
+            // 导入多选
+            dataJson = 
+            
+
+            localStorage.setItem('multiQuestion', JSON.stringify(dataJson));
+
+            // 多选题索引
+            dataJson = 
+            
+
+
+           localStorage.setItem('multiQuestionIndex', JSON.stringify(dataJson));
+
+    
+
+            // 导入填空
+            dataJson = []
+            
+
+
+            localStorage.setItem('blankQuestion', JSON.stringify(dataJson));
+
+
+            // 填空题索引
+            dataJson = 
+            
+
+            
+           localStorage.setItem('multiQuestionIndex', JSON.stringify(dataJson));
+
+
+
+            // 保存数据库版本
+            localStorage.setItem('STdataName', datasourceName);
+            localStorage.setItem('STdataVer', datasourceVer);
+            localStorage.setItem('STdataNameChinese', datasourceNameChinese);
+            // 导入完毕后事件对象
+            var updateObj = {
+                type: 'loaddata',
+                updateData: true
+            };
+            window.parent.postMessage(JSON.stringify(updateObj), '*');
+            alert(`${datasourceNameChinese}_${datasourceVer}数据库导入完毕！`);
+        }
+
+
+    
+    importJSExam();
+  
+
+
+</script>
+
+</html>
