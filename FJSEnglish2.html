@@ -1,0 +1,1921 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>福建技术师范英语2024-2</title>
+
+</head>
+
+<body>
+
+    <h1>福建技术师范英语2024-2</h1>
+
+    <h3>STESEN</h3>
+
+</body>
+
+<!-- 为题目赋予id -->
+<!--
+var list = []
+var dataname = '数据库名'
+var typename = 'single' | 'multi' | 'blank'
+list.map((e,i) => {
+    e.id = dataname + '_' + typename + '_' + i;
+    return e;
+})
+-->
+
+
+<!-- 生成索引 -->
+<!--
+var list = [] // 包含id的题库
+list.map((e,i) => {
+    return [e.id, i];
+})
+-->
+
+<script>
+  /*
+    1、导入题库
+    2、导入完成发出消息
+  */
+
+// 农林金山马克思导入，导入完毕后发送事件
+function importJSExam() {
+            // 数据库标记 =======================
+            var datasourceName = 'FJSEnglish2';
+            var datasourceVer = '1（2024-6-12）';
+            var datasourceNameChinese = '英语'
+            // =================================
+            
+            localStorage.removeItem('quesLimitOpts');
+            localStorage.removeItem('singleQuestion');
+            localStorage.removeItem('blankQuestion');
+            localStorage.removeItem('multiQuestion');
+            // 导入单选
+            var dataJson = [
+    {
+        "source": "Unit1-unit-test",
+        "description": "In my view, we should avoid ________ behavior under any circumstances.",
+        "options": [
+            "various  ",
+            "violent  ",
+            "vivid  ",
+            "virtual "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_0"
+    },
+    {
+        "source": "Unit1-unit-test",
+        "description": "The local government will continue to implement a variety of ________ to promote fair competition.",
+        "options": [
+            "regression  ",
+            "repetition  ",
+            "revolutions  ",
+            "regulations "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_1"
+    },
+    {
+        "source": "Unit1-unit-test",
+        "description": "The wearable smart mask can detect common viruses in the air, and then ________ the wearers via their mobile devices.",
+        "options": [
+            "alert  ",
+            "allow  ",
+            "alleviate  ",
+            "allege "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_2"
+    },
+    {
+        "source": "Unit1-unit-test",
+        "description": "________ in China over thousands of years ago, green tea is one of the oldest drinks in the world.",
+        "options": [
+            "Organizing  ",
+            "Overviewing  ",
+            "Originating  ",
+            "Overlooking "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_3"
+    },
+    {
+        "source": "Unit1-unit-test",
+        "description": "Listening to music can help to reduce stress and ease ________.",
+        "options": [
+            "temperature  ",
+            "tendency  ",
+            "tender  ",
+            "tension "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_4"
+    },
+    {
+        "source": "Unit1-unit-test",
+        "description": "Before making new plans, you should ________ your advantages and disadvantages.",
+        "options": [
+            "analyze  ",
+            "access  ",
+            "avoid  ",
+            "afford "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_5"
+    },
+    {
+        "source": "Unit1-unit-test",
+        "description": "A national smart platform launched on Monday will provide users with a wide ________ of courses and education services.",
+        "options": [
+            "amount  ",
+            "aside  ",
+            "array  ",
+            "alarm "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_6"
+    },
+    {
+        "source": "Unit1-unit-test",
+        "description": "Galleries, art museums, and other ________ attractions are now available in the city.",
+        "options": [
+            "regular  ",
+            "recreational  ",
+            "respectful  ",
+            "revolutionary  "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_7"
+    },
+    {
+        "source": "Unit2",
+        "description": "What is the possible consequence if a business leader has no vision?",
+        "options": [
+            "The business leader may misdirect the business and its needs.  ",
+            "The business leader will lack confidence.  ",
+            "The business will fail immediately.  ",
+            "The business leader will lose control of the company. "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_8"
+    },
+    {
+        "source": "Unit2",
+        "description": "What do business leaders need to remind themselves when they look for investment?",
+        "options": [
+            "What they expect from an investment company.  ",
+            "How to make more money with the investment.  ",
+            "Who the customers are and what their needs are.  ",
+            "How to compete with other companies. "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_9"
+    },
+    {
+        "source": "Unit2",
+        "description": "What is an important part of business ethics?",
+        "options": [
+            "Every employee needs to have management skills.  ",
+            "Every employee works for the same reason.  ",
+            "Every employee should be overworked.  ",
+            "Every employee is treated in a fair and encouraging manner. "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_10"
+    },
+    {
+        "source": "Unit2",
+        "description": "How do business leaders remain aware of the changes that are ahead?",
+        "options": [
+            "By copying the idea of other successful brands.  ",
+            "By reading a variety of content about their industry.  ",
+            "By hosting their own podcasts and conferences.  ",
+            "By learning advanced technology from abroad. "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_11"
+    },
+    {
+        "source": "Unit2",
+        "description": "Which of the following statements is true according to the passage?",
+        "options": [
+            "A lack of leadership is the most important reason why a business fails.  ",
+            "Successful businesses know every customer well and satisfy all their needs.  ",
+            "Some of those big brands kept old ideas in the wake of change.  ",
+            "Knowing the problems will help young entrepreneurs succeed in their business."
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_12"
+    },
+    {
+        "source": "Unit1",
+        "description": "What do we know about the origin of sports?",
+        "options": [
+            "Some individuals invented sports events.  ",
+            "Ancient sports were very different from modern ones.   ",
+            "Ancient humans practiced sports for survival.  ",
+            "Archery originated from Greek mythology. "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_13"
+    },
+    {
+        "source": "Unit1",
+        "description": "What is true about military training in ancient China and Greece?",
+        "options": [
+            "Military training in ancient China had nothing to do with sports.  ",
+            "In China, only kings and emperors had the right to practice martial arts.  ",
+            "In Sparta, only adults needed to receive strict military training.  ",
+            "The ancient Greeks did almost the same training as the ancient Chinese. "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_14"
+    },
+    {
+        "source": "Unit1",
+        "description": "Why did people in ancient China dance according to the passage?",
+        "options": [
+            "To keep healthy and prevent depression.  ",
+            "To improve the ability to beat the enemy.  ",
+            "To become more elegant and beautiful.  ",
+            "To prepare for dance competitions. "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_15"
+    },
+    {
+        "source": "Unit1",
+        "description": "Which of the following statements is NOT the view of Confucius?",
+        "options": [
+            "Physical development is as important as intellectual development.   ",
+            "People need to have sportsmanship when practicing sports.   ",
+            "An archer should be modest and observe rituals.  ",
+            "Emperors could use sports to cultivate military talents. "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_16"
+    },
+    {
+        "source": "Unit1",
+        "description": "According to the passage, which of the following statements is true?",
+        "options": [
+            "Sports were used for military purposes only in ancient Greece.   ",
+            "Confucius and Plato had opposite views on the role of sports in education.  ",
+            "The ancient Chinese and Greek civilizations shared much in common in sports.  ",
+            "Sports were first closely associated with dancing in ancient times.  "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_17"
+    },
+    {
+        "source": "Unit2",
+        "description": "An open mindset allows businessmen to ________ information from multiple areas and implement the most useful pieces into their company.",
+        "options": [
+            "systematize     ",
+            "sympathize          ",
+            "symbolize       ",
+            "synthesize "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_18"
+    },
+    {
+        "source": "Unit2",
+        "description": "The belief that we should do our duty and be honest is deeply ________ in many Chinese.",
+        "options": [
+            "ingredient    ",
+            "ingrained        ",
+            "immigrated              ",
+            "immersed "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_19"
+    },
+    {
+        "source": "Unit2",
+        "description": "Experts point out that there is no ________ to mastering an instrument, so the most useful way is to practice more.",
+        "options": [
+            "showcase     ",
+            "shortage           ",
+            "shortcut              ",
+            "shortcoming "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_20"
+    },
+    {
+        "source": "Unit2",
+        "description": "With the help of an ________ brain chip, a monkey can type out words on a computer screen or play video games using only its mind.",
+        "options": [
+            "implanted        ",
+            "implied        ",
+            "implemented        ",
+            "impressive "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_21"
+    },
+    {
+        "source": "Unit2",
+        "description": "The complex commands and structure confused the computer engineer, so he had to start from ________.",
+        "options": [
+            "script        ",
+            "scratch             ",
+            "schedule            ",
+            "scream "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_22"
+    },
+    {
+        "source": "Unit2",
+        "description": "Because much unfair discrimination is based on ignorance, more needs to be done in the education sector to enlighten our ________ generations.",
+        "options": [
+            "upgrading     ",
+            "upcycling        ",
+            "updating         ",
+            "upcoming "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_23"
+    },
+    {
+        "source": "Unit2",
+        "description": "Engineers spent five years designing and testing the ________ of the carrier rocket and finally solved all the technical problems.",
+        "options": [
+            "components    ",
+            "completion          ",
+            "connection      ",
+            "confusion "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_24"
+    },
+    {
+        "source": "Unit2",
+        "description": "If you always hide your emotional state, others may not be able to ________ with you.",
+        "options": [
+            "embody        ",
+            "embarrass          ",
+            "empathize          ",
+            "emphasize  "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_25"
+    },
+    {
+        "source": "Unit3",
+        "description": "She decided to break the ________ of getting up late so that she could get more done in the morning.",
+        "options": [
+            "review  ",
+            "routine  ",
+            "regret  ",
+            "relaxation "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_26"
+    },
+    {
+        "source": "Unit3",
+        "description": "Sleet (   ѩ) is a ________ of melting snow and freezing rain that falls from the sky.",
+        "options": [
+            "mixture  ",
+            "mistake  ",
+            "missile  ",
+            "mission "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_27"
+    },
+    {
+        "source": "Unit3",
+        "description": "Making ________ based on facts instead of opinions is a much stronger and more thorough way of looking at artworks.",
+        "options": [
+            "judge  ",
+            "knowledge  ",
+            "arrangements  ",
+            "judgments "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_28"
+    },
+    {
+        "source": "Unit3",
+        "description": "Education has now become a new ________ of people's incomes and life chances, much more than it was 50 years ago.",
+        "options": [
+            "description  ",
+            "detection  ",
+            "determinant  ",
+            "development "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_29"
+    },
+    {
+        "source": "Unit3",
+        "description": "To avoid the risk of building evidence with ________ data, we should examine all the statistics beforehand.",
+        "options": [
+            "flawed  ",
+            "flat  ",
+            "flash  ",
+            "frightened "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_30"
+    },
+    {
+        "source": "Unit3",
+        "description": "China's commitment to getting 300 million people ________ in winter sports has already become a reality.",
+        "options": [
+            "indicated  ",
+            "invested  ",
+            "involved  ",
+            "innovated "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_31"
+    },
+    {
+        "source": "Unit3",
+        "description": "The police are ________ up several clues provided by one witness of this serious accident.",
+        "options": [
+            "sitting  ",
+            "making  ",
+            "setting  ",
+            "following "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_32"
+    },
+    {
+        "source": "Unit3",
+        "description": "Companies seek employees who demonstrate the ________ to think critically.",
+        "options": [
+            "certainty  ",
+            "capacity  ",
+            "vitality  ",
+            "personality  "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_33"
+    },
+    {
+        "source": "Unit3",
+        "description": "Why is the example of American pet owners mentioned in Paragraph 2?",
+        "options": [
+            "To show how much people love their own pets.  ",
+            "To suggest that Americans spend the most on their pets.  ",
+            "To explain why Americans don't get married earlier.  ",
+            "To criticize people for loving their pets more than their spouses. "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_34"
+    },
+    {
+        "source": "Unit3",
+        "description": "What was the initial relationship between humans and animals?",
+        "options": [
+            "They were friends.  ",
+            "They were family.  ",
+            "They were work partners.  ",
+            "They were enemies. "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_35"
+    },
+    {
+        "source": "Unit3",
+        "description": "Which of the following statements is NOT the health benefit that humans can gain from their pets?",
+        "options": [
+            "Pets can help to lower blood pressure.  ",
+            "Pets can help to reduce stress.  ",
+            "Pets can help to reduce direct pain.  ",
+            "Pets can help to raise the heart rate. "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_36"
+    },
+    {
+        "source": "Unit3",
+        "description": "Which human-animal bond is tied directly to the human capacity for empathy?",
+        "options": [
+            "With companion animals.  ",
+            "With production animals.  ",
+            "With service animals.  ",
+            "With working animals. "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_37"
+    },
+    {
+        "source": "Unit3",
+        "description": "What can be inferred from the passage?",
+        "options": [
+            "Although people love their pets, they shouldn't spend much money on their pets.  ",
+            "The human-animal bond is always the same as people-to-people relationships.  ",
+            "Humans and animals may have different relationships in the future.  ",
+            "People will care more about companion animals than livestock in the future.  "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_38"
+    },
+    {
+        "source": "Unit4",
+        "description": "The old man ________ with extreme fear when he heard the bad news.",
+        "options": [
+            "treasured  ",
+            "traveled  ",
+            "transformed  ",
+            "trembled "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_39"
+    },
+    {
+        "source": "Unit4",
+        "description": "She is good at reading people's facial expressions, so she can understand the manager's ________ and thoughts.",
+        "options": [
+            "moods  ",
+            "means  ",
+            "menus  ",
+            "models "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_40"
+    },
+    {
+        "source": "Unit4",
+        "description": "For comedians, often it is the ________ that makes the audience laugh rather than the joke itself.",
+        "options": [
+            "diary  ",
+            "delivery  ",
+            "density  ",
+            "discussion "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_41"
+    },
+    {
+        "source": "Unit4",
+        "description": "Doctors advise routine exercise along with a healthy ________ featuring vegetables, fruits, nuts, and grains.",
+        "options": [
+            "diet  ",
+            "dialect  ",
+            "diagram  ",
+            "duet "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_42"
+    },
+    {
+        "source": "Unit4",
+        "description": "The man has serious heart disease and he needs to have a transplant ________ as soon as possible.",
+        "options": [
+            "opinion  ",
+            "option  ",
+            "operation  ",
+            "observation "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_43"
+    },
+    {
+        "source": "Unit4",
+        "description": "When the police car had gone, the crowd ________.",
+        "options": [
+            "displayed  ",
+            "dissolved  ",
+            "decorated  ",
+            "described "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_44"
+    },
+    {
+        "source": "Unit4",
+        "description": "Nowadays AI can identify artistic styles, ________ paintings, and even create unique art pieces.",
+        "options": [
+            "reject  ",
+            "retire  ",
+            "restrict  ",
+            "restore "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_45"
+    },
+    {
+        "source": "Unit4",
+        "description": "In fact, thinking of a robot coming from the future to help us run our governments sounds ________.",
+        "options": [
+            "widening  ",
+            "weakening  ",
+            "terrifying  ",
+            "thickening  "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_46"
+    },
+    {
+        "source": "Unit4",
+        "description": "Why does the father write the letter?",
+        "options": [
+            "To teach his son how to make more money.  ",
+            "To show his son the importance of parental love.  ",
+            "To tell his son about his own life stories.  ",
+            "To give his son some advice about life. "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_47"
+    },
+    {
+        "source": "Unit4",
+        "description": "What should the son do with his strength?",
+        "options": [
+            "Pursue what he wants at the expense of others.  ",
+            "Lend himself to helping those who are weaker than him.  ",
+            "Improve the lives of those who are fortunate enough.  ",
+            "Take the fortune from those who are weaker than him. "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_48"
+    },
+    {
+        "source": "Unit4",
+        "description": "What does the father tell the son to do in the face of mistakes?",
+        "options": [
+            "Laugh off mistakes and learn from them.  ",
+            "Try his best to avoid making big mistakes.  ",
+            "Ignore small mistakes to make himself happier.  ",
+            "Regret his mistakes to avoid making them again."
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_49"
+    },
+    {
+        "source": "Unit4",
+        "description": "What is the father's view on childish things that are no longer appropriate for the son's age?",
+        "options": [
+            "It's time to stop laughing and take his life seriously.  ",
+            "It's time to let the world take away all the brilliant things in his head.  ",
+            "He shouldn't pursue those colorful things anymore.  ",
+            "All the fun is invented from the pursuit of childish things. "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_50"
+    },
+    {
+        "source": "Unit4",
+        "description": "What does the father want his son to remember in the first place?",
+        "options": [
+            "Don't let the world steal his wonder.  ",
+            "Carve his own path when the world tries to fit him in a mold.  ",
+            "He is so deeply loved in this world.  ",
+            "Big or small, a mistake is nothing for regretting.  "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_51"
+    },
+    {
+        "source": "Unit5",
+        "description": "I was ________ to the position of goalkeeper in my company's football team, but I wanted to be a striker.",
+        "options": [
+            "attacked  ",
+            "assigned  ",
+            "attracted  ",
+            "addicted "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_52"
+    },
+    {
+        "source": "Unit5",
+        "description": "The same ________ that makes plastic so useful also makes it a danger to the marine environment.",
+        "options": [
+            "durability  ",
+            "diversity  ",
+            "disability  ",
+            "dignity "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_53"
+    },
+    {
+        "source": "Unit5",
+        "description": "In the event, schools in each country are chosen ________ to make sure that students come from a wide mix of backgrounds.",
+        "options": [
+            "regretfully  ",
+            "repeatedly  ",
+            "rapidly  ",
+            "randomly "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_54"
+    },
+    {
+        "source": "Unit5",
+        "description": "We must make sure that this celebration won't be marked by any slightest ________.",
+        "options": [
+            "interviews  ",
+            "innovations  ",
+            "incidents  ",
+            "invitations "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_55"
+    },
+    {
+        "source": "Unit5",
+        "description": "I love the British sense of humor but it can ________ people sometimes.",
+        "options": [
+            "offend  ",
+            "offer  ",
+            "observe  ",
+            "operate "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_56"
+    },
+    {
+        "source": "Unit5",
+        "description": "His health problems ________ an accident he had when he was a child.",
+        "options": [
+            "served as  ",
+            "settled in  ",
+            "started up  ",
+            "stemmed from "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_57"
+    },
+    {
+        "source": "Unit5",
+        "description": "We've fixed the date for the outing and we'll go ________ wind or rain.",
+        "options": [
+            "in honor of  ",
+            "instead of  ",
+            "regardless of  ",
+            "because of "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_58"
+    },
+    {
+        "source": "Unit5",
+        "description": "The toy is designed to ________ children's curiosity and imagination.",
+        "options": [
+            "survey  ",
+            "spark  ",
+            "shock  ",
+            "starve  "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_59"
+    },
+    {
+        "source": "Unit5",
+        "description": "How can people identify a married woman in India?",
+        "options": [
+            "A married woman would respect her husband and give up work.  ",
+            "A married woman would strive for independence.  ",
+            "A married woman can be identified by her purity and beauty.  ",
+            "A married woman can be identified by the red henna on her hand."
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_60"
+    },
+    {
+        "source": "Unit5",
+        "description": "In which places does yellow represent envy?",
+        "options": [
+            "In Egypt and Germany.  ",
+            "In Germany and France.  ",
+            "In France and Africa.  ",
+            "In Africa and Latin America."
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_61"
+    },
+    {
+        "source": "Unit5",
+        "description": "When is it considered unlucky to wear purple in Brazilian culture?",
+        "options": [
+            "When people do not attend a funeral or related service.  ",
+            "When people are mourning the death of their loved ones.  ",
+            "When people join the army to fight in the war.",
+            "When people wear purple on Sundays and Mondays. "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_62"
+    },
+    {
+        "source": "Unit5",
+        "description": "Which of the following statements about orange is NOT true?",
+        "options": [
+            "Orange represents curiosity and creativity in many Western cultures.  ",
+            "Orange is the national color and represents the Dutch royal family in the Netherlands.",
+            "Orange is associated with wealth, good health, and humility in Egypt.  ",
+            "The color of saffron is considered to be lucky and sacred in Indian cultures. "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_63"
+    },
+    {
+        "source": "Unit5",
+        "description": "What can be inferred from the passage?",
+        "options": [
+            "Understanding the meanings of colors can benefit cross-cultural communication.  ",
+            "The meanings of colors have changed over time in every country.  ",
+            "People who don't share the same belief system can't understand each other.  ",
+            "The way people perceive colors is determined by their genes.  "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_64"
+    },
+    {
+        "source": "Unit6",
+        "description": "As the digital economy grows, more and more holiday ________ are made online.",
+        "options": [
+            "purchases  ",
+            "prices  ",
+            "pursuits  ",
+            "promises "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_65"
+    },
+    {
+        "source": "Unit6",
+        "description": "Being able to provide high-quality health care at an ________ price is an issue facing many countries.",
+        "options": [
+            "accidental  ",
+            "adventurous  ",
+            "agricultural  ",
+            "affordable "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_66"
+    },
+    {
+        "source": "Unit6",
+        "description": "Cigarette packages with ________ pictures of diseased lungs may stop people from smoking.",
+        "options": [
+            "determining  ",
+            "defining  ",
+            "disturbing  ",
+            "distributing "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_67"
+    },
+    {
+        "source": "Unit6",
+        "description": "Criminals may use your personal information to request ________ or get credit cards in your name.",
+        "options": [
+            "losses  ",
+            "locks  ",
+            "loads  ",
+            "loans "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_68"
+    },
+    {
+        "source": "Unit6",
+        "description": "Fake friendships don't provide any real value to a person other than ________ entertainment.",
+        "options": [
+            "complimentary  ",
+            "momentary  ",
+            "budgetary  ",
+            "voluntary "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_69"
+    },
+    {
+        "source": "Unit6",
+        "description": "There are plenty of smart ways to be productive, but ________ back on sleep is definitely not one of them.",
+        "options": [
+            "calling  ",
+            "coming  ",
+            "cutting  ",
+            "craving "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_70"
+    },
+    {
+        "source": "Unit6",
+        "description": "We will go camping and fishing this weekend if the weather ________.",
+        "options": [
+            "preserves  ",
+            "permits  ",
+            "previews  ",
+            "pursues "
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "FJSEnglish2_single_71"
+    },
+    {
+        "source": "Unit6",
+        "description": "After the accident, she didn't ________ despair but focused on the good things in life.",
+        "options": [
+            "surrender to  ",
+            "shut down  ",
+            "show off  ",
+            "set up  "
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_72"
+    },
+    {
+        "source": "Unit6",
+        "description": "Why is it hard to compare housing costs in urban and rural areas?",
+        "options": [
+            "Because cities don't necessarily have higher housing prices.  ",
+            "Because housing prices are changing rapidly every year.  ",
+            "Because of the lack of statistics for housing prices in some rural areas.",
+            "Because people tend to buy a house in rural areas while they rent in cities."
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_73"
+    },
+    {
+        "source": "Unit6",
+        "description": "Which of the following statements is true about the cost of living?",
+        "options": [
+            "The cost of living in cities is definitely higher than in rural areas.  ",
+            "Housing prices are determined by the cost of living index.  ",
+            "Housing markets in urban and rural areas are the same.",
+            "It costs more money in rural areas when it comes to transportation. "
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "FJSEnglish2_single_74"
+    },
+    {
+        "source": "Unit6",
+        "description": "What is the advantage of finding a job in rural areas?",
+        "options": [
+            "There are more job opportunities in rural areas than in cities.  ",
+            "Rural areas have a larger demand for educated people than cities.  ",
+            "The competition is less fierce due to the smaller supply of college graduates.  ",
+            "College students there are well-prepared for exams and they get higher test scores."
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_75"
+    },
+    {
+        "source": "Unit6",
+        "description": "Which aspect does not have many differences between urban and rural areas?",
+        "options": [
+            "The percentage of recent college graduates that live there.  ",
+            "The percentages of college graduates who buy and rent houses.  ",
+            "The cost of food, transportation, and other necessities.  ",
+            "Job opportunities and the demand for educated workers."
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "FJSEnglish2_single_76"
+    },
+    {
+        "source": "Unit6",
+        "description": "What is the writer's attitude toward college graduates' choices according to the passage?",
+        "options": [
+            "College graduates should choose to live in busy big cities.  ",
+            "College graduates should make a living in charming rural areas.  ",
+            "It is up to college graduates to decide where they're going to live.  ",
+            "It is not mentioned in the passage.  "
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "FJSEnglish2_single_77"
+    }
+]
+
+
+            localStorage.setItem('singleQuestion', JSON.stringify(dataJson));
+
+
+        // 单选题索引
+            dataJson = [
+    [
+        "FJSEnglish2_single_0",
+        0
+    ],
+    [
+        "FJSEnglish2_single_1",
+        1
+    ],
+    [
+        "FJSEnglish2_single_2",
+        2
+    ],
+    [
+        "FJSEnglish2_single_3",
+        3
+    ],
+    [
+        "FJSEnglish2_single_4",
+        4
+    ],
+    [
+        "FJSEnglish2_single_5",
+        5
+    ],
+    [
+        "FJSEnglish2_single_6",
+        6
+    ],
+    [
+        "FJSEnglish2_single_7",
+        7
+    ],
+    [
+        "FJSEnglish2_single_8",
+        8
+    ],
+    [
+        "FJSEnglish2_single_9",
+        9
+    ],
+    [
+        "FJSEnglish2_single_10",
+        10
+    ],
+    [
+        "FJSEnglish2_single_11",
+        11
+    ],
+    [
+        "FJSEnglish2_single_12",
+        12
+    ],
+    [
+        "FJSEnglish2_single_13",
+        13
+    ],
+    [
+        "FJSEnglish2_single_14",
+        14
+    ],
+    [
+        "FJSEnglish2_single_15",
+        15
+    ],
+    [
+        "FJSEnglish2_single_16",
+        16
+    ],
+    [
+        "FJSEnglish2_single_17",
+        17
+    ],
+    [
+        "FJSEnglish2_single_18",
+        18
+    ],
+    [
+        "FJSEnglish2_single_19",
+        19
+    ],
+    [
+        "FJSEnglish2_single_20",
+        20
+    ],
+    [
+        "FJSEnglish2_single_21",
+        21
+    ],
+    [
+        "FJSEnglish2_single_22",
+        22
+    ],
+    [
+        "FJSEnglish2_single_23",
+        23
+    ],
+    [
+        "FJSEnglish2_single_24",
+        24
+    ],
+    [
+        "FJSEnglish2_single_25",
+        25
+    ],
+    [
+        "FJSEnglish2_single_26",
+        26
+    ],
+    [
+        "FJSEnglish2_single_27",
+        27
+    ],
+    [
+        "FJSEnglish2_single_28",
+        28
+    ],
+    [
+        "FJSEnglish2_single_29",
+        29
+    ],
+    [
+        "FJSEnglish2_single_30",
+        30
+    ],
+    [
+        "FJSEnglish2_single_31",
+        31
+    ],
+    [
+        "FJSEnglish2_single_32",
+        32
+    ],
+    [
+        "FJSEnglish2_single_33",
+        33
+    ],
+    [
+        "FJSEnglish2_single_34",
+        34
+    ],
+    [
+        "FJSEnglish2_single_35",
+        35
+    ],
+    [
+        "FJSEnglish2_single_36",
+        36
+    ],
+    [
+        "FJSEnglish2_single_37",
+        37
+    ],
+    [
+        "FJSEnglish2_single_38",
+        38
+    ],
+    [
+        "FJSEnglish2_single_39",
+        39
+    ],
+    [
+        "FJSEnglish2_single_40",
+        40
+    ],
+    [
+        "FJSEnglish2_single_41",
+        41
+    ],
+    [
+        "FJSEnglish2_single_42",
+        42
+    ],
+    [
+        "FJSEnglish2_single_43",
+        43
+    ],
+    [
+        "FJSEnglish2_single_44",
+        44
+    ],
+    [
+        "FJSEnglish2_single_45",
+        45
+    ],
+    [
+        "FJSEnglish2_single_46",
+        46
+    ],
+    [
+        "FJSEnglish2_single_47",
+        47
+    ],
+    [
+        "FJSEnglish2_single_48",
+        48
+    ],
+    [
+        "FJSEnglish2_single_49",
+        49
+    ],
+    [
+        "FJSEnglish2_single_50",
+        50
+    ],
+    [
+        "FJSEnglish2_single_51",
+        51
+    ],
+    [
+        "FJSEnglish2_single_52",
+        52
+    ],
+    [
+        "FJSEnglish2_single_53",
+        53
+    ],
+    [
+        "FJSEnglish2_single_54",
+        54
+    ],
+    [
+        "FJSEnglish2_single_55",
+        55
+    ],
+    [
+        "FJSEnglish2_single_56",
+        56
+    ],
+    [
+        "FJSEnglish2_single_57",
+        57
+    ],
+    [
+        "FJSEnglish2_single_58",
+        58
+    ],
+    [
+        "FJSEnglish2_single_59",
+        59
+    ],
+    [
+        "FJSEnglish2_single_60",
+        60
+    ],
+    [
+        "FJSEnglish2_single_61",
+        61
+    ],
+    [
+        "FJSEnglish2_single_62",
+        62
+    ],
+    [
+        "FJSEnglish2_single_63",
+        63
+    ],
+    [
+        "FJSEnglish2_single_64",
+        64
+    ],
+    [
+        "FJSEnglish2_single_65",
+        65
+    ],
+    [
+        "FJSEnglish2_single_66",
+        66
+    ],
+    [
+        "FJSEnglish2_single_67",
+        67
+    ],
+    [
+        "FJSEnglish2_single_68",
+        68
+    ],
+    [
+        "FJSEnglish2_single_69",
+        69
+    ],
+    [
+        "FJSEnglish2_single_70",
+        70
+    ],
+    [
+        "FJSEnglish2_single_71",
+        71
+    ],
+    [
+        "FJSEnglish2_single_72",
+        72
+    ],
+    [
+        "FJSEnglish2_single_73",
+        73
+    ],
+    [
+        "FJSEnglish2_single_74",
+        74
+    ],
+    [
+        "FJSEnglish2_single_75",
+        75
+    ],
+    [
+        "FJSEnglish2_single_76",
+        76
+    ],
+    [
+        "FJSEnglish2_single_77",
+        77
+    ]
+]
+            
+
+
+           localStorage.setItem('singleQuestionIndex', JSON.stringify(dataJson));
+
+
+    
+
+
+            // 导入多选
+            dataJson = []
+            
+
+            localStorage.setItem('multiQuestion', JSON.stringify(dataJson));
+
+            // 多选题索引
+            dataJson = []
+            
+
+
+           localStorage.setItem('multiQuestionIndex', JSON.stringify(dataJson));
+
+    
+
+            // 导入填空
+            dataJson = [
+    {
+        "source": "Unit1",
+        "description": "While Mother Nature is unpredictable, several technologies promise to help with disaster forecasting and prevention, and allow us to act sooner rather than later.",
+        "correctAnswer": "虽然大自然不可预测，但仍有一些技术有望帮助人类预测和预防灾害的发生，从而使得我们可以尽早采取行动。",
+        "id": "FJSEnglish2_blank_0"
+    },
+    {
+        "source": "Unit1",
+        "description": "AI can help technologists better interpret a growing amount of data and create forecasting models that can automatically alert authorities.",
+        "correctAnswer": "人工智能可以帮助技术专家更好地解读不断增加的数据，并创建预测模型，自动提醒相关机构。",
+        "id": "FJSEnglish2_blank_1"
+    },
+    {
+        "source": "Unit3",
+        "description": "Sometimes it does seem that people critique art solely on what they know about the artist in question instead of focusing on the art itself.",
+        "correctAnswer": "有时候好像的确是这样，人们评论艺术作品，仅仅依靠他们对所讨论的艺术家的了解，而不是关注艺术作品本身。",
+        "id": "FJSEnglish2_blank_2"
+    },
+    {
+        "source": "Unit3",
+        "description": "Once the names were revealed, and thus everything those names represent was brought to the table, people changed their criticism of the artworks.",
+        "correctAnswer": "一旦画家的名字被透露，这些名字所代表的一切也随之展现出来，人们对其艺术作品的评判也就改变了。",
+        "id": "FJSEnglish2_blank_3"
+    },
+    {
+        "source": "Unit5",
+        "description": "There's received wisdom in Britain that the Americans don't get irony. It is often believed to be one of the most common differences between the British and American sense of humor.",
+        "correctAnswer": "在英国，人们有一种共识，认为美国人不懂讽刺。这常常被视为英式幽默和美式幽默最普遍的差异之一。",
+        "id": "FJSEnglish2_blank_4"
+    },
+    {
+        "source": "Unit5",
+        "description": "British jokes, on the other hand, tend to be more subtle, but with a dark or sarcastic undertone.",
+        "correctAnswer": "另一方面，英式笑话往往更加微妙，带着隐晦的或嘲讽的弦外之音，通常有隐含的意义。",
+        "id": "FJSEnglish2_blank_5"
+    },
+    {
+        "source": "Unit6",
+        "description": "If I was ever in a serious financial situation, I knew they would offer help, but after 10 years of private-school education on their dime, I didn't want to come crawling back for an allowance.",
+        "correctAnswer": "如果我的经济状况不好，我知道他们会帮助我。但他们已经辛苦攒钱资助我上了十年的私立学校，我不想再回去乞求他们的资助。",
+        "id": "FJSEnglish2_blank_6"
+    },
+    {
+        "source": "Unit6",
+        "description": "If I want to plan a vacation halfway around the world, I do, and no one can tell me otherwise, because I am depending on my own means to get there.",
+        "correctAnswer": "如果我想计划一次走遍半个世界的旅行，我就会那么做，没人能有不同的意见，因为我是按自己的意愿行事。",
+        "id": "FJSEnglish2_blank_7"
+    },
+    {
+        "source": "Unit6",
+        "description": "What about when both countries have the same mother tongue? Does that mean they will then share the same sense of humor, or will differences still occur? Let's take the example of Britain and America. Not only do the Americans and the British spell the word \"humor\" differently, most claim that American humor and British humor are quite different in nature. Time and time again, people say that the British and the Americans don't \"get\" each other's sense of humor. To what extent is this true, if at all?",
+        "correctAnswer": "当两国有相同的母语时呢？这是否意味着他们将拥有相同的幽默感，或者仍然会发生差异？让我们以英国和美国为例。不仅美国人和英国人对“幽默”一词的拼写不同，而且大多数人声称美国的幽默和英国的幽默在本质上是完全不同的。人们一次又一次地说，英国人和美国人没有“理解”对方的幽默感。这在多大程度上是正确的，如果有的话？",
+        "id": "FJSEnglish2_blank_8"
+    },
+    {
+        "source": "Unit1",
+        "description": "Scientists have developed some models to ______ the moving direction of the rain clouds.",
+        "correctAnswer": "anticipate",
+        "id": "FJSEnglish2_blank_9"
+    },
+    {
+        "source": "Unit1",
+        "description": "A group of researchers collected ____ of how waves move across the surface of the ocean.",
+        "correctAnswer": "data",
+        "id": "FJSEnglish2_blank_10"
+    },
+    {
+        "source": "Unit1",
+        "description": "The ____ of earthquakes varies from place to place, depending mostly on the distance from the center of the earthquake.",
+        "correctAnswer": "intensity",
+        "id": "FJSEnglish2_blank_11"
+    },
+    {
+        "source": "Unit1",
+        "description": "We would like to recommend this ____ shipping service to you because it protects shippers from lost, stolen or damaged packages.",
+        "correctAnswer": "insured",
+        "id": "FJSEnglish2_blank_12"
+    },
+    {
+        "source": "Unit1",
+        "description": "Despite years of research, the ____ method is not effective enough to predict the exact time of an earthquake.",
+        "correctAnswer": "current",
+        "id": "FJSEnglish2_blank_13"
+    },
+    {
+        "source": "Unit1",
+        "description": "Weather-related ____ cause severe damage to this village every year.",
+        "correctAnswer": "disasters",
+        "id": "FJSEnglish2_blank_14"
+    },
+    {
+        "source": "Unit1",
+        "description": "Some researchers are trying to find prevention methods by ____ the data of forest fires in history.",
+        "correctAnswer": "analyzing",
+        "id": "FJSEnglish2_blank_15"
+    },
+    {
+        "source": "Unit1",
+        "description": "It is reported that a new system will be ____ for earthquake early warning and disaster relief.",
+        "correctAnswer": "implemented",
+        "id": "FJSEnglish2_blank_16"
+    },
+    {
+        "source": "Unit3",
+        "description": "Jenny's story showed us that some painters' works ____ their personal life and early experience.",
+        "correctAnswer": "were attributed to",
+        "id": "FJSEnglish2_blank_17"
+    },
+    {
+        "source": "Unit3",
+        "description": "In the art exhibition, Malone noticed that his little son ____ the spirit of the special painting.",
+        "correctAnswer": "took in",
+        "id": "FJSEnglish2_blank_18"
+    },
+    {
+        "source": "Unit3",
+        "description": "The professor asked the students to discover whether the painting ____ has those characteristics before drawing the final conclusion.",
+        "correctAnswer": "in question",
+        "id": "FJSEnglish2_blank_19"
+    },
+    {
+        "source": "Unit3",
+        "description": "My mentor advised me to explore my own feelings about the painting ____ reading others' reviews of it.",
+        "correctAnswer": "prior to",
+        "id": "FJSEnglish2_blank_20"
+    },
+    {
+        "source": "Unit3",
+        "description": "Five directors and seven writers ____ various stages of the production of this great film.",
+        "correctAnswer": "were involved in",
+        "id": "FJSEnglish2_blank_21"
+    },
+    {
+        "source": "Unit5",
+        "description": "This ____ was believed to be caused by cultural differences and conflicts of interest between the two tribes.",
+        "correctAnswer": "incident",
+        "id": "FJSEnglish2_blank_22"
+    },
+    {
+        "source": "Unit5",
+        "description": "It surprised me that this ____ cartoon, which shows a traditional Chinese story, was created by a group of students.",
+        "correctAnswer": "amusing",
+        "id": "FJSEnglish2_blank_23"
+    },
+    {
+        "source": "Unit5",
+        "description": "Advertising can influence consumers' moods which, ____ , are capable of influencing their reaction to products.",
+        "correctAnswer": "in turn",
+        "id": "FJSEnglish2_blank_24"
+    },
+    {
+        "source": "Unit5",
+        "description": "Designers often attempt to break out of the confines of accepted practice, and it has happened ____ .",
+        "correctAnswer": "time and time again",
+        "id": "FJSEnglish2_blank_25"
+    },
+    {
+        "source": "Unit5",
+        "description": "What may be perfectly acceptable to talk about in one culture may ____ or even shock people from another culture.",
+        "correctAnswer": "offend",
+        "id": "FJSEnglish2_blank_26"
+    },
+    {
+        "source": "Unit5",
+        "description": "Introverted people tend to be ____ and do not like sharing personal problems with others, not even with their closest friends.",
+        "correctAnswer": "reserved",
+        "id": "FJSEnglish2_blank_27"
+    },
+    {
+        "source": "Unit5",
+        "description": "Learning a new language may arouse our interest in getting to know a new culture, and ____ .",
+        "correctAnswer": "vice versa",
+        "id": "FJSEnglish2_blank_28"
+    },
+    {
+        "source": "Unit5",
+        "description": "Social psychology is the scientific study of how we think about, influence and ____ one another.",
+        "correctAnswer": "relate to",
+        "id": "FJSEnglish2_blank_29"
+    },
+    {
+        "source": "Unit6",
+        "description": "We all found her expensive life style and continuing reliance on her parents for money ____ .",
+        "correctAnswer": "disturbing",
+        "id": "FJSEnglish2_blank_30"
+    },
+    {
+        "source": "Unit6",
+        "description": "Susan couldn't have managed to study at college if she hadn't had a(n) ____ from her parents.",
+        "correctAnswer": "allowance",
+        "id": "FJSEnglish2_blank_31"
+    },
+    {
+        "source": "Unit6",
+        "description": "I have to ____ that when I first met Reece I didn't think he was very bright.",
+        "correctAnswer": "confess",
+        "id": "FJSEnglish2_blank_32"
+    },
+    {
+        "source": "Unit6",
+        "description": "It was reported that the refugees were living in ____ housing provided by the local government.",
+        "correctAnswer": "subsidized / subsidised",
+        "id": "FJSEnglish2_blank_33"
+    },
+    {
+        "source": "Unit6",
+        "description": "George wanted to give up, but he knew that the ____ relief might be followed by worse suffering.",
+        "correctAnswer": "momentary",
+        "id": "FJSEnglish2_blank_34"
+    },
+    {
+        "source": "Unit6",
+        "description": "Many studies have been undertaken to investigate the ____ sustainability of traditional pension systems.",
+        "correctAnswer": "financial",
+        "id": "FJSEnglish2_blank_35"
+    },
+    {
+        "source": "Unit6",
+        "description": "It was wonderfully ____ to have been able to tell the whole truth at last.",
+        "correctAnswer": "liberating",
+        "id": "FJSEnglish2_blank_36"
+    },
+    {
+        "source": "Unit6",
+        "description": "The president wants to make it easier for small and micro businesses to get bank ____ .",
+        "correctAnswer": "loans",
+        "id": "FJSEnglish2_blank_37"
+    }
+]
+            
+
+
+            localStorage.setItem('blankQuestion', JSON.stringify(dataJson));
+
+
+            // 填空题索引
+            dataJson = [
+    [
+        "FJSEnglish2_blank_0",
+        0
+    ],
+    [
+        "FJSEnglish2_blank_1",
+        1
+    ],
+    [
+        "FJSEnglish2_blank_2",
+        2
+    ],
+    [
+        "FJSEnglish2_blank_3",
+        3
+    ],
+    [
+        "FJSEnglish2_blank_4",
+        4
+    ],
+    [
+        "FJSEnglish2_blank_5",
+        5
+    ],
+    [
+        "FJSEnglish2_blank_6",
+        6
+    ],
+    [
+        "FJSEnglish2_blank_7",
+        7
+    ],
+    [
+        "FJSEnglish2_blank_8",
+        8
+    ],
+    [
+        "FJSEnglish2_blank_9",
+        9
+    ],
+    [
+        "FJSEnglish2_blank_10",
+        10
+    ],
+    [
+        "FJSEnglish2_blank_11",
+        11
+    ],
+    [
+        "FJSEnglish2_blank_12",
+        12
+    ],
+    [
+        "FJSEnglish2_blank_13",
+        13
+    ],
+    [
+        "FJSEnglish2_blank_14",
+        14
+    ],
+    [
+        "FJSEnglish2_blank_15",
+        15
+    ],
+    [
+        "FJSEnglish2_blank_16",
+        16
+    ],
+    [
+        "FJSEnglish2_blank_17",
+        17
+    ],
+    [
+        "FJSEnglish2_blank_18",
+        18
+    ],
+    [
+        "FJSEnglish2_blank_19",
+        19
+    ],
+    [
+        "FJSEnglish2_blank_20",
+        20
+    ],
+    [
+        "FJSEnglish2_blank_21",
+        21
+    ],
+    [
+        "FJSEnglish2_blank_22",
+        22
+    ],
+    [
+        "FJSEnglish2_blank_23",
+        23
+    ],
+    [
+        "FJSEnglish2_blank_24",
+        24
+    ],
+    [
+        "FJSEnglish2_blank_25",
+        25
+    ],
+    [
+        "FJSEnglish2_blank_26",
+        26
+    ],
+    [
+        "FJSEnglish2_blank_27",
+        27
+    ],
+    [
+        "FJSEnglish2_blank_28",
+        28
+    ],
+    [
+        "FJSEnglish2_blank_29",
+        29
+    ],
+    [
+        "FJSEnglish2_blank_30",
+        30
+    ],
+    [
+        "FJSEnglish2_blank_31",
+        31
+    ],
+    [
+        "FJSEnglish2_blank_32",
+        32
+    ],
+    [
+        "FJSEnglish2_blank_33",
+        33
+    ],
+    [
+        "FJSEnglish2_blank_34",
+        34
+    ],
+    [
+        "FJSEnglish2_blank_35",
+        35
+    ],
+    [
+        "FJSEnglish2_blank_36",
+        36
+    ],
+    [
+        "FJSEnglish2_blank_37",
+        37
+    ]
+]
+            
+
+            
+           localStorage.setItem('multiQuestionIndex', JSON.stringify(dataJson));
+
+
+
+            // 保存数据库版本
+            localStorage.setItem('STdataName', datasourceName);
+            localStorage.setItem('STdataVer', datasourceVer);
+            localStorage.setItem('STdataNameChinese', datasourceNameChinese);
+            // 导入完毕后事件对象
+            var updateObj = {
+                type: 'loaddata',
+                updateData: true
+            };
+            window.parent.postMessage(JSON.stringify(updateObj), '*');
+            alert(`${datasourceNameChinese}_${datasourceVer}数据库导入完毕！`);
+        }
+
+
+    
+    importJSExam();
+  
+
+
+</script>
+
+</html>
