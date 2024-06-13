@@ -982,9 +982,14 @@
 
          // 清空计数牌
         function cleanTrueFalseNums() {
-            localStorage.removeItem('trueNums')
-            localStorage.removeItem('falseNums')
-            getTrueFalseNums();
+            var userResponse = window.confirm('认真的吗？');
+            if (userResponse) {
+                if(window.confirm('真的要清空计数牌吗？')) {
+                    localStorage.removeItem('trueNums')
+                    localStorage.removeItem('falseNums')
+                    getTrueFalseNums();
+                }
+            }
         }
 
         // 获取全局true、false次数，写到对应位置
