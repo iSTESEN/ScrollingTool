@@ -345,12 +345,24 @@
     <div id="statistics" style="display: none;" class="container-fluid">
         <div class="row">
             <div class="col">
-                    <div class="card-body text-secondary">
-                            <p>
-                                <span>刷题用时：</span>
-                                <span id="totalWorkTimeEle">0:0:0</span>
-                            </p>
+                    <!-- 显示用时 -->
+                    <div class="card border-secondary mb-3">
+                        <div class="card-body text-secondary">
+                                <p>
+                                    <span>刷题用时：</span>
+                                    <span id="totalWorkTimeEle">0:0:0</span>
+                                </p>
+                        </div>
                     </div>
+
+                    <!-- 显示题库进度 -->
+                    <div id="showdatasourcepercentdiv"></div>
+
+
+
+
+
+
             </div>
         </div>
             
@@ -1663,14 +1675,72 @@
             document.getElementById('importQuestions').style.display = 'none';
             document.getElementById('statistics').style.display = 'block';
 
-            // 刷新workTime数字
+            // 刷新workTime数字-------------------------
             var totalT = parseInt(localStorage.getItem('worktotaltime') || 0) / 1000;
             var totalTText = `${Math.floor(totalT/60/60 % 60)}:${Math.floor(totalT/60 % 60)}:${Math.floor(totalT%60)}`;
             document.getElementById('totalWorkTimeEle').innerHTML = totalTText;
-            // 统计答题情况
+
+            // 统计答题情况-------------------------
+            // 整合临时记录
             sumTempSituation();
+            // 获取全部题库题目数
+            var totalQuesNum = dataNumObj.singleNums + dataNumObj.multiNums + dataNumObj.blankNums;
+            // 刷题进度
+            var workPercent = 0; // 刷题总进度
+            var proficientPercent = 0; // 熟练度 = 在刷题总进度的部分内，统计正确-错误>=2的数量
 
 
+            var dataSituationMap = new Map(JSON.parse(localStorage.getItem('workSituation') || '[]'));
+            dataSituationMap = dataSituationMap.get(datasourceName);
+            // 如果当前数据库存在数据才工作
+            if(dataSituationMap != undefined && totalQuesNum!=0) {
+                // 计算刷题总进度
+                workPercent = Math.floor((dataSituationMap.length / totalQuesNum) * 100);
+                // 计算熟练度
+                dataSituationMap.forEach(e => {
+                    if(e[1][0] - e[1][1] >= 2) {
+                        proficientPercent++;
+                    }
+                })
+                proficientPercent = Math.floor((proficientPercent / totalQuesNum) * 100);
+                // console.log(proficientPercent);
+            }
+            // 如果当前有数据库则显示数据
+            if(datasourceName != '') {
+                document.getElementById('showdatasourcepercentdiv').innerHTML = `
+                    <div class="card border-secondary mb-3">
+                        <div class="card-body text-secondary">
+                            <p>
+                                <span >${datasourceName}题库</span>
+                            </p>
+                            <div class="row font-weight-normal d-flex align-items-center">
+                                <div class="col-lg-1 col-sm-12">
+                                    <span>进度 ${workPercent}%</span>
+                                </div>
+                                <div class="col-lg-11 col-sm-12">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: ${workPercent}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            <div class="row font-weight-normal d-flex align-items-center">
+                                <div class="col-lg-1 col-sm-12">
+                                    <span>熟练度 ${proficientPercent}%</span>
+                                </div>
+                                <div class="col-lg-11 col-sm-12">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: ${proficientPercent}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+
+            
+            
         }
 
         function examDisplay(tag) {
