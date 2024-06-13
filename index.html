@@ -1688,7 +1688,8 @@
             // 刷题进度
             var workPercent = 0; // 刷题总进度
             var proficientPercent = 0; // 熟练度 = 在刷题总进度的部分内，统计正确-错误>=2的数量
-
+            var trueNum = 0; // 正确数
+            var falseNum = 0; // 错误数
 
             var dataSituationMap = new Map(JSON.parse(localStorage.getItem('workSituation') || '[]'));
             dataSituationMap = dataSituationMap.get(datasourceName);
@@ -1698,9 +1699,13 @@
                 workPercent = Math.floor((dataSituationMap.length / totalQuesNum) * 100);
                 // 计算熟练度
                 dataSituationMap.forEach(e => {
+                    // 计算题目熟练度
                     if(e[1][0] - e[1][1] >= 2) {
                         proficientPercent++;
                     }
+                    // 统计正确错误数
+                    trueNum += e[1][0];
+                    falseNum += e[1][1]
                 })
                 proficientPercent = Math.floor((proficientPercent / totalQuesNum) * 100);
                 // console.log(proficientPercent);
@@ -1715,22 +1720,22 @@
                             </p>
                             <div class="row font-weight-normal d-flex align-items-center">
                                 <div class="col-lg-1 col-sm-12">
-                                    <span>进度 ${workPercent}%</span>
+                                    <span>进度</span>
                                 </div>
                                 <div class="col-lg-11 col-sm-12">
                                     <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: ${workPercent}%"></div>
+                                        <div class="progress-bar" role="progressbar" style="width: ${workPercent}%">${workPercent}%</div>
                                     </div>
                                 </div>
                             </div>
                     
                             <div class="row font-weight-normal d-flex align-items-center">
                                 <div class="col-lg-1 col-sm-12">
-                                    <span>熟练度 ${proficientPercent}%</span>
+                                    <span>熟练度</span>
                                 </div>
                                 <div class="col-lg-11 col-sm-12">
                                     <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: ${proficientPercent}%"></div>
+                                        <div class="progress-bar" role="progressbar" style="width: ${proficientPercent}%">${proficientPercent}%</div>
                                     </div>
                                 </div>
                             </div>
