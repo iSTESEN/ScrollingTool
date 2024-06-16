@@ -1,0 +1,4077 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>福工商数据结构 数据2024</title>
+
+</head>
+
+<body>
+
+    <h1>福工商数据结构 数据2024</h1>
+
+    <h3>STESEN</h3>
+
+</body>
+
+<!-- 为题目赋予id -->
+<!--
+var list = []
+var dataname = '数据库名'
+var typename = 'single' | 'multi' | 'blank'
+list.map((e,i) => {
+    e.id = dataname + '_' + typename + '_' + i;
+    return e;
+})
+-->
+
+
+<!-- 生成索引 -->
+<!--
+var list = [] // 包含id的题库
+list.map((e,i) => {
+    return [e.id, i];
+})
+-->
+
+<script>
+  /*
+    1、导入题库
+    2、导入完成发出消息
+  */
+
+// 导入完毕后发送事件
+function importJSExam() {
+            // 数据库标记 =======================
+            var datasourceName = 'FGSstructure';
+            var datasourceVer = '1（2024-6-16）';
+            var datasourceNameChinese = '数据结构'
+            // =================================
+            
+            localStorage.removeItem('quesLimitOpts');
+            localStorage.removeItem('singleQuestion');
+            localStorage.removeItem('blankQuestion');
+            localStorage.removeItem('multiQuestion');
+            // 导入单选
+            var dataJson = [
+    {
+        "description": "下说法错误的是()。",
+        "options": [
+            "数据项是数据的最小单位",
+            "数据元素是数据的基本单位",
+            "数据结构是带有结构的各数据项的集合",
+            "一些表面上很不相同的数据可以有相同的逻辑结构"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_0"
+    },
+    {
+        "description": "数据结构是带“结构＂的()的集合。",
+        "options": [
+            "数据",
+            "数据项",
+            "数据元素",
+            "数据对象"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_1"
+    },
+    {
+        "description": "算法分析的目的是()。",
+        "options": [
+            "找出数据结构的合理性",
+            "研究算法中的输入和输出的关系",
+            "分析算法的效率以求改进",
+            "分析算法的易懂性和文档性"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_2"
+    },
+    {
+        "description": "算法分析的两个主要方面是()。",
+        "options": [
+            "空间复杂性和时间复杂性",
+            "正确性和简明性",
+            "可读性和文档性",
+            "数据复杂性和程序复杂性"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_3"
+    },
+    {
+        "description": "计算机算法指的是()。",
+        "options": [
+            "计算方法",
+            "排序方法",
+            "解决问题的有限运算序列",
+            "调度方法"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_4"
+    },
+    {
+        "description": "计算机算法必具备输入、输出和()等五个特性。",
+        "options": [
+            "可行性、可移植性和可扩充性",
+            "可行性、确定性和有穷性",
+            "确定性、有穷性和稳定性",
+            "易读性、稳定性和安全性"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_5"
+    },
+    {
+        "description": "下述哪一条是顺序存储结构的优点()。",
+        "options": [
+            "可方便地用于各种逻辑结构的存储表示",
+            "插入运算方便",
+            "删除运算方便",
+            "存储密度大"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_6"
+    },
+    {
+        "description": "在数据结构中,从逻辑上可以把数据结构分成()。",
+        "options": [
+            "动态结构和静态结构",
+            "紧凑结构和非紧凑结构",
+            "线性结构和非线性结构",
+            "内部结构和外部结构"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_7"
+    },
+    {
+        "description": "在数据结构中,从存储结构上可以将之分为()。",
+        "options": [
+            "动态结构和静态结构",
+            "顺序存储和非顺序存储",
+            "紧凑结构和非紧凑结构",
+            "线性结构和非线性结构"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_8"
+    },
+    {
+        "description": "某算法的时间复杂度是O(n^2),表明该算法的()。",
+        "options": [
+            "执行时间与n^2成正比",
+            "问题规模是n^2",
+            "执行时间等于n^2",
+            "问题规模与n^2成正比"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_9"
+    },
+    {
+        "description": "执行下面程序段的时间复杂度为（）。",
+        "options": [
+            "O(2n)",
+            "O(n)",
+            "O(n2)",
+            "O(log2n)"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_10"
+    },
+    {
+        "description": "以下数据结构中,()是非线性数据结构。",
+        "options": [
+            "树",
+            "字符串",
+            "队",
+            "栈"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_11"
+    },
+    {
+        "description": "顺序存储,存储单元的地址()。",
+        "options": [
+            "一定连续",
+            "一定不连续",
+            "不一定连续",
+            "部分连续,部分不连续"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_12"
+    },
+    {
+        "description": "评价一个算法性能好坏的重要标准是()。",
+        "options": [
+            "算法的正确性",
+            "算法易于调试",
+            "算法的时间和空间复杂度",
+            "算法易于理解"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_13"
+    },
+    {
+        "description": "组成数据的基本单位是（）。",
+        "options": [
+            "数据项",
+            "数据类型",
+            "数据元素",
+            "数据变量"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_14"
+    },
+    {
+        "description": "在计算机的存储器中表示时,物理地址和逻辑地址相同并且是连续的,称之为()。",
+        "options": [
+            "逻辑结构",
+            "顺序存储结构",
+            "链式存储结构",
+            "以上都对"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_15"
+    },
+    {
+        "description": "一个算法必须在执行有穷步之后结束，这是算法的（）。",
+        "options": [
+            "正确性",
+            "有穷性",
+            "确定性",
+            "可行性"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_16"
+    },
+    {
+        "description": "算法分析的目的是()。",
+        "options": [
+            "找出数据结构的合理性",
+            "研究算法中的输入和输出的关系",
+            "分析算法的效率以求改进",
+            "分析算法的易懂性和文档性"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_17"
+    },
+    {
+        "description": "执行下面程序段的时间复杂度为（）。",
+        "options": [
+            "O(2n)",
+            "O(n)",
+            "O(n2)",
+            "O(log2n)"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_18"
+    },
+    {
+        "description": "在计算机的存储器中表示时,物理地址和逻辑地址相同并且是连续的,称之为()。",
+        "options": [
+            "逻辑结构",
+            "顺序存储结构",
+            "链式存储结构",
+            "以上都对"
+        ],
+        "source": "第一章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_19"
+    },
+    {
+        "description": "线性表的顺序存储结构是一种()的存储结构。",
+        "options": [
+            "随机存取",
+            "索引存取",
+            "顺序存取",
+            "散列存职"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_20"
+    },
+    {
+        "description": "线性表的链式存储结构是一种()的存储结构。",
+        "options": [
+            "随机存取",
+            "索引存取",
+            "顺序存取",
+            "散列存职"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_21"
+    },
+    {
+        "description": "下列叙述中，正确的是()。",
+        "options": [
+            "线性表的顺序存储结构优于链表存储结构",
+            "线性表的顺序存储结构适用于频繁插入/删除数据元素的情况",
+            "线性表的链表存储结构适用于频繁插入/删除数据元素的情况",
+            "线性表的链表存储结构优于顺序存储结构"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_22"
+    },
+    {
+        "description": "不带头结点的单链表head为空的判定条件是()。",
+        "options": [
+            "head == NULL",
+            "head->next == NULL",
+            "head->next == head",
+            "head != NULL"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_23"
+    },
+    {
+        "description": "带头结点的单链表head为空的判定条件是()。",
+        "options": [
+            "head == NULL",
+            "head->next == NULL",
+            "head->next == head",
+            "head != NULL"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_24"
+    },
+    {
+        "description": "在一个单链表中，已知q所指结点是p所指结点的前驱结点，若在q和p之间插入s结点，则执行()。",
+        "options": [
+            "s->next = p->next; p->next = s;",
+            "p->next = s->next; s->next = p;",
+            "q->next = s; s->next = p;",
+            "p->next = s; s->next = q;"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_25"
+    },
+    {
+        "description": "在一个单链表中，若p所指结点不是最后结点，在p之后插入s所指结点，则执行()。",
+        "options": [
+            "s->next = p; p->next = s;",
+            "s->next = p->next; p->next = s;",
+            "s->next = p->next; p = s;",
+            "p->next = s; s->next = p;"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_26"
+    },
+    {
+        "description": "在一个单链表中，若删除p所指结点的后续结点，则执行()。",
+        "options": [
+            "p->next = p->next->next;",
+            "p = p->next; p->next = p->next->next;",
+            "p->next = p->next;",
+            "p = p->next->next;"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_27"
+    },
+    {
+        "description": "若某线性表最常用的操作是存取任一指定序号的元素和在最后进行插入和删除运算，则利用()存储方式最节省时间。",
+        "options": [
+            "顺序表",
+            "双链表",
+            "带头结点的双循环链表",
+            "单循环链表"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_28"
+    },
+    {
+        "description": "设某顺序表中第一个元素的地址是se(下标从1开始),每个结点占m个单元,则第i个结点的地址为()。",
+        "options": [
+            "se+(i-1)×m",
+            "se+(i+1)×m",
+            "se+i×m",
+            "se-i×m"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_29"
+    },
+    {
+        "description": "某线性表中最常用的操作是在最后一个元素之后插入一个元素和删除第一个元素，则采用()存储方式最节省运算时间。",
+        "options": [
+            "单链表",
+            "仅有尾指针的单循环链表",
+            "仅有头指针的单循环链表",
+            "双链表"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_30"
+    },
+    {
+        "description": "若长度为n的线性表采用顺序存储结构,在其第i个位置插入一个新元素的算法的时间复杂度为()。",
+        "options": [
+            "O(n)",
+            "O(0)",
+            "O(1)",
+            "O(n^2)"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_31"
+    },
+    {
+        "description": "在单链表指针为p的结点之后插入指针为s的结点,正确的操作是()。",
+        "options": [
+            "s->next=p->next;p->next=s;",
+            "p->next=s;s->next=p->next;",
+            "p->next=s;p->next=s->next;",
+            "p->next=s->next;p->next=s;"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_32"
+    },
+    {
+        "description": "循环链表的主要优点是()。",
+        "options": [
+            "不再需要头指针了",
+            "已知某个结点的位置后，很容易找到它的直接前驱结点",
+            "在进行删除后，能保证链表不断开",
+            "从表中任一结点出发都能遍历整个链表"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_33"
+    },
+    {
+        "description": "设指针变量p指向单链表结点A，则删除结点A的后继结点B需要的操作为()。",
+        "options": [
+            "p->next=p->next->next",
+            "p=p->next",
+            "p=p->next->next",
+            "p->next=p"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_34"
+    },
+    {
+        "description": "在n个结点的顺序表中，算法的时间复杂度是O（1）的操作是()。",
+        "options": [
+            "访问第i个结点（1≤i≤n）和求第i个结点的直接前驱（2≤i≤n）",
+            "在第i个结点后插入一个新结点（1≤i≤n）",
+            "删除第i个结点（1≤i≤n）",
+            "将n个结点从小到大排序"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_35"
+    },
+    {
+        "description": "线性表若采用链式存储结构时，要求内存中可用存储单元的地址:()。",
+        "options": [
+            "必须是连续的",
+            "部分地址必须是连续的",
+            "一定是不连续的",
+            "连续或不连续都可以"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_36"
+    },
+    {
+        "description": "在循环双链表的p所指结点之后插入s所指结点的操作是()。",
+        "options": [
+            "p->right=s; s->left=p; p->right->left=s; s->right=p->right;",
+            "p->right=s; p->right->left=s; s->left=p; s->right=p->right;",
+            "s->left=p; s->right= p->right; p->right=s; p->right->left=s;",
+            "s->left=p; s->right=p->right; p->right->left=s; p->right=s;"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_37"
+    },
+    {
+        "description": "单链表中，增加头结点的目的是为了()。",
+        "options": [
+            "方便运算的实现",
+            "标识单链表",
+            "使单链表中至少有一个结点",
+            "用于标识起始结点的位置"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_38"
+    },
+    {
+        "description": "在以下的叙述中，错误的是()。",
+        "options": [
+            "顺序表必须占用一片地址连续的存储单元",
+            "链表不必占用一片地址连续的存储单元",
+            "顺序表可以随机存取任一元素",
+            "链表可以随机存取任一元素"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_39"
+    },
+    {
+        "description": "线性链表中各链节点之间的地址()。",
+        "options": [
+            "必须连续",
+            "部分地址必须连续",
+            "不一定连续",
+            "以上都不对"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_40"
+    },
+    {
+        "description": "链栈与顺序栈相比，有一个较明显的优点是()。",
+        "options": [
+            "通常不会出现栈满的情况",
+            "通常不会出现栈空的情况",
+            "插入操作更加方便",
+            "删除操作更加方便"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_41"
+    },
+    {
+        "description": "在双向循环链表的p所指结点之后插入s所指结点的操作是()。",
+        "options": [
+            "p->right=s; s->left=p; p->right->left=s; s->right=p->right;",
+            "p->right=s; p->right->left=s; s->left=p; s->right=p->right;",
+            "s->left=p; s->right= p->right; p->right=s; p->right->left=s;",
+            "s->left=p; s->right=p->right; p->right->left=s; p->right=s;"
+        ],
+        "source": "第二章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_42"
+    },
+    {
+        "description": "一个栈的入栈序列a，b，c，d，e，则栈的不可能的输出序列是。",
+        "options": [
+            "e,d,c,b,a",
+            "d,e,c,b,a",
+            "d,c,e,a,b",
+            "a,b,c,d,e"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_43"
+    },
+    {
+        "description": "若5个元素的出栈序列为1，2，3，4，5，则进栈序列可能是。",
+        "options": [
+            "2,4,3,1,5",
+            "2,3,1,5,4",
+            "3,1,4,2,5",
+            "3,1,2,5,4"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_44"
+    },
+    {
+        "description": "以下不是栈的应用的是。",
+        "options": [
+            "函数调用",
+            "表达式求解",
+            "数制的转换",
+            "舞伴问题"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_45"
+    },
+    {
+        "description": "一个栈以向量V[l..n]存储，初始栈顶指针top设为0，则元素x进栈的正确操作是。",
+        "options": [
+            "top++;V[top]=x;",
+            "V[top]=x;top++;",
+            "top--;V[top]=x;",
+            "V[top]=x;top--;"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_46"
+    },
+    {
+        "description": "栈S和队列Q的初始状态为空，元素A1、A2、A3、A4、A5和A6依次进入栈S，一个元素出栈后即进入Q，若6个元素出队的序列是A2、A4、A3、A6、A5和A1，则栈S的容量至少应该是。",
+        "options": [
+            "2",
+            "3",
+            "4",
+            "6"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_47"
+    },
+    {
+        "description": "栈S和队列Q的初始状态为空，元素A1、A2、A3、A4、A5和A6依次进入栈S，一个元素出栈后即进入Q，若6个元素出队的序列是A2、A4、A6、A5、A3和A1，则栈S的容量至少应该是。",
+        "options": [
+            "2",
+            "3",
+            "4",
+            "6"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_48"
+    },
+    {
+        "description": "环队列存储在数组A[O,…,m-1]中，则入队时的操作为。",
+        "options": [
+            "rear=rear+1",
+            "rear=(rear+1)%(m-1)",
+            "rear=(rear+1)%m",
+            "rear=(rear+1)%(m+1)"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_49"
+    },
+    {
+        "description": "最大容量为n的循环队列，队尾指针是rear，队头是front，则队满的条件是。",
+        "options": [
+            "(rear+1)%n==front",
+            "rear==front",
+            "rear+1==front",
+            "(rear-1)%n==front"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_50"
+    },
+    {
+        "description": "栈和队列都是。",
+        "options": [
+            "限制存取点的非线性结构",
+            "顺序存储的线性结构",
+            "链式存储的非线性结构",
+            "限制存取点的线性结构 "
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_51"
+    },
+    {
+        "description": "设计一个判别表达式中括号是否匹配出现的算法,采用的数据结构最佳。",
+        "options": [
+            "栈",
+            "顺序表",
+            "队列",
+            "单链表"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_52"
+    },
+    {
+        "description": "表达式a*(b+c)-d的后缀表达式是。",
+        "options": [
+            "abc*+d-",
+            "cb+ad-",
+            "abc+d-",
+            "abcd+-"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_53"
+    },
+    {
+        "description": "递归过程或函数调用时,处理参数及返回地址需要用一种的数据结构。",
+        "options": [
+            "栈",
+            "队列",
+            "多维数组",
+            "线性表"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_54"
+    },
+    {
+        "description": "最大容量为n的循环队列,队尾指针为rear,队头指针为front,则队空的条件是。",
+        "options": [
+            "rear==front",
+            "(rear+1)%n==front",
+            "rear+1==front",
+            "(rear-l)%n==front"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_55"
+    },
+    {
+        "description": "用带头结点的单链表表示队长大于1的队列时,其队头指针指向队头结点,其队尾指针指向队尾结点,则在进行删除操作时。",
+        "options": [
+            "仅修改队头指针",
+            "仅修改队尾指针",
+            "队头.队尾指针都要修改",
+            "队头,队尾指针都可能要修改"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_56"
+    },
+    {
+        "description": "对于一个具有n个结点的单链表,在已知的结点p后插入一个新结点的时间复杂度和在给定值为x的结点后插入一个新结点的时间复杂度分别为。",
+        "options": [
+            "O(1),O(n)",
+            "O(n),O(n)",
+            "O(1),O(1)",
+            "O(n),O(1)"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_57"
+    },
+    {
+        "description": "在下列数据结构中，具有先进先出特性，具有先进后出特性。",
+        "options": [
+            "线性表",
+            "栈",
+            "队列",
+            "广义表"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_58"
+    },
+    {
+        "description": "栈中元素的进出原则是。",
+        "options": [
+            "先进先出",
+            "后进先出",
+            "栈空则进",
+            "栈满则出"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_59"
+    },
+    {
+        "description": "某一队列的入队顺序是a,b,c,d,e,经过一次出队操作后，下一个将要出队的是。",
+        "options": [
+            "a",
+            "b",
+            "c",
+            "d"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_60"
+    },
+    {
+        "description": "若用一个大小为6的数组来实现循环队列，且当前front和rear的值分别为3和0，当从队列中删除一个元素，再加入两个元素后，front和rear的值分别为。",
+        "options": [
+            "5和1",
+            "4和2",
+            "2和4",
+            "1和5"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_61"
+    },
+    {
+        "description": "4个元素按A、B、C、D顺序连续进栈S后，第一次进行Pop（S，x）操作后，x的值为。",
+        "options": [
+            "A",
+            "B",
+            "C",
+            "D"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_62"
+    },
+    {
+        "description": "队列中元素的进出原则是。",
+        "options": [
+            "先进先出",
+            "后进先出",
+            "栈空则进",
+            "栈满则出"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_63"
+    },
+    {
+        "description": "某一队列的入队顺序是a,b,c,d,e,经过三次出队操作后，下一个将要出队的是。",
+        "options": [
+            "a",
+            "b",
+            "c",
+            "d"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_64"
+    },
+    {
+        "description": "设栈的输入序列是（1，2，3，4），则不可能是其出栈序列的是。",
+        "options": [
+            "1243",
+            "2134",
+            "1432",
+            "4312"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_65"
+    },
+    {
+        "description": "以下数据结构中，哪一种适合用于进制转换。",
+        "options": [
+            "队列",
+            "多维数组",
+            "栈",
+            "线性表"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_66"
+    },
+    {
+        "description": "若用一个大小为6的数组来实现循环队列，且当前front和rear的值分别为3和0，当从队列中删除一个元素，再加入两个元素后，front和rear的值分别为。",
+        "options": [
+            "5和1",
+            "4和2",
+            "2和4",
+            "1和5"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_67"
+    },
+    {
+        "description": "栈和队列的共同点是。",
+        "options": [
+            "都是先进后出",
+            "都是先进先出",
+            "只允许在端点处插入和删除元素",
+            "没有共同点"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_68"
+    },
+    {
+        "description": "设栈的输入序列是A、B、C，则不可能是其出栈序列的是。",
+        "options": [
+            "CBA",
+            "CAB",
+            "BCA",
+            "ABC"
+        ],
+        "source": "第三章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_69"
+    },
+    {
+        "description": "下列关于串的叙述中，正确的是（ ）。",
+        "options": [
+            "串是字符的无限序列",
+            "空串是由空格构成的串",
+            "模式匹配是串的一种重要运算",
+            "串只可以采用顺序存储， 不可以采用链式存储"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_70"
+    },
+    {
+        "description": "假设以行序为主序存储二维数组 A = array[1…100,1…100]，设每个数据元素占 2 个存单元，基地址为10, 则 LOC[6,5] = ()。",
+        "options": [
+            "818",
+            "918",
+            "1018",
+            "1020"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_71"
+    },
+    {
+        "description": "假设以行序为主序存储二维数组 A = array[1…100,1…100]，设每个数据元素占 2 个存单元，基地址为10, 则 LOC[6,6] = ()。",
+        "options": [
+            "818",
+            "918",
+            "1018",
+            "1020"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_72"
+    },
+    {
+        "description": "假设以行序为主序存储二维数组 A = array[1…10,1…10]，设每个数据元素占 2 个存单元，基地址为10, 则 LOC[5,5] = ()。",
+        "options": [
+            "88",
+            "98",
+            "108",
+            "818"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_73"
+    },
+    {
+        "description": "数组A[1…4,-1…1,2…4]中含有元素的个数为()。",
+        "options": [
+            "16",
+            "36",
+            "45",
+            "55"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_74"
+    },
+    {
+        "description": "广义表 A= (1,2,(3,4),(5,(6,7)))，则Head(Tail(Head(Tail(Tail(A)))))的值为()。",
+        "options": [
+            "( )",
+            "(4)",
+            "4",
+            "7"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_75"
+    },
+    {
+        "description": "广义表 A= (1,2,(3,4),(5,(6,7)))，则Tail(Tail(Tail(Tail(A))))的值为()。",
+        "options": [
+            "(6)",
+            "(6,7)",
+            "6",
+            "7"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_76"
+    },
+    {
+        "description": "串是一种特殊的线性表,其特殊性体现在()。",
+        "options": [
+            "数据元素是字符",
+            "顺序存储",
+            "链式存储",
+            "逻辑结构是线性结构"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_77"
+    },
+    {
+        "description": "设有两个串p和q ,其中q是p的子串,求q在p中首次出现的位置的算法称为()。",
+        "options": [
+            "串的模式匹配",
+            "求子串",
+            "串联接",
+            "求串长"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_78"
+    },
+    {
+        "description": "已知串 S=‘aaab',其next函数值为()。",
+        "options": [
+            "0123",
+            "1123",
+            "1231",
+            "1211"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_79"
+    },
+    {
+        "description": "函数strcmp('stcabuc','stbabuc')的返回值是()。",
+        "options": [
+            "0",
+            "-1",
+            "2",
+            "1"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_80"
+    },
+    {
+        "description": "假设以行序为主序存储二维数组A=array[1...100,1...100],设每个数组元素占2个存储单元,基地址为10,则LOC[5,5]=()。",
+        "options": [
+            "818",
+            "B 808",
+            "1010",
+            "1020"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_81"
+    },
+    {
+        "description": "设广义表L=((a,b,c)),则L的长度和深度分别为()。",
+        "options": [
+            "1和2",
+            "1和1",
+            "1和3",
+            "2和3"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_82"
+    },
+    {
+        "description": "数组的逻辑结构不同于下列（ ）的逻辑结构。",
+        "options": [
+            "线性表",
+            "栈",
+            "队列",
+            "树"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_83"
+    },
+    {
+        "description": "将10阶对称矩阵压缩存储到一维数组A中，则数组A的长度最少为（ ）。",
+        "options": [
+            "100",
+            "40",
+            "55",
+            "80"
+        ],
+        "source": "第四章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_84"
+    },
+    {
+        "description": "深度为5的二叉树至少有（  ）个结点。",
+        "options": [
+            "5",
+            "10",
+            "15",
+            "25"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_85"
+    },
+    {
+        "description": "深度为5的二叉树至多有（  ）个结点。",
+        "options": [
+            "5",
+            "16",
+            "31",
+            "32"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_86"
+    },
+    {
+        "description": "一棵完全二叉树上有 101 个结点，其中叶子结点的个数是(    )。",
+        "options": [
+            "24",
+            "25",
+            "50",
+            "51"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_87"
+    },
+    {
+        "description": "一个具有513个结点的二叉树的高h为(  )。",
+        "options": [
+            "9",
+            "10",
+            "9至513 之间",
+            "10至513之间"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_88"
+    },
+    {
+        "description": "对二叉树的结点从1开始进行连续编号，要求每个结点的编号小于其左、右孩子的编号，同一结点的左右孩子中，其左孩子的编号小于其右孩子的编号， 可采用（  ）遍历实现编号。",
+        "options": [
+            "先序",
+            "中序",
+            "后序",
+            "以上三个均无法实现"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_89"
+    },
+    {
+        "description": "设哈夫曼树中有99个结点，则该哈夫曼树中有（  ）个叶子结点。",
+        "options": [
+            "49",
+            "50",
+            "51",
+            "52"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_90"
+    },
+    {
+        "description": "在二叉树的第i层上至多有(   )个结点（i>=1）。",
+        "options": [
+            "I",
+            "i+1",
+            "2i",
+            "2i-1"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_91"
+    },
+    {
+        "description": "深度为k的二叉树至多有(  )个结点（k>=1）",
+        "options": [
+            "K",
+            "2k",
+            "2k-1",
+            "2^k - 1"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_92"
+    },
+    {
+        "description": "n(n>=2)个权值均不相同的字符构成哈夫曼树，关于该树的叙述中，正确的是(   )。",
+        "options": [
+            "该树一定是一棵完全二叉树",
+            "树中一定没有度为0的结点",
+            "树中两个权值最大的结点一定是兄弟结点",
+            "树中任一非叶结点的权值一定不小于下一层任一结点的权值"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_93"
+    },
+    {
+        "description": "树最适合用来表示的结构是( )。",
+        "options": [
+            "元素间具有分支及层次关系的结构",
+            "元素间的有序结构",
+            "元素间的无序结构",
+            "元素间无联系的结构"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_94"
+    },
+    {
+        "description": "任意一棵二叉树的叶子结点在其先序、中序、后序序列中的相对位置( )。",
+        "options": [
+            "肯定发生变化",
+            "肯定不发生变化",
+            "有时发生变化",
+            "无法确定"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_95"
+    },
+    {
+        "description": "判断线索二叉树中某结点P有左孩子的条件是( )。",
+        "options": [
+            "p->LTag==1",
+            "p!=NULL",
+            "p->lchild!=NULL",
+            "p->LTag==0"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_96"
+    },
+    {
+        "description": "设森林T中有4棵树,其结点个数分别为n1,n2,n3,n4,那么当森林T转换成一棵二叉树后,则根结点的右子树上有( )个结点。",
+        "options": [
+            "n2+n3+n4",
+            "n1-1",
+            "n1",
+            "n1+n2+n3"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_97"
+    },
+    {
+        "description": "以数据集{4,5,6,7,10,12,18}为叶结点权值所构造的哈夫曼树,其带权路径长度为( )。",
+        "options": [
+            "155",
+            "160",
+            "165",
+            "170"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_98"
+    },
+    {
+        "description": "以下属于前缀编码的是( )。",
+        "options": [
+            "{0,1101,1110,1100,1111}",
+            "{0,1,01,010,110}",
+            "{00,01,10,11,101}",
+            "{01,00,10,001,110,101}"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_99"
+    },
+    {
+        "description": "一棵具有N个结点的二叉树采用二叉链表进行存储,其中空指针域有( )个。",
+        "options": [
+            "N+1",
+            "N",
+            "N-1",
+            "不确定"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_100"
+    },
+    {
+        "description": "由权值为9，2，5，7的四个叶子结点构造一棵哈夫曼树，该树的带权路径长度为( )。",
+        "options": [
+            "23",
+            "37",
+            "44",
+            "46"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_101"
+    },
+    {
+        "description": "二叉树中第i(i≥1)层上的结点数最多有（  ）个。",
+        "options": [
+            "2i",
+            "2i",
+            "2i-1",
+            "2i-1"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_102"
+    },
+    {
+        "description": "设结点A有3个兄弟结点且结点B为结点A的双亲结点，则结点B的度数数为（ ）。",
+        "options": [
+            "3",
+            "4",
+            "5",
+            "1"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_103"
+    },
+    {
+        "description": "在有n个结点的二叉树的二叉链表表示中，空指针数为（  ）。",
+        "options": [
+            "不定",
+            "n+1",
+            "n",
+            "n-1"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_104"
+    },
+    {
+        "description": "一棵20个结点的完全二叉树，则该二叉树的高度H为(  )。",
+        "options": [
+            "10",
+            "4",
+            "2",
+            "5"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_105"
+    },
+    {
+        "description": "树最适合用来表示(  )。",
+        "options": [
+            "元素间具有分支及层次关系的结构",
+            "元素间的有序结构",
+            "元素间的无序结构",
+            "元素间无联系的结构"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_106"
+    },
+    {
+        "description": "一个高度为h 的二叉树，则此树最少有需(  )个结点。",
+        "options": [
+            "2*h+1",
+            "h",
+            "2*h-1",
+            "2*h"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_107"
+    },
+    {
+        "description": "在一非空二叉树的中序遍历序列中，根结点的左边（  ）。",
+        "options": [
+            "只有右子树上的所有结点",
+            "只有右子树上的部分结点",
+            "只有左子树上的部分结点",
+            "只有左子树上的所有结点"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_108"
+    },
+    {
+        "description": "某二叉树的前序遍历结点访问顺序是abdgcefh，中序遍历的结点访问顺序是dgbaechf，则其后序遍历的结点访问顺序是（  ）。 ",
+        "options": [
+            "bdgcefh",
+            "gdbecfha",
+            "bdgaechf",
+            "gdbehfca"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_109"
+    },
+    {
+        "description": "按照二叉树的定义，具有3个不同数据结点的不同的二叉树有（  ）种。",
+        "options": [
+            "5",
+            "30",
+            "31",
+            "32"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_110"
+    },
+    {
+        "description": "前序序列为ABC的不同二叉树有（  ）种不同形态。",
+        "options": [
+            "3",
+            "4",
+            "5",
+            "6"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_111"
+    },
+    {
+        "description": "在下述结论中，正确的是（  ）",
+        "options": [
+            "①只有一个结点的二叉树的度为0;",
+            "②二叉树的度为2；",
+            "③二叉树的左右子树可任意交换;",
+            "④深度为K的完全二叉树结点个数小于或等于深度相同的满二叉树。"
+        ],
+        "source": "第五章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_112"
+    },
+    {
+        "description": "G是一个非连通无向图，共有28条边，则该图至少有（  ）个顶点。",
+        "options": [
+            "7",
+            "8",
+            "9",
+            "10"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_113"
+    },
+    {
+        "description": "具有n个顶点的无向图最多有（   ）条边。",
+        "options": [
+            "n-1",
+            "n",
+            "n(n - 1)/2",
+            "n(n + 1)/2"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_114"
+    },
+    {
+        "description": "n个顶点的连通图用邻接距阵表示时，该距阵至少有（  ）个非零元素。",
+        "options": [
+            "n",
+            "2(n - 1)",
+            "n/2",
+            "n^2"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_115"
+    },
+    {
+        "description": "用邻接表表示图进行广度优先遍历时，通常可借助（   ）来实现算法。",
+        "options": [
+            "栈",
+            "队列",
+            "树",
+            "图"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_116"
+    },
+    {
+        "description": "用邻接表表示图进行深度优先遍历时，通常可借助（   ）来实现算法。",
+        "options": [
+            "栈",
+            "队列",
+            "树",
+            "图"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_117"
+    },
+    {
+        "description": "图的深度优先遍历类似于二叉树的（  ）。",
+        "options": [
+            "先序遍历",
+            "中序遍历",
+            "后序遍历",
+            "层次遍历"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_118"
+    },
+    {
+        "description": "关键路径是AOE网中（  ）。",
+        "options": [
+            "最长的回路",
+            "从源点到汇点的最短路径",
+            "最短的回路",
+            "从源点到汇点的最长路径"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_119"
+    },
+    {
+        "description": "图中，序列中顶点不重复出现的路径称为（  ）。",
+        "options": [
+            "简单路径",
+            "复杂路径",
+            "简单回路",
+            "复杂回路"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_120"
+    },
+    {
+        "description": "一个具有n个顶点的无向图最多有(   )边。",
+        "options": [
+            "n(n-1)/2",
+            "n(n-1)",
+            "n",
+            "2n"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_121"
+    },
+    {
+        "description": "对于一个具有n个顶点和e条边的无向图,若采用邻接表表示,则占用的存储空间为(   )。",
+        "options": [
+            "n+e",
+            "e",
+            "2e",
+            "n+2e"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_122"
+    },
+    {
+        "description": "如果含有n个顶点的图形成一个环,则它有(   )棵生成树。",
+        "options": [
+            "n",
+            "n-1",
+            "n+1",
+            "不确定"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_123"
+    },
+    {
+        "description": "任何一个无向连通网的最小生成树(   )。",
+        "options": [
+            "有一棵或多棵",
+            "只有1棵",
+            "一定有多棵",
+            "可能不存在"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_124"
+    },
+    {
+        "description": "判断一个有向图是否存在回路,可以用(   )。",
+        "options": [
+            "深度优先遍历算法",
+            "广度优先遍历算法",
+            "Dijkstra方法",
+            "求关键路径的方法"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_125"
+    },
+    {
+        "description": "关键路径是事件结点网络中(   )。",
+        "options": [
+            "从源点到汇点的最长路径",
+            "最长回路",
+            "从源点到汇点的最短路径",
+            "最短回路"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_126"
+    },
+    {
+        "description": "广度优先遍历类似于二叉树的(   )。",
+        "options": [
+            "层次遍历",
+            "中序遍历",
+            "后序遍历",
+            "先序遍历"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_127"
+    },
+    {
+        "description": "有8个结点的无向图最多有（  ）条边。",
+        "options": [
+            "14",
+            "28",
+            "56",
+            "112"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_128"
+    },
+    {
+        "description": "有8个结点的有向图最多有（  ）条弧。",
+        "options": [
+            "14",
+            "28",
+            "56",
+            "112"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_129"
+    },
+    {
+        "description": "一个有n个顶点的无向图最多有（  ）条边。",
+        "options": [
+            "n",
+            "n(n-1)",
+            "n(n-1)/2",
+            "2n"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_130"
+    },
+    {
+        "description": "G是一个非连通无向图，共有28条，则该图至少有解（  ）个顶点。",
+        "options": [
+            "7",
+            "8",
+            "9",
+            "10"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_131"
+    },
+    {
+        "description": "任一个连通图的生成树（  ） 。",
+        "options": [
+            "可能不存在",
+            "只有一棵",
+            "一棵或多棵",
+            "一定有多棵"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_132"
+    },
+    {
+        "description": "G是一个非连通无向图，共有28条边，则该图至少有（  ）个顶点。",
+        "options": [
+            "7",
+            "8",
+            "9",
+            "10"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_133"
+    },
+    {
+        "description": "具有n个顶点的无向图最多有（   ）条边。",
+        "options": [
+            "n-1",
+            "n",
+            "n(n - 1)/2",
+            "n(n + 1)/2"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_134"
+    },
+    {
+        "description": "n个顶点的连通图用邻接距阵表示时，该距阵至少有（  ）个非零元素。",
+        "options": [
+            "n",
+            "2(n - 1)",
+            "n/2",
+            "n^2"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_135"
+    },
+    {
+        "description": "用邻接表表示图进行广度优先遍历时，通常可借助（   ）来实现算法。",
+        "options": [
+            "栈",
+            "队列",
+            "树",
+            "图"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_136"
+    },
+    {
+        "description": "用邻接表表示图进行深度优先遍历时，通常可借助（   ）来实现算法。",
+        "options": [
+            "栈",
+            "队列",
+            "树",
+            "图"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_137"
+    },
+    {
+        "description": "图的深度优先遍历类似于二叉树的（  ）。",
+        "options": [
+            "先序遍历",
+            "中序遍历",
+            "后序遍历",
+            "层次遍历"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_138"
+    },
+    {
+        "description": "关键路径是AOE网中（  ）。",
+        "options": [
+            "最长的回路",
+            "从源点到汇点的最短路径",
+            "最短的回路",
+            "从源点到汇点的最长路径"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_139"
+    },
+    {
+        "description": "图中，序列中顶点不重复出现的路径称为（  ）。",
+        "options": [
+            "简单路径",
+            "复杂路径",
+            "简单回路",
+            "复杂回路"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_140"
+    },
+    {
+        "description": "一个具有n个顶点的无向图最多有(   )边。",
+        "options": [
+            "n(n-1)/2",
+            "n(n-1)",
+            "n",
+            "2n"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_141"
+    },
+    {
+        "description": "对于一个具有n个顶点和e条边的无向图,若采用邻接表表示,则占用的存储空间为(   )。",
+        "options": [
+            "n+e",
+            "e",
+            "2e",
+            "n+2e"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_142"
+    },
+    {
+        "description": "如果含有n个顶点的图形成一个环,则它有(   )棵生成树。",
+        "options": [
+            "n",
+            "n-1",
+            "n+1",
+            "不确定"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_143"
+    },
+    {
+        "description": "任何一个无向连通网的最小生成树(   )。",
+        "options": [
+            "有一棵或多棵",
+            "只有1棵",
+            "一定有多棵",
+            "可能不存在"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_144"
+    },
+    {
+        "description": "判断一个有向图是否存在回路,可以用(   )。",
+        "options": [
+            "深度优先遍历算法",
+            "广度优先遍历算法",
+            "Dijkstra方法",
+            "求关键路径的方法"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_145"
+    },
+    {
+        "description": "关键路径是事件结点网络中(   )。",
+        "options": [
+            "从源点到汇点的最长路径",
+            "最长回路",
+            "从源点到汇点的最短路径",
+            "最短回路"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_146"
+    },
+    {
+        "description": "广度优先遍历类似于二叉树的(   )。",
+        "options": [
+            "层次遍历",
+            "中序遍历",
+            "后序遍历",
+            "先序遍历"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_147"
+    },
+    {
+        "description": "有8个结点的无向图最多有（  ）条边。",
+        "options": [
+            "14",
+            "28",
+            "56",
+            "112"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_148"
+    },
+    {
+        "description": "有8个结点的有向图最多有（  ）条弧。",
+        "options": [
+            "14",
+            "28",
+            "56",
+            "112"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_149"
+    },
+    {
+        "description": "一个有n个顶点的无向图最多有（  ）条边。",
+        "options": [
+            "n",
+            "n(n-1)",
+            "n(n-1)/2",
+            "2n"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_150"
+    },
+    {
+        "description": "G是一个非连通无向图，共有28条，则该图至少有解（  ）个顶点。",
+        "options": [
+            "7",
+            "8",
+            "9",
+            "10"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_151"
+    },
+    {
+        "description": "任一个连通图的生成树（  ） 。",
+        "options": [
+            "可能不存在",
+            "只有一棵",
+            "一棵或多棵",
+            "一定有多棵"
+        ],
+        "source": "第六章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_152"
+    },
+    {
+        "description": "若在线性表中采用二分法检索来查找元素，该线性表应该（  ）。",
+        "options": [
+            "元素按值有序，且采用顺序存储结构",
+            "元素按值有序",
+            "元素按值有序，且采用链式存储结构",
+            "采用顺序存储结构"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_153"
+    },
+    {
+        "description": "对11个记录的有序表作折半查找，当查找失败时，至少需要比较（  ）次关键字。",
+        "options": [
+            "2",
+            "3",
+            "4",
+            "5"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_154"
+    },
+    {
+        "description": "折半查找有序表 (4, 6, 10, 12, 20, 30, 50, 70, 88, 100)。若查找表中元素13，则它将依次与表中（  ）比较大小，查找结果是失败。",
+        "options": [
+            "20,10,12",
+            "20,6,10,12",
+            "30,10,12",
+            "30,10,12,20"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_155"
+    },
+    {
+        "description": "分别以下列序列构造二叉排序树，与用其他三个序列所构造的结果不同的是（  ）。",
+        "options": [
+            "(100,80,90,60,120,110,130)",
+            "(100,120,110,130,80,60,90)",
+            "(100,60,80,90,120,110,130)",
+            "(100,80,60,90,120,130,110)"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_156"
+    },
+    {
+        "description": "n阶B-树是一棵（   ）。",
+        "options": [
+            "n叉排序树",
+            "n叉平衡排序树",
+            "n-1叉平衡排序树",
+            "n+1叉平衡排序树"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_157"
+    },
+    {
+        "description": "如果要求一个线性表既能较快地检索，又能适应动态变化的要求，则可采用的检索方法应该是（  ）。",
+        "options": [
+            "分块检索",
+            "顺序检索",
+            "基于属性检索",
+            "二分法检索"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_158"
+    },
+    {
+        "description": "折半查找与二叉排序树的时间性能(  )。",
+        "options": [
+            "相同",
+            "完全相同",
+            "有时不相同",
+            "数量级都是O(log2n)"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_159"
+    },
+    {
+        "description": "散列函数的一个共同性质是，散列函数的值取其值域的每个值应当以（  ）。",
+        "options": [
+            "同等概率",
+            "平均概率",
+            "最小概率",
+            "最大概率"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_160"
+    },
+    {
+        "description": "在11个元素的有序表A[1…11]中进行折半查找（），查找元素A[11]时，被比较的元素的下标依次是(  )。",
+        "options": [
+            "6，8，10，11",
+            "6，9，10，11",
+            "6，7，9，11",
+            "6，8，9，11"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_161"
+    },
+    {
+        "description": "由元素序列（27，16，75，38，51）构造平衡二叉树，则首次出现的最小不平衡子树的根（即离插入结点最近且平衡因子的绝对值为2的结点）为(  )。",
+        "options": [
+            "27",
+            "38",
+            "51",
+            "75"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_162"
+    },
+    {
+        "description": "在顺序表查找中，为避免查找过程中每一步都检测整个表是否查找完毕，可采用（  ）方法。",
+        "options": [
+            "设置监视哨",
+            "链表存贮",
+            "二分查找",
+            "快速查找"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_163"
+    },
+    {
+        "description": "下列数据中不可能是平衡二叉树上结点的平衡因子的是（  ）。",
+        "options": [
+            "-1",
+            "0",
+            "1",
+            "2"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_164"
+    },
+    {
+        "description": "已知一个线性表（38，25，74，63，52，48），假定采用散列函数h（key）=key%7计算散列地址，并散列存储在散列表A[0…6]中，若采用线性探测方法解决冲突，则在该散列表上进行等概率查找时查找成功的平均查找长度为(  )。",
+        "options": [
+            "1．5",
+            "1．7",
+            "2．0",
+            "2．3"
+        ],
+        "source": "第七章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_165"
+    },
+    {
+        "description": "对二叉排序树进行（  ）排序，可以得到其所有结点构成的有序序列。",
+        "options": [
+            "前序",
+            "中序",
+            "后序",
+            "层序"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_166"
+    },
+    {
+        "description": "从未排序的序列中依次取出一个元素与已排序序列中的元素依次进行比较，然后将其放在排序序列的合适位置，该排序方法是（  ）。",
+        "options": [
+            "快速排序",
+            "堆排序",
+            "插入排序",
+            "冒泡排序"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_167"
+    },
+    {
+        "description": "下面给出的4种排序算法中，不稳定的排序算法是（  ）。",
+        "options": [
+            "插入",
+            "冒泡",
+            "二路归并",
+            "堆"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_168"
+    },
+    {
+        "description": "采用简单选择排序时，比较次数与移动次数分别为（  ）。",
+        "options": [
+            "O（n）、O（nlog2n）",
+            "O（nlog2n）、O（n2）",
+            "O（n2）、O（n）",
+            "O（nlog2n）、O（n）"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_169"
+    },
+    {
+        "description": "以下排序算法中，不是属于插入排序的是（  ）。",
+        "options": [
+            "直接插入排序",
+            "折半插入排序",
+            "希尔排序",
+            "快速排序"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_170"
+    },
+    {
+        "description": "快速排序是一种（  ）排序。",
+        "options": [
+            "插入",
+            "选择",
+            "交换",
+            "归并"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_171"
+    },
+    {
+        "description": "下列关键字序列中，（  ）是堆 。",
+        "options": [
+            "16, 72, 31, 23, 94, 53",
+            "16, 23, 53, 31, 94, 72",
+            "16, 53, 23, 94, 31, 72",
+            "94, 23, 31, 72, 16, 53"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_172"
+    },
+    {
+        "description": "若一组记录的排序码为 (46, 79, 56, 38, 40, 84), 则利用快速排序的方法，以第一个记录为基准得到的一次划分结果为（  ）。",
+        "options": [
+            "38, 40, 46, 56, 79, 84",
+            "40, 38, 46, 56, 79, 84",
+            "40, 38, 46, 56, 79, 84",
+            "40, 38, 46, 84, 56, 79"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_173"
+    },
+    {
+        "description": "在最好和最坏情况下的时间复杂度均为O（nlogn）且稳定的排序方法是(  )。",
+        "options": [
+            "基数排序",
+            "快速排序",
+            "堆排序",
+            "归并排序"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_174"
+    },
+    {
+        "description": "设有以下四种排序方法，则（  ）的空间复杂度最大。",
+        "options": [
+            "冒泡排序",
+            "快速排序",
+            "堆排序",
+            "希尔排序"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_175"
+    },
+    {
+        "description": "一组记录的关键字为（46,79,56,38,40,84）,则利用冒泡排序的方法实现从小到大排列，得到的第一趟的结果是(  )。",
+        "options": [
+            "46,79,56,38,40,84",
+            "46,56,38,40,79,84",
+            "38,46,79,56,40,84",
+            "38,79,56,46,40,84"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_176"
+    },
+    {
+        "description": "下列排序算法中，每一趟都能选出一个元素放到其最终位置上，并且其时间性能受数据初始特性影响的是（  ）。",
+        "options": [
+            "直接插入排序",
+            "快速排序",
+            "直接插入排序",
+            "归并排序"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_177"
+    },
+    {
+        "description": "排序方法中，从未排序序列中依次取出元素与已排列序列(初始为空)中的元素进行比较，将其插入已排列序列的正确位置上的方法，称为(  )。",
+        "options": [
+            "快速排序",
+            "冒泡排序",
+            "插入排序",
+            "选择排序"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            3
+        ],
+        "id": "FGSstructure_single_178"
+    },
+    {
+        "description": "一组记录的关键字为（46，79，56，38，40，84）则利用快速排序的方法，以第一个记录为基准得到的一次划分的结果为 (  ).",
+        "options": [
+            "79,46,56,38,40,84",
+            "40,38,46,56,79,84",
+            "84,79,56,46,40,38",
+            "84,56,79,40,46,38"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_179"
+    },
+    {
+        "description": "在所有排序方法中，关键字比较的次数与记录的初始排列次序无关的是（   ）。",
+        "options": [
+            "希尔排序",
+            "起泡排序",
+            "插入排序",
+            "选择排序"
+        ],
+        "source": "第八章",
+        "correctAnswer": [
+            4
+        ],
+        "id": "FGSstructure_single_180"
+    },
+    {
+        "description": "在非线性结构中，每个结点可能有多个直接前驱和多个直接后继结点。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_181"
+    },
+    {
+        "description": "算法是由若干条指令组成的有穷序列，而一个程序不一定满足有穷性。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_182"
+    },
+    {
+        "description": "链表的每个结点中都恰好包含一个指针。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_183"
+    },
+    {
+        "description": "单链表从任何一个结点出发，都能访问到所有结点。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_184"
+    },
+    {
+        "description": "链表在进行插入、删除操作时，比在顺序存储结构中效率低。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_185"
+    },
+    {
+        "description": "线性表采用链接存储，不必占用一片连续的存储单元。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_186"
+    },
+    {
+        "description": "链表的每个结点中都恰好包含一个指针。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_187"
+    },
+    {
+        "description": "链式存储的线性表可以按序号随机存取。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_188"
+    },
+    {
+        "description": "如果某数据结构的每一个元素最多只有一个直接前驱结点和一个直接后继结点，则必为线性表。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_189"
+    },
+    {
+        "description": "在单链表中，要取得某个元素，只要知道该元素的指针即可，因此，单链表是随机存取的存储结构。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_190"
+    },
+    {
+        "description": "单链表从任何一个结点出发，都能访问到所有结点。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_191"
+    },
+    {
+        "description": "线性表中的每个结点最多只有一个前驱和一个后继。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_192"
+    },
+    {
+        "description": "在线性结构中最常用的是线性表，栈和队列不太常用。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_193"
+    },
+    {
+        "description": "链表是采用链式存储结构的线性表，进行插入、删除操作时，在链表中比在顺序存储结构中效率低。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_194"
+    },
+    {
+        "description": "两个栈共享一片连续内存空间时，为提高内存利用率，减少溢出机会，应把两个栈的栈底分别设在这片内存空间的两端。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_195"
+    },
+    {
+        "description": "一个栈的输入序列是12345，则栈的输出序列不可能是12345。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_196"
+    },
+    {
+        "description": "由树转换成二叉树，其根节点的右子树一定是空的。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_197"
+    },
+    {
+        "description": "在树形结构中，每个结点可能有多个直接前驱和多个直接后继结点。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_198"
+    },
+    {
+        "description": "已知先序遍历和后序遍历可以确定一颗唯一的二叉树。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_199"
+    },
+    {
+        "description": "二叉排序树中，任一结点的值都大于或等于其孩子的值。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_200"
+    },
+    {
+        "description": "一棵二叉排序树，根元素不一定是值最大的元素。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_201"
+    },
+    {
+        "description": "若有一个叶子结点是某子树的中序遍历的最后一个结点，则它必须是该子树的先序遍历的最后一个结点。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_202"
+    },
+    {
+        "description": "一个图只能有一个的最小生成树。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_203"
+    },
+    {
+        "description": "图G的一个极大的连通子图是图G的一个连通分量。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_204"
+    },
+    {
+        "description": "对二叉排序树进行中序遍历得到的序列是由大到小的有序序列。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_205"
+    },
+    {
+        "description": "采用折半查找法对有序表进行查找总比采用顺序查找法对其进行查找要快。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_206"
+    },
+    {
+        "description": "单循环链表中，从任何一个结点出发，都能访问到所有结点。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            1
+        ],
+        "id": "FGSstructure_single_207"
+    },
+    {
+        "description": "数据的逻辑结构是指数据的各数据项之间的逻辑关系。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_208"
+    },
+    {
+        "description": "程序一定是算法。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_209"
+    },
+    {
+        "description": "线性表的链式存储结构优于顺序存储结构。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_210"
+    },
+    {
+        "description": "顺序存储方式的优点是存储密度大，且插入、删除运算效率高。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_211"
+    },
+    {
+        "description": "顺序表适宜于顺序存取,而链表适宜于随机存取。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_212"
+    },
+    {
+        "description": "线性表的性能优于顺序表。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_213"
+    },
+    {
+        "description": "线性表的特点是每个元素都有一个前驱和一个后继。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_214"
+    },
+    {
+        "description": "顺序存储方式的优点是存储密度大,且插入、删除运算效率高。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_215"
+    },
+    {
+        "description": "栈和队列也是线性表。如果需要，可对它们中的任一元素进行操作。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_216"
+    },
+    {
+        "description": "若输入序列为1，2，3，4，5，6，用栈可以输出序列1，5，4，6，2，3。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_217"
+    },
+    {
+        "description": "顺序栈因为是顺序存储,所以可以随机存取栈中任意元素。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_218"
+    },
+    {
+        "description": "对于任何待排序序列来说，快速排序均快于起泡排序。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_219"
+    },
+    {
+        "description": "归并排序在任何情况下都比所有简单排序速度快。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_220"
+    },
+    {
+        "description": "通常，二叉树的第i层上有2i-1个结点。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_221"
+    },
+    {
+        "description": "在n个结点的无向图中，若边数大于n-1，则该图必是连通图。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_222"
+    },
+    {
+        "description": "快速排序均快于起泡排序。",
+        "options": [
+            "√",
+            "×"
+        ],
+        "source": "判断题",
+        "correctAnswer": [
+            2
+        ],
+        "id": "FGSstructure_single_223"
+    }
+]
+
+
+            localStorage.setItem('singleQuestion', JSON.stringify(dataJson));
+
+
+        // 单选题索引
+            dataJson = [
+    [
+        "FGSstructure_single_0",
+        0
+    ],
+    [
+        "FGSstructure_single_1",
+        1
+    ],
+    [
+        "FGSstructure_single_2",
+        2
+    ],
+    [
+        "FGSstructure_single_3",
+        3
+    ],
+    [
+        "FGSstructure_single_4",
+        4
+    ],
+    [
+        "FGSstructure_single_5",
+        5
+    ],
+    [
+        "FGSstructure_single_6",
+        6
+    ],
+    [
+        "FGSstructure_single_7",
+        7
+    ],
+    [
+        "FGSstructure_single_8",
+        8
+    ],
+    [
+        "FGSstructure_single_9",
+        9
+    ],
+    [
+        "FGSstructure_single_10",
+        10
+    ],
+    [
+        "FGSstructure_single_11",
+        11
+    ],
+    [
+        "FGSstructure_single_12",
+        12
+    ],
+    [
+        "FGSstructure_single_13",
+        13
+    ],
+    [
+        "FGSstructure_single_14",
+        14
+    ],
+    [
+        "FGSstructure_single_15",
+        15
+    ],
+    [
+        "FGSstructure_single_16",
+        16
+    ],
+    [
+        "FGSstructure_single_17",
+        17
+    ],
+    [
+        "FGSstructure_single_18",
+        18
+    ],
+    [
+        "FGSstructure_single_19",
+        19
+    ],
+    [
+        "FGSstructure_single_20",
+        20
+    ],
+    [
+        "FGSstructure_single_21",
+        21
+    ],
+    [
+        "FGSstructure_single_22",
+        22
+    ],
+    [
+        "FGSstructure_single_23",
+        23
+    ],
+    [
+        "FGSstructure_single_24",
+        24
+    ],
+    [
+        "FGSstructure_single_25",
+        25
+    ],
+    [
+        "FGSstructure_single_26",
+        26
+    ],
+    [
+        "FGSstructure_single_27",
+        27
+    ],
+    [
+        "FGSstructure_single_28",
+        28
+    ],
+    [
+        "FGSstructure_single_29",
+        29
+    ],
+    [
+        "FGSstructure_single_30",
+        30
+    ],
+    [
+        "FGSstructure_single_31",
+        31
+    ],
+    [
+        "FGSstructure_single_32",
+        32
+    ],
+    [
+        "FGSstructure_single_33",
+        33
+    ],
+    [
+        "FGSstructure_single_34",
+        34
+    ],
+    [
+        "FGSstructure_single_35",
+        35
+    ],
+    [
+        "FGSstructure_single_36",
+        36
+    ],
+    [
+        "FGSstructure_single_37",
+        37
+    ],
+    [
+        "FGSstructure_single_38",
+        38
+    ],
+    [
+        "FGSstructure_single_39",
+        39
+    ],
+    [
+        "FGSstructure_single_40",
+        40
+    ],
+    [
+        "FGSstructure_single_41",
+        41
+    ],
+    [
+        "FGSstructure_single_42",
+        42
+    ],
+    [
+        "FGSstructure_single_43",
+        43
+    ],
+    [
+        "FGSstructure_single_44",
+        44
+    ],
+    [
+        "FGSstructure_single_45",
+        45
+    ],
+    [
+        "FGSstructure_single_46",
+        46
+    ],
+    [
+        "FGSstructure_single_47",
+        47
+    ],
+    [
+        "FGSstructure_single_48",
+        48
+    ],
+    [
+        "FGSstructure_single_49",
+        49
+    ],
+    [
+        "FGSstructure_single_50",
+        50
+    ],
+    [
+        "FGSstructure_single_51",
+        51
+    ],
+    [
+        "FGSstructure_single_52",
+        52
+    ],
+    [
+        "FGSstructure_single_53",
+        53
+    ],
+    [
+        "FGSstructure_single_54",
+        54
+    ],
+    [
+        "FGSstructure_single_55",
+        55
+    ],
+    [
+        "FGSstructure_single_56",
+        56
+    ],
+    [
+        "FGSstructure_single_57",
+        57
+    ],
+    [
+        "FGSstructure_single_58",
+        58
+    ],
+    [
+        "FGSstructure_single_59",
+        59
+    ],
+    [
+        "FGSstructure_single_60",
+        60
+    ],
+    [
+        "FGSstructure_single_61",
+        61
+    ],
+    [
+        "FGSstructure_single_62",
+        62
+    ],
+    [
+        "FGSstructure_single_63",
+        63
+    ],
+    [
+        "FGSstructure_single_64",
+        64
+    ],
+    [
+        "FGSstructure_single_65",
+        65
+    ],
+    [
+        "FGSstructure_single_66",
+        66
+    ],
+    [
+        "FGSstructure_single_67",
+        67
+    ],
+    [
+        "FGSstructure_single_68",
+        68
+    ],
+    [
+        "FGSstructure_single_69",
+        69
+    ],
+    [
+        "FGSstructure_single_70",
+        70
+    ],
+    [
+        "FGSstructure_single_71",
+        71
+    ],
+    [
+        "FGSstructure_single_72",
+        72
+    ],
+    [
+        "FGSstructure_single_73",
+        73
+    ],
+    [
+        "FGSstructure_single_74",
+        74
+    ],
+    [
+        "FGSstructure_single_75",
+        75
+    ],
+    [
+        "FGSstructure_single_76",
+        76
+    ],
+    [
+        "FGSstructure_single_77",
+        77
+    ],
+    [
+        "FGSstructure_single_78",
+        78
+    ],
+    [
+        "FGSstructure_single_79",
+        79
+    ],
+    [
+        "FGSstructure_single_80",
+        80
+    ],
+    [
+        "FGSstructure_single_81",
+        81
+    ],
+    [
+        "FGSstructure_single_82",
+        82
+    ],
+    [
+        "FGSstructure_single_83",
+        83
+    ],
+    [
+        "FGSstructure_single_84",
+        84
+    ],
+    [
+        "FGSstructure_single_85",
+        85
+    ],
+    [
+        "FGSstructure_single_86",
+        86
+    ],
+    [
+        "FGSstructure_single_87",
+        87
+    ],
+    [
+        "FGSstructure_single_88",
+        88
+    ],
+    [
+        "FGSstructure_single_89",
+        89
+    ],
+    [
+        "FGSstructure_single_90",
+        90
+    ],
+    [
+        "FGSstructure_single_91",
+        91
+    ],
+    [
+        "FGSstructure_single_92",
+        92
+    ],
+    [
+        "FGSstructure_single_93",
+        93
+    ],
+    [
+        "FGSstructure_single_94",
+        94
+    ],
+    [
+        "FGSstructure_single_95",
+        95
+    ],
+    [
+        "FGSstructure_single_96",
+        96
+    ],
+    [
+        "FGSstructure_single_97",
+        97
+    ],
+    [
+        "FGSstructure_single_98",
+        98
+    ],
+    [
+        "FGSstructure_single_99",
+        99
+    ],
+    [
+        "FGSstructure_single_100",
+        100
+    ],
+    [
+        "FGSstructure_single_101",
+        101
+    ],
+    [
+        "FGSstructure_single_102",
+        102
+    ],
+    [
+        "FGSstructure_single_103",
+        103
+    ],
+    [
+        "FGSstructure_single_104",
+        104
+    ],
+    [
+        "FGSstructure_single_105",
+        105
+    ],
+    [
+        "FGSstructure_single_106",
+        106
+    ],
+    [
+        "FGSstructure_single_107",
+        107
+    ],
+    [
+        "FGSstructure_single_108",
+        108
+    ],
+    [
+        "FGSstructure_single_109",
+        109
+    ],
+    [
+        "FGSstructure_single_110",
+        110
+    ],
+    [
+        "FGSstructure_single_111",
+        111
+    ],
+    [
+        "FGSstructure_single_112",
+        112
+    ],
+    [
+        "FGSstructure_single_113",
+        113
+    ],
+    [
+        "FGSstructure_single_114",
+        114
+    ],
+    [
+        "FGSstructure_single_115",
+        115
+    ],
+    [
+        "FGSstructure_single_116",
+        116
+    ],
+    [
+        "FGSstructure_single_117",
+        117
+    ],
+    [
+        "FGSstructure_single_118",
+        118
+    ],
+    [
+        "FGSstructure_single_119",
+        119
+    ],
+    [
+        "FGSstructure_single_120",
+        120
+    ],
+    [
+        "FGSstructure_single_121",
+        121
+    ],
+    [
+        "FGSstructure_single_122",
+        122
+    ],
+    [
+        "FGSstructure_single_123",
+        123
+    ],
+    [
+        "FGSstructure_single_124",
+        124
+    ],
+    [
+        "FGSstructure_single_125",
+        125
+    ],
+    [
+        "FGSstructure_single_126",
+        126
+    ],
+    [
+        "FGSstructure_single_127",
+        127
+    ],
+    [
+        "FGSstructure_single_128",
+        128
+    ],
+    [
+        "FGSstructure_single_129",
+        129
+    ],
+    [
+        "FGSstructure_single_130",
+        130
+    ],
+    [
+        "FGSstructure_single_131",
+        131
+    ],
+    [
+        "FGSstructure_single_132",
+        132
+    ],
+    [
+        "FGSstructure_single_133",
+        133
+    ],
+    [
+        "FGSstructure_single_134",
+        134
+    ],
+    [
+        "FGSstructure_single_135",
+        135
+    ],
+    [
+        "FGSstructure_single_136",
+        136
+    ],
+    [
+        "FGSstructure_single_137",
+        137
+    ],
+    [
+        "FGSstructure_single_138",
+        138
+    ],
+    [
+        "FGSstructure_single_139",
+        139
+    ],
+    [
+        "FGSstructure_single_140",
+        140
+    ],
+    [
+        "FGSstructure_single_141",
+        141
+    ],
+    [
+        "FGSstructure_single_142",
+        142
+    ],
+    [
+        "FGSstructure_single_143",
+        143
+    ],
+    [
+        "FGSstructure_single_144",
+        144
+    ],
+    [
+        "FGSstructure_single_145",
+        145
+    ],
+    [
+        "FGSstructure_single_146",
+        146
+    ],
+    [
+        "FGSstructure_single_147",
+        147
+    ],
+    [
+        "FGSstructure_single_148",
+        148
+    ],
+    [
+        "FGSstructure_single_149",
+        149
+    ],
+    [
+        "FGSstructure_single_150",
+        150
+    ],
+    [
+        "FGSstructure_single_151",
+        151
+    ],
+    [
+        "FGSstructure_single_152",
+        152
+    ],
+    [
+        "FGSstructure_single_153",
+        153
+    ],
+    [
+        "FGSstructure_single_154",
+        154
+    ],
+    [
+        "FGSstructure_single_155",
+        155
+    ],
+    [
+        "FGSstructure_single_156",
+        156
+    ],
+    [
+        "FGSstructure_single_157",
+        157
+    ],
+    [
+        "FGSstructure_single_158",
+        158
+    ],
+    [
+        "FGSstructure_single_159",
+        159
+    ],
+    [
+        "FGSstructure_single_160",
+        160
+    ],
+    [
+        "FGSstructure_single_161",
+        161
+    ],
+    [
+        "FGSstructure_single_162",
+        162
+    ],
+    [
+        "FGSstructure_single_163",
+        163
+    ],
+    [
+        "FGSstructure_single_164",
+        164
+    ],
+    [
+        "FGSstructure_single_165",
+        165
+    ],
+    [
+        "FGSstructure_single_166",
+        166
+    ],
+    [
+        "FGSstructure_single_167",
+        167
+    ],
+    [
+        "FGSstructure_single_168",
+        168
+    ],
+    [
+        "FGSstructure_single_169",
+        169
+    ],
+    [
+        "FGSstructure_single_170",
+        170
+    ],
+    [
+        "FGSstructure_single_171",
+        171
+    ],
+    [
+        "FGSstructure_single_172",
+        172
+    ],
+    [
+        "FGSstructure_single_173",
+        173
+    ],
+    [
+        "FGSstructure_single_174",
+        174
+    ],
+    [
+        "FGSstructure_single_175",
+        175
+    ],
+    [
+        "FGSstructure_single_176",
+        176
+    ],
+    [
+        "FGSstructure_single_177",
+        177
+    ],
+    [
+        "FGSstructure_single_178",
+        178
+    ],
+    [
+        "FGSstructure_single_179",
+        179
+    ],
+    [
+        "FGSstructure_single_180",
+        180
+    ],
+    [
+        "FGSstructure_single_181",
+        181
+    ],
+    [
+        "FGSstructure_single_182",
+        182
+    ],
+    [
+        "FGSstructure_single_183",
+        183
+    ],
+    [
+        "FGSstructure_single_184",
+        184
+    ],
+    [
+        "FGSstructure_single_185",
+        185
+    ],
+    [
+        "FGSstructure_single_186",
+        186
+    ],
+    [
+        "FGSstructure_single_187",
+        187
+    ],
+    [
+        "FGSstructure_single_188",
+        188
+    ],
+    [
+        "FGSstructure_single_189",
+        189
+    ],
+    [
+        "FGSstructure_single_190",
+        190
+    ],
+    [
+        "FGSstructure_single_191",
+        191
+    ],
+    [
+        "FGSstructure_single_192",
+        192
+    ],
+    [
+        "FGSstructure_single_193",
+        193
+    ],
+    [
+        "FGSstructure_single_194",
+        194
+    ],
+    [
+        "FGSstructure_single_195",
+        195
+    ],
+    [
+        "FGSstructure_single_196",
+        196
+    ],
+    [
+        "FGSstructure_single_197",
+        197
+    ],
+    [
+        "FGSstructure_single_198",
+        198
+    ],
+    [
+        "FGSstructure_single_199",
+        199
+    ],
+    [
+        "FGSstructure_single_200",
+        200
+    ],
+    [
+        "FGSstructure_single_201",
+        201
+    ],
+    [
+        "FGSstructure_single_202",
+        202
+    ],
+    [
+        "FGSstructure_single_203",
+        203
+    ],
+    [
+        "FGSstructure_single_204",
+        204
+    ],
+    [
+        "FGSstructure_single_205",
+        205
+    ],
+    [
+        "FGSstructure_single_206",
+        206
+    ],
+    [
+        "FGSstructure_single_207",
+        207
+    ],
+    [
+        "FGSstructure_single_208",
+        208
+    ],
+    [
+        "FGSstructure_single_209",
+        209
+    ],
+    [
+        "FGSstructure_single_210",
+        210
+    ],
+    [
+        "FGSstructure_single_211",
+        211
+    ],
+    [
+        "FGSstructure_single_212",
+        212
+    ],
+    [
+        "FGSstructure_single_213",
+        213
+    ],
+    [
+        "FGSstructure_single_214",
+        214
+    ],
+    [
+        "FGSstructure_single_215",
+        215
+    ],
+    [
+        "FGSstructure_single_216",
+        216
+    ],
+    [
+        "FGSstructure_single_217",
+        217
+    ],
+    [
+        "FGSstructure_single_218",
+        218
+    ],
+    [
+        "FGSstructure_single_219",
+        219
+    ],
+    [
+        "FGSstructure_single_220",
+        220
+    ],
+    [
+        "FGSstructure_single_221",
+        221
+    ],
+    [
+        "FGSstructure_single_222",
+        222
+    ],
+    [
+        "FGSstructure_single_223",
+        223
+    ]
+]
+
+
+           localStorage.setItem('singleQuestionIndex', JSON.stringify(dataJson));
+
+
+    
+
+
+            // 导入多选
+            dataJson = []
+            
+
+            localStorage.setItem('multiQuestion', JSON.stringify(dataJson));
+
+            // 多选题索引
+            dataJson = []
+            
+
+
+           localStorage.setItem('multiQuestionIndex', JSON.stringify(dataJson));
+
+    
+
+            // 导入填空
+            dataJson = []
+
+
+            localStorage.setItem('blankQuestion', JSON.stringify(dataJson));
+
+
+            // 填空题索引
+            dataJson = []
+            
+           localStorage.setItem('multiQuestionIndex', JSON.stringify(dataJson));
+
+
+
+            // 保存数据库版本
+            localStorage.setItem('STdataName', datasourceName);
+            localStorage.setItem('STdataVer', datasourceVer);
+            localStorage.setItem('STdataNameChinese', datasourceNameChinese);
+            // 导入完毕后事件对象
+            var updateObj = {
+                type: 'loaddata',
+                updateData: true
+            };
+            window.parent.postMessage(JSON.stringify(updateObj), '*');
+            alert(`${datasourceNameChinese}_${datasourceVer}数据库导入完毕！`);
+        }
+
+
+    
+    importJSExam();
+  
+
+
+</script>
+
+</html>
