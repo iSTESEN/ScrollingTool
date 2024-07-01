@@ -438,6 +438,8 @@
                         </div>
                     </div>
                     <hr>
+                    <button onclick="updateDatasource('XSX_WY', 0)"
+                        class="btn btn-primary btn-sm">导入唯一-习思想</button>
                     <button onclick="updateDatasource('FGSstructure', 0)"
                         class="btn btn-primary btn-sm">导入福工商2024数据结构</button>
                     <button onclick="updateDatasource('FJSEnglish2', 0)"
@@ -968,6 +970,8 @@
                 src = '/ScrollingTool/FJSEnglish2.html?' + Math.floor(Math.random() * 900) + 100;
             } else if(datasourceName == 'FGSstructure') {
                 src = '/ScrollingTool/FGSstructure.html?' + Math.floor(Math.random() * 900) + 100;
+            } else if(datasourceName == 'XSX_WY') {
+                src = '/ScrollingTool/XSX_WY.html?' + Math.floor(Math.random() * 900) + 100;
             }
             // 开始加载更新
             var iframe = document.getElementById('updateDataSourceiFrame');
