@@ -438,6 +438,8 @@
                         </div>
                     </div>
                     <hr>
+                    <button onclick="updateDatasource('YLX_XQBJ', 0)"
+                        class="btn btn-primary btn-sm">导入星期八见-药理学</button>
                     <button onclick="updateDatasource('GJSW_QI', 0)"
                         class="btn btn-primary btn-sm">导入祈-国际商务谈判</button>
                     <button onclick="updateDatasource('XSX_WY', 0)"
@@ -610,7 +612,7 @@
     </div>
     <!-- Update -->
     <iframe style="display: none;" id="updateiFrame" src="/ScrollingTool/update.html" width="0" height="0"></iframe>
-    <iframe style="display: none;" id="updateDataSourceiFrame" src="" width="0" height="0"></iframe>
+    <iframe style="display: none;" id="iFrame" src="" width="0" height="0"></iframe>
 
 
 
@@ -976,6 +978,8 @@
                 src = '/ScrollingTool/XSX_WY.html?' + Math.floor(Math.random() * 900) + 100;
             } else if(datasourceName == 'GJSW_QI') {
                 src = '/ScrollingTool/GJSW_QI.html?' + Math.floor(Math.random() * 900) + 100;
+            } else if(datasourceName == 'YLX_XQBJ') {
+                src = '/ScrollingTool/YLX_XQBJ.html?' + Math.floor(Math.random() * 900) + 100;
             }
             // 开始加载更新
             var iframe = document.getElementById('updateDataSourceiFrame');
