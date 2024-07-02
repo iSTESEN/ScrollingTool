@@ -1,0 +1,1487 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>药理学_星期八见.</title>
+
+</head>
+
+<body>
+
+    <h1>药理学_星期八见</h1>
+
+    <h3>STESEN</h3>
+
+</body>
+
+
+<!-- 为题目赋予id -->
+<!--
+var list = []
+var dataname = '数据库名'
+var typename = 'single' | 'multi' | 'blank'
+    list.map((e,i) => {
+        e.id = dataname + '_' + typename + '_' + i;
+        return e;
+    })
+-->
+
+
+<!-- 生成索引 -->
+<!--
+var list = [] // 包含id的题库
+list.map((e,i) => {
+    return [e.id, i];
+})
+-->
+
+<!-- lll = lll.map(e => {
+    return {
+        "source": e.来源,
+        "description": e.题目,
+        "options": e.选项,
+        "correctAnswer": e.答案
+    }
+}) -->
+
+
+<script>
+  /*
+    1、导入题库
+    2、导入完成发出消息
+  */
+
+// 农林金山马克思导入，导入完毕后发送事件
+function importJSExam() {
+            // 数据库标记 =======================
+            var datasourceName = 'YLX_XQBJ';
+            var datasourceVer = '1（2024-7-2）';
+            var datasourceNameChinese = '药理学'
+            // =================================
+            
+            localStorage.removeItem('quesLimitOpts');
+            localStorage.removeItem('singleQuestion');
+            localStorage.removeItem('blankQuestion');
+            localStorage.removeItem('multiQuestion');
+            // 导入单选
+            var dataJson = [
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药",
+        "options": [
+            "药物作用的选择性低",
+            "用药时间过长",
+            "组织器官对药物亲和力过高",
+            "机体敏感性太高"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_0"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是.药",
+        "options": [
+            "对药物的排泄能力",
+            "对药物的转运能力",
+            "对药物的转化能力",
+            "对药物的吸收能力"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_1"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是",
+        "options": [
+            "皮肤黏膜血管和内脏血管收缩",
+            "心脏兴奋",
+            "支气管平滑肌舒张",
+            "胃肠道平滑肌收缩"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_2"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反",
+        "options": [
+            "扩瞳，降低眼内压，调节痉挛",
+            "扩瞳，升高眼内压，调节麻痹",
+            "缩瞳，升高眼内压，调节痉挛",
+            "缩瞳，降低眼内压，调节痉挛"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_3"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理",
+        "options": [
+            "内吸磷",
+            "对硫磷",
+            "敌百虫",
+            "乐果"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_4"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是",
+        "options": [
+            "静脉滴注",
+            "口服稀释液",
+            "肌内注射",
+            "皮下注射"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_5"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是.药",
+        "options": [
+            "酚妥拉明",
+            "肾上腺素",
+            "多巴胺",
+            "阿托品"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_6"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药",
+        "options": [
+            "指、趾末端手术",
+            "面部手术",
+            "头部手术",
+            "腹部手术"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_7"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "碳酸氢钠",
+            "氟马西尼",
+            "山梗菜碱",
+            "阿托品"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_8"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反",
+        "options": [
+            "水合氯醛",
+            "苯巴比妥",
+            "地西泮静脉注射",
+            "地西泮口服"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_9"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础",
+        "options": [
+            "阻断边缘系统a受体",
+            "阻断网状结构多巴胺受体",
+            "阻断中枢胆碱受体",
+            "阻断黑质—纹状体的多巴胺受体"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_10"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反",
+        "options": [
+            "诊断未明的急腹症",
+            "分娩之痛",
+            "颅脑外伤的疼痛",
+            "其他药物无效的急性锐痛"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_11"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理",
+        "options": [
+            "胃肠道反应",
+            "过敏反应",
+            "水钠潴留",
+            "水杨酸反应"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_12"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应",
+        "options": [
+            "利尿药",
+            "β受体阻断药",
+            "该拮抗剂",
+            "ACEI类"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_13"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药",
+        "options": [
+            "释放一氧化氮",
+            "促进前列环素生成",
+            "阻断a受体",
+            "阻滞钙通道"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_14"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是",
+        "options": [
+            "内因子缺乏",
+            "疟疾",
+            "慢性腹泻",
+            "月经过多"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_15"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "提高肾小球滤过率",
+            "抑制肾小管对电解质的重吸收",
+            "增加肾血流量",
+            "增加血容量"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_16"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药",
+        "options": [
+            "抗过敏",
+            "镇静催眠",
+            "抑制胃酸分泌",
+            "抗胆碱"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_17"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不",
+        "options": [
+            "氯化铵",
+            "可待因",
+            "右美沙芬",
+            "溴己新"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_18"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是A\n",
+        "options": [
+            "二甲双胍",
+            "格列吡嗪",
+            "格列喹酮",
+            "胰岛素"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_19"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础",
+        "options": [
+            "氢化可的松",
+            "可的松",
+            "泼尼松龙",
+            "地塞米松"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_20"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是.药物",
+        "options": [
+            "抗菌谱",
+            "抗菌活性",
+            "化疗指数",
+            "最低抑菌浓度"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_21"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是.",
+        "options": [
+            "可使阿莫西林口服吸收更好",
+            "可使阿莫西林自肾小管分泌减少",
+            "克拉维酸抗菌谱广，抗菌活性强",
+            "克拉维酸抑制β-内酰胺酶，发挥抑酶增效的作用"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_22"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应",
+        "options": [
+            "间断使用抗结核药",
+            "联合使用两种以上药物",
+            "早期使用抗结核药",
+            "严格遵照适当的药物剂量",
+            "坚持完成规定疗程",
+            "细胞色素 P450",
+            "细胞色素b5",
+            "胆碱酯酶",
+            "单胺氧化酶"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_23"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是A",
+        "options": [
+            "注射给药",
+            "口服给药",
+            "舌下给药",
+            "直肠给药"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_24"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药",
+        "options": [
+            "主动转运",
+            "易化扩散",
+            "简单扩散 D.滤过"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_25"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础",
+        "options": [
+            "高敏性",
+            "依赖性",
+            "耐药性",
+            "耐受性"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_26"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是",
+        "options": [
+            "A 皮肤黏膜血管和内脏血管收缩",
+            "B 心脏兴奋",
+            "C 支气管平滑肌舒张",
+            "D 胃肠道平滑肌收缩"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_27"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药",
+        "options": [
+            "扩瞳",
+            "视远物清楚",
+            "前房角间隙变宽",
+            "上眼睑收缩"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_28"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反",
+        "options": [
+            "阿托品",
+            "酚妥拉明",
+            "山莨菪碱",
+            "东莨菪碱"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_29"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "654-2",
+            "新斯的明",
+            "毛果芸香碱",
+            "肾上腺素"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_30"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "肾上腺素",
+            "异丙肾上腺素",
+            "麻黄碱",
+            "去甲肾上腺素"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_31"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础",
+        "options": [
+            "肾上腺素",
+            "麻黄碱",
+            "去甲肾上腺素",
+            "间羟胺"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_32"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "间羟胺",
+            "肾上腺素",
+            "去甲肾上腺素",
+            "麻黄碱"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_33"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是",
+        "options": [
+            "普萘洛尔",
+            "肾上腺素",
+            "麻黄碱",
+            "酚妥拉明"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_34"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是.药物作用的选",
+        "options": [
+            "多巴胺",
+            "去甲肾上腺素",
+            "异丙肾上腺素",
+            "肾上腺素"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_35"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药",
+        "options": [
+            "氢氯噻嗪",
+            "硝普钠",
+            "哌唑嗪",
+            "可乐定"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_36"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是",
+        "options": [
+            "A．硝酸异山梨酯",
+            "硝酸甘油",
+            "C．戊四硝酯",
+            "D．普萘洛尔"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_37"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "减少血管平滑肌细胞内钠离子",
+            "降低血浆肾素活性",
+            "增加血浆肾素活性",
+            "排钠利尿，降低血容量"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_38"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理",
+        "options": [
+            "硫酸镁",
+            "酚酞",
+            "甘油",
+            "液体石蜡"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_39"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "猩红热",
+            "伤寒",
+            "流脑",
+            "大叶性肺炎"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_40"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是.药",
+        "options": [
+            "可使阿莫西林口服吸收更好",
+            "可使阿莫西林自肾小管分泌减少",
+            "克拉维酸抑制β-内酰胺酶，发挥抑酶增效的作用",
+            "克拉维酸抗菌谱广，抗菌活性强。"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_41"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础",
+        "options": [
+            "A．叶酸",
+            "B．维生素K",
+            "C．鱼精蛋白",
+            "D．氨甲环酸"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_42"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应",
+        "options": [
+            "骨髓抑制",
+            "胃肠道症状",
+            "肝损害",
+            "肾损害"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_43"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是A",
+        "options": [
+            "保泰松",
+            "对乙酰氨基酚",
+            "阿司匹林",
+            "吲哚美辛"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_44"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是A\n",
+        "options": [
+            "心搏骤停",
+            "肾衰",
+            "呼吸衰竭",
+            "惊厥"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_45"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础",
+        "options": [
+            "增强麻醉效果",
+            "中枢镇静作用",
+            "预防心动过速",
+            "减少呼吸道腺体的分泌"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_46"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是",
+        "options": [
+            "异烟肼",
+            "乙胺丁醇",
+            "链霉素",
+            "对氨基水杨酸"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_47"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础",
+        "options": [
+            "A、高敏性",
+            "B、后遗效应",
+            "C、耐受性",
+            "D、成瘾性"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_48"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不",
+        "options": [
+            "A、与受体无亲和力，有效应力",
+            "B、与受体有亲和力，有效应力",
+            "C、与受体有亲和力，无效应力",
+            "D、与受体无亲和力，无效应力"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_49"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是",
+        "options": [
+            "A、阻断M胆碱受体",
+            "B、使胆碱酯酶恢复活性",
+            "C、使乙酰胆碱的破坏减少",
+            "D、抑制胆碱酯酶"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_50"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反",
+        "options": [
+            "A、阿托品",
+            "B、哌替啶",
+            "C、阿司匹林",
+            "D、阿托品＋哌替啶"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_51"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础",
+        "options": [
+            "A、肾上腺素",
+            "B、间羟胺",
+            "C、去甲肾上腺素",
+            "D、麻黄碱"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_52"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "A、抑制心肌收缩力",
+            "B、收缩血管",
+            "C、松弛支气管平滑肌",
+            "D、降低心肌耗氧量"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_53"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理",
+        "options": [
+            "A、三唑仑",
+            "B、苯巴比妥",
+            "C、水合氯醛",
+            "D、地西泮"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_54"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不",
+        "options": [
+            "A、导泻",
+            "B、利胆",
+            "C、抗惊厥降",
+            "D、兴奋骨骼肌"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_55"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是",
+        "options": [
+            "A、体位性低血压",
+            "B、过敏反应",
+            "C、内分泌障碍",
+            "D、锥体外系反应"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_56"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反",
+        "options": [
+            "A、松驰支气管平滑肌",
+            "B、镇咳",
+            "C、镇痛",
+            "D、呼吸抑制"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_57"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "A、胃肠道反应",
+            "B、阿司匹林哮喘",
+            "C、凝血障碍",
+            "D、水杨酸反应"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_58"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理",
+        "options": [
+            "A、氢氯噻嗪",
+            "B、硝苯地平",
+            "C、普萘洛尔",
+            "D、可乐定"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_59"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基",
+        "options": [
+            "A、起效快",
+            "B、疗效肯定",
+            "C、使用方便",
+            "D、口服有效"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "YLX_XQBJ_single_60"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "A、变态反应",
+            "B、出血",
+            "C、胃肠道刺激",
+            "D、体位性低血压"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_61"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "A、甘露醇",
+            "B、乙酰唑胺",
+            "C、螺内酯",
+            "D、氢氯噻嗪",
+            "A、 可待因",
+            "B、右美沙芬",
+            "C、喷托维林",
+            "D、氯哌斯汀"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "YLX_XQBJ_single_62"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生",
+        "options": [
+            "A、接触性皮炎",
+            "B、严重精神病",
+            "C、支气管哮喘",
+            "D、过敏性紫癜"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_63"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的",
+        "options": [
+            "A、黏液性水肿",
+            "B、甲状腺危象",
+            "C、呆小病",
+            "D、单纯性甲状腺肿"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "YLX_XQBJ_single_64"
+    },
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应",
+        "options": [
+            "A、过敏反应",
+            "B、胰岛素耐受性",
+            "C、低血糖症",
+            "D、脂肪萎缩"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "YLX_XQBJ_single_65"
+    }
+]
+
+
+            localStorage.setItem('singleQuestion', JSON.stringify(dataJson));
+
+
+        // 单选题索引
+            dataJson = [
+    [
+        "YLX_XQBJ_single_0",
+        0
+    ],
+    [
+        "YLX_XQBJ_single_1",
+        1
+    ],
+    [
+        "YLX_XQBJ_single_2",
+        2
+    ],
+    [
+        "YLX_XQBJ_single_3",
+        3
+    ],
+    [
+        "YLX_XQBJ_single_4",
+        4
+    ],
+    [
+        "YLX_XQBJ_single_5",
+        5
+    ],
+    [
+        "YLX_XQBJ_single_6",
+        6
+    ],
+    [
+        "YLX_XQBJ_single_7",
+        7
+    ],
+    [
+        "YLX_XQBJ_single_8",
+        8
+    ],
+    [
+        "YLX_XQBJ_single_9",
+        9
+    ],
+    [
+        "YLX_XQBJ_single_10",
+        10
+    ],
+    [
+        "YLX_XQBJ_single_11",
+        11
+    ],
+    [
+        "YLX_XQBJ_single_12",
+        12
+    ],
+    [
+        "YLX_XQBJ_single_13",
+        13
+    ],
+    [
+        "YLX_XQBJ_single_14",
+        14
+    ],
+    [
+        "YLX_XQBJ_single_15",
+        15
+    ],
+    [
+        "YLX_XQBJ_single_16",
+        16
+    ],
+    [
+        "YLX_XQBJ_single_17",
+        17
+    ],
+    [
+        "YLX_XQBJ_single_18",
+        18
+    ],
+    [
+        "YLX_XQBJ_single_19",
+        19
+    ],
+    [
+        "YLX_XQBJ_single_20",
+        20
+    ],
+    [
+        "YLX_XQBJ_single_21",
+        21
+    ],
+    [
+        "YLX_XQBJ_single_22",
+        22
+    ],
+    [
+        "YLX_XQBJ_single_23",
+        23
+    ],
+    [
+        "YLX_XQBJ_single_24",
+        24
+    ],
+    [
+        "YLX_XQBJ_single_25",
+        25
+    ],
+    [
+        "YLX_XQBJ_single_26",
+        26
+    ],
+    [
+        "YLX_XQBJ_single_27",
+        27
+    ],
+    [
+        "YLX_XQBJ_single_28",
+        28
+    ],
+    [
+        "YLX_XQBJ_single_29",
+        29
+    ],
+    [
+        "YLX_XQBJ_single_30",
+        30
+    ],
+    [
+        "YLX_XQBJ_single_31",
+        31
+    ],
+    [
+        "YLX_XQBJ_single_32",
+        32
+    ],
+    [
+        "YLX_XQBJ_single_33",
+        33
+    ],
+    [
+        "YLX_XQBJ_single_34",
+        34
+    ],
+    [
+        "YLX_XQBJ_single_35",
+        35
+    ],
+    [
+        "YLX_XQBJ_single_36",
+        36
+    ],
+    [
+        "YLX_XQBJ_single_37",
+        37
+    ],
+    [
+        "YLX_XQBJ_single_38",
+        38
+    ],
+    [
+        "YLX_XQBJ_single_39",
+        39
+    ],
+    [
+        "YLX_XQBJ_single_40",
+        40
+    ],
+    [
+        "YLX_XQBJ_single_41",
+        41
+    ],
+    [
+        "YLX_XQBJ_single_42",
+        42
+    ],
+    [
+        "YLX_XQBJ_single_43",
+        43
+    ],
+    [
+        "YLX_XQBJ_single_44",
+        44
+    ],
+    [
+        "YLX_XQBJ_single_45",
+        45
+    ],
+    [
+        "YLX_XQBJ_single_46",
+        46
+    ],
+    [
+        "YLX_XQBJ_single_47",
+        47
+    ],
+    [
+        "YLX_XQBJ_single_48",
+        48
+    ],
+    [
+        "YLX_XQBJ_single_49",
+        49
+    ],
+    [
+        "YLX_XQBJ_single_50",
+        50
+    ],
+    [
+        "YLX_XQBJ_single_51",
+        51
+    ],
+    [
+        "YLX_XQBJ_single_52",
+        52
+    ],
+    [
+        "YLX_XQBJ_single_53",
+        53
+    ],
+    [
+        "YLX_XQBJ_single_54",
+        54
+    ],
+    [
+        "YLX_XQBJ_single_55",
+        55
+    ],
+    [
+        "YLX_XQBJ_single_56",
+        56
+    ],
+    [
+        "YLX_XQBJ_single_57",
+        57
+    ],
+    [
+        "YLX_XQBJ_single_58",
+        58
+    ],
+    [
+        "YLX_XQBJ_single_59",
+        59
+    ],
+    [
+        "YLX_XQBJ_single_60",
+        60
+    ],
+    [
+        "YLX_XQBJ_single_61",
+        61
+    ],
+    [
+        "YLX_XQBJ_single_62",
+        62
+    ],
+    [
+        "YLX_XQBJ_single_63",
+        63
+    ],
+    [
+        "YLX_XQBJ_single_64",
+        64
+    ],
+    [
+        "YLX_XQBJ_single_65",
+        65
+    ]
+]
+           
+
+
+            localStorage.setItem('singleQuestionIndex', JSON.stringify(dataJson));
+
+
+    
+
+
+            // 导入多选
+            dataJson = [
+    {
+        "source": "药理学",
+        "description": "药物产生不良反应的药理基础是",
+        "options": [
+            "口服",
+            "舌下含服",
+            "静脉注射",
+            "皮下注射"
+        ],
+        "correctAnswer": [
+            2,
+            3,
+            4
+        ],
+        "id": "YLX_XQBJ_multi_0"
+    }
+]
+            
+
+
+
+            localStorage.setItem('multiQuestion', JSON.stringify(dataJson));
+
+            // 多选题索引
+            dataJson = [
+    [
+        "YLX_XQBJ_multi_0",
+        0
+    ]
+]
+            
+
+
+
+
+           localStorage.setItem('multiQuestionIndex', JSON.stringify(dataJson));
+
+    
+
+            // 导入填空
+            dataJson = [
+    {
+        "source": "药理学",
+        "description": "氨基糖苷类抗生素共同的毒性反应有  （  ）  、 （  ）   、 （  ）   。",
+        "correctAnswer": "耳毒性 肾毒性 神经肌肉阻滞作用",
+        "id": "YLX_XQBJ_blank_0"
+    },
+    {
+        "source": "药理学",
+        "description": "药物与受体结合产生效应，必须具备两种特性，一是 （  ）   ，二是      （  ）。",
+        "correctAnswer": "亲和力 内在活性",
+        "id": "YLX_XQBJ_blank_1"
+    },
+    {
+        "source": "药理学",
+        "description": "常用局麻药中，患者对于普鲁卡因过敏，可以用选用  （  ）    替代；具有分离麻醉的全麻药是  （  ）   。",
+        "correctAnswer": "利多卡因 氯胺酮",
+        "id": "YLX_XQBJ_blank_2"
+    },
+    {
+        "source": "药理学",
+        "description": "有机磷酸酯类中毒的主要解救药是 （  ）  和 （  ）      。",
+        "correctAnswer": "M受体阻滞药（阿托品） 胆碱酯酶复活药",
+        "id": "YLX_XQBJ_blank_3"
+    },
+    {
+        "source": "药理学",
+        "description": "体内、外均有抗凝作用的药物是 （  ）   ,仅有体内抗凝作用的药物是 （  ）  ，",
+        "correctAnswer": "肝素 香豆素类（华法林）",
+        "id": "YLX_XQBJ_blank_4"
+    },
+    {
+        "source": "药理学",
+        "description": "冬眠合剂的组成是 （  ）  、 （  ）  、 （  ）  。",
+        "correctAnswer": "哌替啶 氯丙嗪 异丙嗪",
+        "id": "YLX_XQBJ_blank_5"
+    },
+    {
+        "source": "药理学",
+        "description": "兼有a、β受体阻断作用的抗高血压药物是 （  ）     ，高血压兼有哮喘者不宜选用 （  ）     ，可发生“首剂现象”的抗高血压药物是 （  ）     。",
+        "correctAnswer": "拉贝洛尔 β受体阻断剂 哌唑嗪",
+        "id": "YLX_XQBJ_blank_6"
+    },
+    {
+        "source": "药理学",
+        "description": "地西泮治疗癫痫持续状态的给药方法是  （  ）    ，地西泮引起的急性中毒可用（  ）   抢救。",
+        "correctAnswer": "静脉注射 氟马西尼",
+        "id": "YLX_XQBJ_blank_7"
+    },
+    {
+        "source": "药理学",
+        "description": "氟喹诺酮类药物能引起  （  ）     的不良反应，不宜用于儿童和孕妇；磺胺类药物能引起泌尿系统损害，所以服用磺胺类药物时应适当增加饮水量并加服等量 （  ）   以碱化尿液；甲硝唑可干扰  （  ）   ，所以服药期间和停药1周内禁饮酒。",
+        "correctAnswer": "关节损害 碳酸氢钠 乙醛代谢",
+        "id": "YLX_XQBJ_blank_8"
+    },
+    {
+        "source": "药理学",
+        "description": "脑膜炎奈瑟菌引起的脑膜炎， （  ）    与 （  ）     常并列为首选药。",
+        "correctAnswer": "青霉素 磺胺嘧啶",
+        "id": "YLX_XQBJ_blank_9"
+    },
+    {
+        "source": "药理学",
+        "description": "糖皮质激素的药理作用“四大抗”是指  （  ）  、抗免疫、 （  ）  、抗内毒素作用。",
+        "correctAnswer": "抗炎 抗休克",
+        "id": "YLX_XQBJ_blank_10"
+    },
+    {
+        "source": "药理学",
+        "description": "抗生素杀灭致病菌的治疗属  （  ）    治疗；解热镇痛药缓解疼痛属 （  ）  治疗。",
+        "correctAnswer": "对因 对症",
+        "id": "YLX_XQBJ_blank_11"
+    }
+]
+
+            
+            localStorage.setItem('blankQuestion', JSON.stringify(dataJson));
+
+
+            // 填空题索引
+            dataJson = [
+    [
+        "YLX_XQBJ_blank_0",
+        0
+    ],
+    [
+        "YLX_XQBJ_blank_1",
+        1
+    ],
+    [
+        "YLX_XQBJ_blank_2",
+        2
+    ],
+    [
+        "YLX_XQBJ_blank_3",
+        3
+    ],
+    [
+        "YLX_XQBJ_blank_4",
+        4
+    ],
+    [
+        "YLX_XQBJ_blank_5",
+        5
+    ],
+    [
+        "YLX_XQBJ_blank_6",
+        6
+    ],
+    [
+        "YLX_XQBJ_blank_7",
+        7
+    ],
+    [
+        "YLX_XQBJ_blank_8",
+        8
+    ],
+    [
+        "YLX_XQBJ_blank_9",
+        9
+    ],
+    [
+        "YLX_XQBJ_blank_10",
+        10
+    ],
+    [
+        "YLX_XQBJ_blank_11",
+        11
+    ]
+]
+            
+           localStorage.setItem('multiQuestionIndex', JSON.stringify(dataJson));
+
+
+
+            // 保存数据库版本
+            localStorage.setItem('STdataName', datasourceName);
+            localStorage.setItem('STdataVer', datasourceVer);
+            localStorage.setItem('STdataNameChinese', datasourceNameChinese);
+            // 导入完毕后事件对象
+            var updateObj = {
+                type: 'loaddata',
+                updateData: true
+            };
+            window.parent.postMessage(JSON.stringify(updateObj), '*');
+            alert(`${datasourceNameChinese}_${datasourceVer}数据库导入完毕！`);
+        }
+
+
+    
+    importJSExam();
+  
+
+
+</script>
+
+</html>
