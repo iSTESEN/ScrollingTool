@@ -1,0 +1,1056 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>药理学_星期八见.</title>
+
+</head>
+
+<body>
+
+    <h1>药理学_星期八见</h1>
+
+    <h3>STESEN</h3>
+
+</body>
+
+
+<!-- 为题目赋予id -->
+<!--
+var list = []
+var dataname = '数据库名'
+var typename = 'single' | 'multi' | 'blank'
+    list.map((e,i) => {
+        e.id = dataname + '_' + typename + '_' + i;
+        return e;
+    })
+-->
+
+
+<!-- 生成索引 -->
+<!--
+var list = [] // 包含id的题库
+list.map((e,i) => {
+    return [e.id, i];
+})
+-->
+
+<!-- lll = lll.map(e => {
+    return {
+        "source": e.来源,
+        "description": e.题目,
+        "options": e.选项,
+        "correctAnswer": e.答案
+    }
+}) -->
+
+
+
+
+
+<script>
+  /*
+    1、导入题库
+    2、导入完成发出消息
+  */
+
+// 农林金山马克思导入，导入完毕后发送事件
+function importJSExam() {
+            // 数据库标记 =======================
+            var datasourceName = 'DWYL_TeaAndRice';
+            var datasourceVer = '1（2024-7-3）';
+            var datasourceNameChinese = '动物药理'
+            // =================================
+            
+            localStorage.removeItem('quesLimitOpts');
+            localStorage.removeItem('singleQuestion');
+            localStorage.removeItem('blankQuestion');
+            localStorage.removeItem('multiQuestion');
+            // 导入单选
+            var dataJson = [
+    {
+        "source": "练习",
+        "description": "属于别离麻醉药的是",
+        "options": [
+            "氯胺酮",
+            "戊巴比妥钠",
+            "赛拉嗪",
+            "水合氯醛"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_0"
+    },
+    {
+        "source": "练习",
+        "description": "治疗鸡慢性呼吸道疾病的专用红霉素制剂是",
+        "options": [
+            "硫氰酸红霉素可溶性粉",
+            "琥乙酰红霉素片"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_1"
+    },
+    {
+        "source": "练习",
+        "description": "可应用于各种局部麻醉方法的药物是",
+        "options": [
+            "普鲁卡因",
+            "利多卡因",
+            "丁卡因",
+            "可卡因"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "DWYL_TeaAndRice_single_2"
+    },
+    {
+        "source": "练习",
+        "description": "一怀孕母狗发生了小肠阻塞，应选用",
+        "options": [
+            "植物油",
+            "恩诺沙星",
+            "鞣酸",
+            "止血敏"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_3"
+    },
+    {
+        "source": "练习",
+        "description": "为延缓局麻药浸润麻醉时的吸收和延长其作用时间，通常在其药液中参加适量",
+        "options": [
+            "安乃近",
+            "安定",
+            "肾上腺素",
+            "酚磺乙胺"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "DWYL_TeaAndRice_single_4"
+    },
+    {
+        "source": "练习",
+        "description": "生物利用度是指药物自用药部位吸收进入体循环的",
+        "options": [
+            "有效血药浓度",
+            "速度"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "DWYL_TeaAndRice_single_5"
+    },
+    {
+        "source": "练习",
+        "description": "大环内酯类类抗生素不包括",
+        "options": [
+            "泰妙菌素",
+            "泰乐菌素",
+            "替米考星",
+            "红霉素"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_6"
+    },
+    {
+        "source": "练习",
+        "description": "抗组胺药发挥作用的原因是",
+        "options": [
+            "加速组胺的灭活",
+            "加速组胺的排泄",
+            "通过与组胺结合使其失活",
+            "通过竞争组胺受体阻断其作用"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "DWYL_TeaAndRice_single_7"
+    },
+    {
+        "source": "练习",
+        "description": "尼可刹米是",
+        "options": [
+            "大脑兴奋药",
+            "延髓兴奋药",
+            "中枢镇静药",
+            "脊髓兴奋药"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "DWYL_TeaAndRice_single_8"
+    },
+    {
+        "source": "练习",
+        "description": "氨基糖苷类抗生素的主要不良反响是",
+        "options": [
+            "二重感染和胃肠道反响",
+            "耳毒性和肾毒性",
+            "局部刺激性和软骨毒性",
+            "再生障碍性贫血"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "DWYL_TeaAndRice_single_9"
+    },
+    {
+        "source": "练习",
+        "description": "糖皮质激素药理作用不包括",
+        "options": [
+            "快速而强大的抗炎作用",
+            "抑制细胞免疫和体液免疫",
+            "提高机体对细菌内毒素的耐受力",
+            "提高机体对细菌外毒素的耐受力"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "DWYL_TeaAndRice_single_10"
+    },
+    {
+        "source": "练习",
+        "description": "新斯的明禁用于",
+        "options": [
+            "重症肌无力",
+            "非去极化型肌松药中毒",
+            "尿潴留",
+            "氨基糖苷类药物过量中毒"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "DWYL_TeaAndRice_single_11"
+    },
+    {
+        "source": "练习",
+        "description": "无吸收过程的给药途径是",
+        "options": [
+            "肌内注射",
+            "口服给药",
+            "静脉注射",
+            "呼吸道给药"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "DWYL_TeaAndRice_single_12"
+    },
+    {
+        "source": "练习",
+        "description": "副作用",
+        "options": [
+            "属于不良反响",
+            "是不可预见的",
+            "与药物药理作用无关",
+            "与剂量无关"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_13"
+    },
+    {
+        "source": "练习",
+        "description": "氨基糖苷类抗生素不包括",
+        "options": [
+            "链霉素",
+            "卡那霉素",
+            "林可霉素",
+            "庆大霉素"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "DWYL_TeaAndRice_single_14"
+    },
+    {
+        "source": "练习",
+        "description": "解热镇痛药的作用机理是",
+        "options": [
+            "抑制前列腺素合成",
+            "刺激前列腺素合成",
+            "抑制神经介质释放",
+            "促进神经介质释放"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_15"
+    },
+    {
+        "source": "练习",
+        "description": "主要不良反响为耳毒性、肾毒性的药物是",
+        "options": [
+            "呋塞米",
+            "庆大霉素",
+            "土霉素",
+            "头孢噻呋"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "DWYL_TeaAndRice_single_16"
+    },
+    {
+        "source": "练习",
+        "description": "肝素为常用的",
+        "options": [
+            "止血药",
+            "抗贫血药",
+            "抗凝血药",
+            "强心药"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "DWYL_TeaAndRice_single_17"
+    },
+    {
+        "source": "练习",
+        "description": "硫喷妥钠全身麻醉持续时间短是因为",
+        "options": [
+            "药物在体内的再分布现象",
+            "药物在体内排泄迅速",
+            "药物不易透过血脑屏障",
+            "药物在体内代谢迅速"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_18"
+    },
+    {
+        "source": "练习",
+        "description": "可用于驱除牛和羊体内绦虫的药物是",
+        "options": [
+            "氯硝柳胺",
+            "伊维菌素",
+            "三氯苯达唑",
+            "噻嘧啶"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_19"
+    },
+    {
+        "source": "练习",
+        "description": "普鲁卡因浸润麻醉时在其药液中参加适量肾上腺素的目的是",
+        "options": [
+            "延缓其吸收",
+            "加速其代谢消除",
+            "加速其吸收",
+            "促进其排泄"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_20"
+    },
+    {
+        "source": "练习",
+        "description": "畜禽出现多发性神经炎病症时预示可能缺乏",
+        "options": [
+            "维生素D",
+            "维生素A",
+            "维生素E",
+            "维生素B1"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "DWYL_TeaAndRice_single_21"
+    },
+    {
+        "source": "练习",
+        "description": "治疗敏感菌引起脑膜炎的首选磺胺类药物是",
+        "options": [
+            "磺胺嘧啶",
+            "磺胺对甲氧嘧啶",
+            "磺胺甲基异噁唑",
+            "TMP"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_22"
+    },
+    {
+        "source": "练习",
+        "description": "缩宫素的临床应用方法是",
+        "options": [
+            "小剂量用于催产和引产",
+            "小剂量用于产后止血",
+            "大剂量用于催产",
+            "抑制乳腺分泌"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_23"
+    },
+    {
+        "source": "练习",
+        "description": "阿托品抗胆碱作用机制是",
+        "options": [
+            "竞争性地阻断M胆碱受体",
+            "竞争性地阻断M、N胆碱受体",
+            "竞争性地阻断N1和N2受体",
+            "竞争性地阻断肾上腺素受体"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_24"
+    },
+    {
+        "source": "练习",
+        "description": "肾上腺素可用于治疗",
+        "options": [
+            "急性充血性心力衰竭",
+            "急性过敏性休克",
+            "慢性充血性心力衰竭",
+            "急性心肌炎"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "DWYL_TeaAndRice_single_25"
+    },
+    {
+        "source": "练习",
+        "description": "对过敏性疾病无治疗作用的药物是",
+        "options": [
+            "地塞米松",
+            "肾上腺素",
+            "氯丙嗪",
+            "异丙嗪"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "DWYL_TeaAndRice_single_26"
+    },
+    {
+        "source": "练习",
+        "description": "进入体内的药物主要排泄途径是",
+        "options": [
+            "胆汁",
+            "消化道",
+            "肾脏",
+            "呼吸道"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "DWYL_TeaAndRice_single_27"
+    },
+    {
+        "source": "练习",
+        "description": "维生素K3是",
+        "options": [
+            "促凝血药",
+            "抗凝血药",
+            "抗贫血药",
+            "助消化药"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_28"
+    },
+    {
+        "source": "练习",
+        "description": "肝功能严重不良时泼尼松的作用将",
+        "options": [
+            "减弱",
+            "增强",
+            "不变",
+            "消失"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_29"
+    },
+    {
+        "source": "练习",
+        "description": "可用于治疗禽蛔虫病的药物是",
+        "options": [
+            "左咪唑",
+            "硝氯酚",
+            "吡喹酮",
+            "敌敌畏"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_30"
+    },
+    {
+        "source": "练习",
+        "description": "对鸡支原体无抑制作用的药物是",
+        "options": [
+            "红霉素",
+            "恩诺沙星",
+            "杆菌肽",
+            "泰妙菌素"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "DWYL_TeaAndRice_single_31"
+    },
+    {
+        "source": "练习",
+        "description": "二甲硅油是",
+        "options": [
+            "泻药",
+            "消沫药",
+            "制酵药",
+            "健胃药"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "DWYL_TeaAndRice_single_32"
+    },
+    {
+        "source": "练习",
+        "description": "药物在体外混合有可能产生",
+        "options": [
+            "协同作用",
+            "拮抗作用",
+            "相加作用",
+            "配伍禁忌"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "DWYL_TeaAndRice_single_33"
+    },
+    {
+        "source": "练习",
+        "description": "以下对肝素描述切当的是",
+        "options": [
+            "必须口服才有效",
+            "仅在体内才有抗凝作用",
+            "维生素K可对抗",
+            "可用于弥散性血管内凝血"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "DWYL_TeaAndRice_single_34"
+    },
+    {
+        "source": "练习",
+        "description": "新斯的明促进胃肠蠕动的机制是",
+        "options": [
+            "抑制胆碱酯酶活性",
+            "直接作用于M胆碱受体",
+            "作用于肾上腺素受体",
+            "直接作用于N胆碱受体"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_35"
+    },
+    {
+        "source": "练习",
+        "description": "口服给药吸收的主要方式是",
+        "options": [
+            "简单扩散",
+            "主动转运",
+            "易化扩散",
+            "吞噬"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_36"
+    },
+    {
+        "source": "练习",
+        "description": "抗组胺药的作用机理为",
+        "options": [
+            "干扰体内组胺的合成",
+            "与组胺形成无活性的复合物",
+            "促进内源性组胺代谢",
+            "阻断组胺受体"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "DWYL_TeaAndRice_single_37"
+    },
+    {
+        "source": "练习",
+        "description": "主要用于周围环境、用具、器械的消毒药是",
+        "options": [
+            "双氧水",
+            "甲醛",
+            "75%乙醇",
+            "碘酊"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "DWYL_TeaAndRice_single_38"
+    },
+    {
+        "source": "练习",
+        "description": "以下药物中适宜用于驱除马副蛔虫的药物是",
+        "options": [
+            "盐酸左旋咪唑",
+            "枸橼酸哌嗪",
+            "苏拉明",
+            "吡喹酮"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "DWYL_TeaAndRice_single_39"
+    },
+    {
+        "source": "练习",
+        "description": "治疗敏感革兰氏阳性菌感染的首选药物是",
+        "options": [
+            "林可霉素",
+            "氨苄西林",
+            "红霉素",
+            "青霉素"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "DWYL_TeaAndRice_single_40"
+    },
+    {
+        "source": "练习",
+        "description": "为提高抗菌效果和延缓耐药性的产生，常与磺胺药联合的药物是",
+        "options": [
+            "甲氧苄啶",
+            "多西环素",
+            "红霉素",
+            "诺氟沙星"
+        ],
+        "correctAnswer": [
+            1
+        ],
+        "id": "DWYL_TeaAndRice_single_41"
+    },
+    {
+        "source": "练习",
+        "description": "在我国禁用于食品动物的药物是",
+        "options": [
+            "阿莫西林",
+            "呋喃唑酮",
+            "林可霉素",
+            "磺胺嘧啶"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "DWYL_TeaAndRice_single_42"
+    },
+    {
+        "source": "练习",
+        "description": "属于速效杀菌剂的抗生素是________。",
+        "options": [
+            "头孢菌素类",
+            "氨基甙类",
+            "四环素类",
+            "青霉素类",
+            "A和D"
+        ],
+        "correctAnswer": [
+            5
+        ],
+        "id": "DWYL_TeaAndRice_single_43"
+    },
+    {
+        "source": "练习",
+        "description": "属于慢效杀菌剂的药物是________。",
+        "options": [
+            "四环素类",
+            "氨基甙类",
+            "氯霉素类",
+            "磺胺类"
+        ],
+        "correctAnswer": [
+            2
+        ],
+        "id": "DWYL_TeaAndRice_single_44"
+    },
+    {
+        "source": "练习",
+        "description": "不属于速效抑菌剂的是________。",
+        "options": [
+            "氯霉素类",
+            "大环内酯类",
+            "青霉素类",
+            "四环素类"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "DWYL_TeaAndRice_single_45"
+    },
+    {
+        "source": "练习",
+        "description": "影响消毒防腐药作用的因素有________。",
+        "options": [
+            "药物浓度和作用时间",
+            "药液的温度",
+            "有机物的存在和微生物的特点",
+            "以上都是"
+        ],
+        "correctAnswer": [
+            4
+        ],
+        "id": "DWYL_TeaAndRice_single_46"
+    },
+    {
+        "source": "练习",
+        "description": "哪一项不属于消毒防腐药的作用机理________。",
+        "options": [
+            "使病原体蛋白质变性沉淀",
+            "改变细菌胞浆膜的通透性",
+            "影响细菌细胞壁或蛋白质合成",
+            "干拢病原体的酶系统"
+        ],
+        "correctAnswer": [
+            3
+        ],
+        "id": "DWYL_TeaAndRice_single_47"
+    }
+]
+            
+
+            localStorage.setItem('singleQuestion', JSON.stringify(dataJson));
+
+
+        // 单选题索引
+            dataJson = [
+    [
+        "DWYL_TeaAndRice_single_0",
+        0
+    ],
+    [
+        "DWYL_TeaAndRice_single_1",
+        1
+    ],
+    [
+        "DWYL_TeaAndRice_single_2",
+        2
+    ],
+    [
+        "DWYL_TeaAndRice_single_3",
+        3
+    ],
+    [
+        "DWYL_TeaAndRice_single_4",
+        4
+    ],
+    [
+        "DWYL_TeaAndRice_single_5",
+        5
+    ],
+    [
+        "DWYL_TeaAndRice_single_6",
+        6
+    ],
+    [
+        "DWYL_TeaAndRice_single_7",
+        7
+    ],
+    [
+        "DWYL_TeaAndRice_single_8",
+        8
+    ],
+    [
+        "DWYL_TeaAndRice_single_9",
+        9
+    ],
+    [
+        "DWYL_TeaAndRice_single_10",
+        10
+    ],
+    [
+        "DWYL_TeaAndRice_single_11",
+        11
+    ],
+    [
+        "DWYL_TeaAndRice_single_12",
+        12
+    ],
+    [
+        "DWYL_TeaAndRice_single_13",
+        13
+    ],
+    [
+        "DWYL_TeaAndRice_single_14",
+        14
+    ],
+    [
+        "DWYL_TeaAndRice_single_15",
+        15
+    ],
+    [
+        "DWYL_TeaAndRice_single_16",
+        16
+    ],
+    [
+        "DWYL_TeaAndRice_single_17",
+        17
+    ],
+    [
+        "DWYL_TeaAndRice_single_18",
+        18
+    ],
+    [
+        "DWYL_TeaAndRice_single_19",
+        19
+    ],
+    [
+        "DWYL_TeaAndRice_single_20",
+        20
+    ],
+    [
+        "DWYL_TeaAndRice_single_21",
+        21
+    ],
+    [
+        "DWYL_TeaAndRice_single_22",
+        22
+    ],
+    [
+        "DWYL_TeaAndRice_single_23",
+        23
+    ],
+    [
+        "DWYL_TeaAndRice_single_24",
+        24
+    ],
+    [
+        "DWYL_TeaAndRice_single_25",
+        25
+    ],
+    [
+        "DWYL_TeaAndRice_single_26",
+        26
+    ],
+    [
+        "DWYL_TeaAndRice_single_27",
+        27
+    ],
+    [
+        "DWYL_TeaAndRice_single_28",
+        28
+    ],
+    [
+        "DWYL_TeaAndRice_single_29",
+        29
+    ],
+    [
+        "DWYL_TeaAndRice_single_30",
+        30
+    ],
+    [
+        "DWYL_TeaAndRice_single_31",
+        31
+    ],
+    [
+        "DWYL_TeaAndRice_single_32",
+        32
+    ],
+    [
+        "DWYL_TeaAndRice_single_33",
+        33
+    ],
+    [
+        "DWYL_TeaAndRice_single_34",
+        34
+    ],
+    [
+        "DWYL_TeaAndRice_single_35",
+        35
+    ],
+    [
+        "DWYL_TeaAndRice_single_36",
+        36
+    ],
+    [
+        "DWYL_TeaAndRice_single_37",
+        37
+    ],
+    [
+        "DWYL_TeaAndRice_single_38",
+        38
+    ],
+    [
+        "DWYL_TeaAndRice_single_39",
+        39
+    ],
+    [
+        "DWYL_TeaAndRice_single_40",
+        40
+    ],
+    [
+        "DWYL_TeaAndRice_single_41",
+        41
+    ],
+    [
+        "DWYL_TeaAndRice_single_42",
+        42
+    ],
+    [
+        "DWYL_TeaAndRice_single_43",
+        43
+    ],
+    [
+        "DWYL_TeaAndRice_single_44",
+        44
+    ],
+    [
+        "DWYL_TeaAndRice_single_45",
+        45
+    ],
+    [
+        "DWYL_TeaAndRice_single_46",
+        46
+    ],
+    [
+        "DWYL_TeaAndRice_single_47",
+        47
+    ]
+]
+
+
+
+            localStorage.setItem('singleQuestionIndex', JSON.stringify(dataJson));
+
+
+
+            // 导入多选
+            dataJson = []
+
+
+            localStorage.setItem('multiQuestion', JSON.stringify(dataJson));
+
+            // 多选题索引
+            dataJson = []
+
+
+
+           localStorage.setItem('multiQuestionIndex', JSON.stringify(dataJson));
+
+    
+
+            // 导入填空
+            dataJson = [
+    {
+        "source": "练习",
+        "description": "甲硝咪唑对________有强大的杀灭作用,对________、________亦有效。",
+        "correctAnswer": "滴虫 阿米巴原虫 球虫",
+        "id": "DWYL_TeaAndRice_blank_0"
+    },
+    {
+        "source": "练习",
+        "description": "二甲硝咪唑主要用于防治猪________和禽________。",
+        "correctAnswer": "痢疾 组织滴虫病",
+        "id": "DWYL_TeaAndRice_blank_1"
+    },
+    {
+        "source": "练习",
+        "description": "全身麻醉药复合麻醉的主要方式有________、________、________和________。",
+        "correctAnswer": "前给药强化 配合 混合",
+        "id": "DWYL_TeaAndRice_blank_2"
+    },
+    {
+        "source": "练习",
+        "description": "全身麻醉药有________麻醉药和________麻醉药之分。",
+        "correctAnswer": "吸入性 非吸入性",
+        "id": "DWYL_TeaAndRice_blank_3"
+    },
+    {
+        "source": "练习",
+        "description": "氯丙嗪属________药，有________和________作用。",
+        "correctAnswer": "镇静 安定 镇吐",
+        "id": "DWYL_TeaAndRice_blank_4"
+    }
+]
+            
+            localStorage.setItem('blankQuestion', JSON.stringify(dataJson));
+
+
+            // 填空题索引
+            dataJson = [
+    [
+        "DWYL_TeaAndRice_blank_0",
+        0
+    ],
+    [
+        "DWYL_TeaAndRice_blank_1",
+        1
+    ],
+    [
+        "DWYL_TeaAndRice_blank_2",
+        2
+    ],
+    [
+        "DWYL_TeaAndRice_blank_3",
+        3
+    ],
+    [
+        "DWYL_TeaAndRice_blank_4",
+        4
+    ]
+]
+            
+           localStorage.setItem('multiQuestionIndex', JSON.stringify(dataJson));
+
+
+
+            // 保存数据库版本
+            localStorage.setItem('STdataName', datasourceName);
+            localStorage.setItem('STdataVer', datasourceVer);
+            localStorage.setItem('STdataNameChinese', datasourceNameChinese);
+            // 导入完毕后事件对象
+            var updateObj = {
+                type: 'loaddata',
+                updateData: true
+            };
+            window.parent.postMessage(JSON.stringify(updateObj), '*');
+            alert(`${datasourceNameChinese}_${datasourceVer}数据库导入完毕！`);
+        }
+
+
+    
+    importJSExam();
+  
+
+
+</script>
+
+</html>
