@@ -438,6 +438,8 @@
                         </div>
                     </div>
                     <hr>
+                    <button onclick="updateDatasource('DWYL_TeaAndRice', 0)"
+                        class="btn btn-primary btn-sm">导入茶泡饭-动物药理</button>
                     <button onclick="updateDatasource('YLX_XQBJ', 0)"
                         class="btn btn-primary btn-sm">导入星期八见-药理学</button>
                     <button onclick="updateDatasource('GJSW_QI', 0)"
@@ -962,24 +964,15 @@
             // 判断是更新那个数据库
             var src = '';
             if (datasourceName == 'JSHistory') {
+                // 个性化处理
                 if (!isAuto) {
                     thank();
                 }
                 src = '/ScrollingTool/JSHistorydata.html?' + Math.floor(Math.random() * 900) + 100;
-            } else if(datasourceName == 'FJJSSFEnglish') {
-                src = '/ScrollingTool/FJJSSFEnglish.html?' + Math.floor(Math.random() * 900) + 100;
             } else if(datasourceName == 'JSMarx') {
                 src = '/ScrollingTool/JSMarxdata.html?' + Math.floor(Math.random() * 900) + 100;
-            } else if(datasourceName == 'FJSEnglish2') {
-                src = '/ScrollingTool/FJSEnglish2.html?' + Math.floor(Math.random() * 900) + 100;
-            } else if(datasourceName == 'FGSstructure') {
-                src = '/ScrollingTool/FGSstructure.html?' + Math.floor(Math.random() * 900) + 100;
-            } else if(datasourceName == 'XSX_WY') {
-                src = '/ScrollingTool/XSX_WY.html?' + Math.floor(Math.random() * 900) + 100;
-            } else if(datasourceName == 'GJSW_QI') {
-                src = '/ScrollingTool/GJSW_QI.html?' + Math.floor(Math.random() * 900) + 100;
-            } else if(datasourceName == 'YLX_XQBJ') {
-                src = '/ScrollingTool/YLX_XQBJ.html?' + Math.floor(Math.random() * 900) + 100;
+            } else {
+                src = `/ScrollingTool/${datasourceName}.html?` + Math.floor(Math.random() * 900) + 100;
             }
             // 开始加载更新
             var iframe = document.getElementById('updateDataSourceiFrame');
