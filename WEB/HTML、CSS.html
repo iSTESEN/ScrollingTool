@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML</title>
+    <link rel="stylesheet" href="xxx.css">
+</head>
+
+<body>
+
+
+    <hr>
+    <!-- box-sizing -->
+    <div style="text-align: center;">
+        <style>
+            .test-boxsizing {
+                height: 200px;
+                width: 400px;
+                border: 10px dotted red;
+                background-color: green;
+                background-clip: content-box;
+                padding: 20px;
+            }
+        </style>
+        <div class="test-boxsizing" style="display: inline-block ;">
+            默认box-sizing: content-box，高和宽是以<b>内容</b>开始计算
+        </div>
+        <br>
+        <div class="test-boxsizing" style="display: inline-block ;box-sizing: border-box;">
+            采用box-sizing: border-box，高度和宽度以<b>边框（外线）</b>开始计算
+        </div>
+    </div>
+
+
+    
+    <!-- fixed -->
+    <style>
+        .test-fixed {
+            position: fixed;
+            right: 10px;
+            bottom: 20px;
+        }
+    </style>
+    <p class="test-fixed" style="text-size:50px"><b>Fixed点我返回顶部</b></p>
+
+
+
+    <hr>
+    <!-- z-index -->
+    <div style="position: relative;height: 200px;">
+        <style>
+            .test-z {
+                width: 200px;
+                height: 100px;
+                position: absolute;
+            }
+
+            .test-z:first-of-type {
+                left: 50px;
+                top: 50px;
+            }
+        </style>
+        <div class="test-z" style="z-index: 30;background-color: green;"></div>
+        <div class="test-z" style="z-index: 20 ;background-color: red;"></div>
+    </div>
+
+
+    <hr>
+    <!-- 继承 -->
+    <div style="color: red; border: 1px solid blue">
+        <p style="color: initial;">不要继承颜色，不会自动继承边框</p>
+        <p style="border: inherit">默认继承颜色，手动继承边框</p>
+    </div>
+
+
+    <hr>
+    <style>
+        .img-test {
+            width: 400px;
+            height: 200px;
+            border: 10px dotted rgb(100, 100, 100);
+            background-color: green;
+            background-image: url(https://www.baidu.com/img/flexible/logo/pc/result.png), url(https://sa-token.cc/logo.png
+);
+            background-repeat: no-repeat;
+            background-origin: border-box;
+            background-size: 100px 50px;
+            background-position: 20px 50px;
+        }
+    </style>
+    <div class="img-test"></div>
+
+
+    <hr>
+    <style>
+        .test-background {
+            margin: 20px;
+            padding: 20px;
+            border-width: 5px;
+            border-style: dotted;
+            border-color: rgb(10, 10, 10);
+        }
+    </style>
+    <!-- background -->
+    <div class="test-background" style="background-color: green; background-clip: border-box;">
+        <span>Hello Wrold</span>
+    </div>
+    <div class="test-background" style="background-color: green; background-clip: padding-box;">
+        <span>Hello Wrold</span>
+    </div>
+    <div class="test-background" style="background-color: green; background-clip: content-box;">
+        <span>Hello Wrold</span>
+    </div>
+
+
+    <hr>
+    <h3>性别</h3>
+    <label>
+        <input type="radio" name="gender" value="male"> 男性
+    </label><br>
+    <label>
+        <input type="radio" name="gender" value="female"> 女性
+    </label><br>
+    <label>
+        <input type="radio" name="gender" value="non-binary"> 非二元
+    </label><br>
+    <label>
+        <input type="radio" name="gender" value="trans-man"> 转变至男性
+    </label><br>
+    <label>
+        <input type="radio" name="gender" value="trans-woman"> 转变至女性
+    </label><br>
+    <label>
+        <input type="radio" name="gender" value="agender"> 无性别
+    </label><br>
+    <label>
+        <input type="radio" name="gender" value="genderqueer"> 酷儿性别
+    </label><br>
+    <label>
+        <input type="radio" name="gender" value="two-spirit"> 双灵人
+    </label><br>
+    <label>
+        <input type="radio" name="gender" value="other"> 其他
+    </label><br>
+    <label>
+        <input type="radio" name="gender" value="prefer-not-to-say"> 不愿说明
+    </label>
+
+    <hr>
+    <!-- form -->
+    <h3>新生登记表</h3>
+    <form action="" method="post">
+        <input type="hidden" name="token" value="隐藏值">
+        <div>
+            姓名<input type="text" name="name" placeholder="请输入姓名" required>
+        </div>
+        <div>
+            学号<input type="number" name="sid" required>
+        </div>
+        <div>
+            学校代码<input type="text" name="schoold_id" value="schoold123" readonly>
+        </div>
+        <div>
+            密码<input type="password" name="password" minlength="5" maxlength="10">
+        </div>
+        <div>
+            性别
+            <input type="radio" name="sex" value="man" checked>男
+            <input type="radio" name="sex" value="woman">女
+        </div>
+        <div>
+            照片<input type="file" name="face">
+        </div>
+        <div>
+            出生日期<input type="date" name="birth">
+        </div>
+        <div>
+            爱好
+            <input type="checkbox" name="hobby" value="sing">唱
+            <input type="checkbox" name="hobby" value="dance">跳
+            <input type="checkbox" name="hobby" value="rap">RAP
+        </div>
+        <div>
+            地区
+            <select name="area">
+                <option value="" selected>--请选择--</option>
+                <option value="fz">福州</option>
+                <option value="zz">漳州</option>
+            </select>
+        </div>
+        <div>
+            简介
+            <textarea name="info" cols="30" rows="5">默认介绍</textarea>
+        </div>
+        <div>
+            <input type="submit" value="提交">
+            <input type="reset" value="重置">
+        </div>
+    </form>
+
+
+
+
+    <hr>
+    <!-- a -->
+    <a href="http://www.baidu.com" title="go百度">去百度</a>
+    <a href="http://www.baidu.com" target="_blank">去百度</a>
+    <a href="http://www.baidu.com" target="_top">去百度</a>
+    <a href="http://www.baidu.com" target="_parent">去百度</a>
+
+
+    <hr>
+    <!-- img -->
+    <img src="http://localhost/abc.png" alt="加载失败!!!!!" />
+    <img src="https://www.baidu.com/img/flexible/logo/pc/result.png" alt="百度logo" title="这是百度" width="400px">
+
+
+
+
+    <hr>
+    <!-- table -->
+    <table border="1" cellspace="0" cellpadding="10" width="60%">
+        <caption>学生信息表</caption>
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>姓名</th>
+                <th>年龄</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>张三</td>
+                <td rowspan="2">18</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>李四</td>
+            </tr>
+            <tr>
+                <td colspan="3">合计：2人</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <hr>
+    <!-- font -->
+    <font size="20" color="green" face="宋体">设置字体的标签，HTML5已弃用</font>
+
+
+    <hr>
+    <!-- sub sup -->
+    H<sub>2</sub>O<br>
+    a<sup>2</sup>
+
+
+    <hr>
+    <!-- b i -->
+    <b>加粗文本</b>
+    <i>斜体文本</i>
+    <em>强调标签，看起来是个斜体</em>
+    <u>显示下划线</u>
+    <ins>也是加下划线</ins>
+    <del>删除线</del>
+
+
+
+    <hr>
+    <!-- ul ol -->
+    <ul type="circle">
+        <li>语文</li>
+        <li type="disc">数学</li>
+        <li>英语</li>
+    </ul>
+    <ol type="A" reversed start="1000">
+        <li>第一题</li>
+        <li type="square">第二题</li>
+        <ul>
+            <li>1小题</li>
+            <li>2小题</li>
+        </ul>
+        <li>第三题</li>
+    </ol>
+
+
+
+    <hr>
+    <!-- dl dt dd术语定义标签 -->
+    <dl>
+        <dt>计算机</dt>
+        <dd>一种能够自动计算的设备</dd>
+        <dt>Java</dt>
+        <dd>一种咖啡</dd>
+    </dl>
+
+
+    <hr>
+    <!-- p标签 -->
+
+    <p>
+        我是第一段
+    </p>
+    <p>
+        我是第二段
+    </p>
+
+
+
+    <hr>
+    <!-- h标签 -->
+
+    <h1>我是h1</h1>
+    <h2>我是h2</h2>
+    <h3 align="center">我是h3</h3>
+    <h4>我是h4</h4>
+    <h5>我是h5</h5>
+    <h6>我是h6</h6>
+
+
+
+</body>
+
+</html>

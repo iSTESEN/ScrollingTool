@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS</title>
+</head>
+
+<body>
+
+
+
+    <script>
+        // console.log(window.location.href);
+        // // http://127.0.0.1:5500/JS.html?abc=123&def=456#ELE1
+        // console.log(location.protocol);
+        // // http:
+        // console.log(location.host);
+        // // 127.0.0.1:5500
+        // console.log(location.hostname);
+        // // 127.0.0.1
+        // console.log(location.pathname);
+        // // /JS.html
+        // console.log(location.search);
+        // // ?abc=123&def=456
+        // console.log(location.hash);
+        // // #ELE1
+
+        
+        // location.assign("https://www.baidu.com") // 地址栏改为目标url进行访问【无法后退】
+        // location.replace("https://www.baidu.com") // 地址栏改为目标url进行访问【可以后退】
+        // location.reload() // 刷新页面
+        
+
+        // console.log(window.navigator.appCodeName); // Mozilla
+        // console.log(navigator.appName); // Netscape
+        // console.log(navigator.appVersion); // 5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0
+        // console.log(navigator.platform); // Win32
+        // console.log(navigator.userAgent); // Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0
+        // console.log(navigator.geolocation); // Geolocation{}
+
+
+        
+        // console.log(window.screen.width);
+        // console.log(screen.height);
+        // console.log(screen.availWidth);
+        // console.log(screen.availHeight);
+
+
+        history.forward() // 点击前进
+        history.back() // 点击后退
+        history.go(0) // 重新加载页面
+        history.go(3) // 跳转到栈内3号页面
+        
+        
+    </script>
+
+
+
+
+
+    <!-- <button id="btn">按钮</button>
+    <script>
+        
+        var btn = document.getElementById('btn')
+        btn.addEventListener('click', function() {
+            console.log('捕获！');
+        }, true)
+        btn.addEventListener('click', function() {
+            console.log('冒泡！');
+        }, false)
+
+        var e = new Event('click', {bubbles: false})
+        btn.dispatchEvent(e)
+
+        // 延迟执行，只执行一次
+        // var timer1 = setTimeout(()=>{
+        //     console.log("延迟Hello");
+        // }, 2000)
+        // 取消定时器
+        // clearTimeout(timer1)
+
+
+        // 循环执行
+        // var timer2 = setInterval(()=>{
+        //     console.log("循环Hello");
+        // }, 2000)
+        // 取消定时器
+        // clearInterval(timer2)
+    </script> -->
+
+
+
+
+
+
+    <!-- <style>
+        #gk {
+            border: 1px solid green;
+            padding: 20px;
+        }
+        #bk {
+            border: 1px solid black;
+            padding: 20px;
+        }
+    </style>
+    <div id="gk">
+        <div id="bk">
+            <button id="btn1">按钮1</button>
+            <button id="btn2">按钮2</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById('gk').addEventListener('click', function(e) {
+            console.log(e.target + "触发 -- gk捕获！", e.currentTarget==e.target);
+        }, true)
+        document.getElementById('gk').addEventListener('click', function(e) {
+            console.log(e.target + "触发 -- gk冒泡！", e.currentTarget==e.target);
+        }, false)
+
+        document.getElementById('bk').addEventListener('click', function(e) {
+            console.log(e.target + "触发 -- bk捕获！", e.currentTarget==e.target);
+            // e.stopPropagation()
+        }, true)
+        document.getElementById('bk').addEventListener('click', function(e) {
+            console.log(e.target + "触发 -- bk冒泡！", e.currentTarget==e.target);
+        }, false)
+
+        document.getElementById('btn1').addEventListener('click', function(e) {
+            console.log(e.target + "触发 -- btn1捕获！", e.currentTarget==e.target);
+        }, true)
+        document.getElementById('btn1').addEventListener('click', function(e) {
+            console.log(e.target + "触发 -- btn1冒泡！", e.currentTarget==e.target);
+        }, false)
+        /*
+            [object HTMLButtonElement]触发 -- gk捕获！
+            [object HTMLButtonElement]触发 -- bk捕获！
+            [object HTMLButtonElement]触发 -- btn1捕获！
+            [object HTMLButtonElement]触发 -- btn1冒泡！
+            [object HTMLButtonElement]触发 -- bk冒泡！
+            [object HTMLButtonElement]触发 -- gk冒泡！
+        */
+    </script> -->
+
+
+
+
+
+
+    <!-- <p id="showpanel"></p>
+    <input type="text" id="inp" onchange="show()">
+    <button onclick="check()">确定</button>
+    <script>
+        function show() {
+            document.getElementById('showpanel').innerText = document.getElementById('inp').value
+        }
+        function check() {
+            alert("您输入的内容：" + document.getElementById('inp').value)
+        }
+    </script> -->
+
+
+    <!-- <div id="d1">
+        <p>这是正文1<br></p>
+        <p>这是正文2</p>
+    </div>
+    <script>
+        // 删除正文2
+        document.getElementById('d1').removeChild(
+            document.querySelectorAll('#d1>*')[1]
+        );
+    </script> -->
+
+
+
+
+    <!-- <div id="d1">
+        <p>我是已存在的元素</p>
+    </div>
+    <script>
+        var newEle = document.createElement('p')
+        var textNode = document.createTextNode('这是新结点')
+        newEle.appendChild(textNode)
+        var attr = document.createAttribute('style')
+        newEle.setAttributeNode(attr)
+        newEle.style.color = 'green'
+
+        // 插入到父节点
+        document.getElementById('d1').appendChild(newEle)
+
+        // 浅克隆
+        var c1 = newEle.cloneNode(false)
+        console.log(c1); // <p style="color: green;"></p>
+        document.getElementById('d1').appendChild(c1) // 没有克隆出来文本节点，无显示内容
+
+        // 深克隆
+        var c2 = newEle.cloneNode(true)
+        console.log(c2); // <p style="color: green;">这是新结点</p>
+        document.getElementById('d1').appendChild(c2)
+
+        var c3 = newEle.cloneNode(true)
+        document.getElementById('d1').appendChild(c3)
+    </script> -->
+
+
+
+
+
+
+    <!-- <div id="d1">
+        <p>我是已存在的元素</p>
+    </div>
+    <script>
+        // 【1】创建元素节点
+        var newEle = document.createElement('p')
+        // 【2】创建文本节点
+        var textNode = document.createTextNode('我是新结点')
+        // 为新元素添加文本节点
+        newEle.appendChild(textNode)
+        // 【3】创建属性节点
+        var attr = document.createAttribute('style')
+        // 为元素赋予属性
+        newEle.setAttributeNode(attr)
+        // 设置属性值
+        newEle.style.color = 'green'
+        
+        console.log(newEle); // <p style="color: green;">我是新结点</p>
+
+        // 【5】追加到div内最后一个
+        document.querySelector('div').appendChild(newEle)
+        
+        setTimeout(()=>{
+            // 【6】插入到已存在的节点，之前
+            document.querySelector('#d1').insertBefore(newEle, 
+                                                document.querySelector("#d1>p")
+            );
+        }, 1000)
+        /*
+            【重要】发现插入到元素两次，但是最终只显示一个！
+            需要元素克隆来解决问题
+        */
+    </script> -->
+
+
+
+
+
+
+
+
+    <!-- <div>
+        <p>1</p>
+        <p>2</p>
+        <p id="id3">3</p>
+        <p>4</p>
+        <p>7</p>
+    </div>
+    <script>
+        var ele = document.getElementById('id3')
+
+        // 【1】获取前一个兄弟
+        console.log(ele.previousElementSibling);
+        // <p>2</p>
+
+        // 【2】获取后一个兄弟
+        console.log(ele.nextElementSibling);
+        // <p>4</p>
+    </script> -->
+
+
+
+
+
+    <!-- <div id="d1">
+        <p>111</p>
+        <p>222</p>
+        <p>333</p>
+    </div>
+    <script>
+        var ele = document.querySelector('p')
+        // 【1】访问父节点
+        console.log(ele.parentNode); 
+        // <div id="d1">...</div>
+        
+        // 【2】访问子结点
+        ele = document.getElementById('d1')
+        console.log(ele.childNodes);
+        /*
+            [
+                <p>111</p>
+                <text>111</text>
+                <p>222</p>
+                <text>222</text>
+                <p>333</p>
+                <text>333</text>
+            ]
+        */
+
+        console.log(ele.firstChild);
+        // <text>111</text>
+        
+    </script> -->
+
+
+
+
+
+
+
+    <!-- <p data-myvalue-test="abc123">带有自定义属性</p>
+    <script>
+        var ele = document.querySelector('p')
+        ele.onclick = (e) => {
+            // 【1】直接.访问
+            alert('data-myvalue-test: ' + e.target.dataset['myvalueTest'])
+            // 【2】通过方法访问
+            alert('getAttribute("data-myvalue-test"): ' + e.target.getAttribute('data-myvalue-test'))
+        }
+    </script> -->
+
+
+
+
+
+
+    <!-- <style>
+        .selectd {
+            background-color: rgb(255, 100, 100);
+            color: white;
+        }
+    </style>
+
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+    <script>
+        // 取消所有按钮的选中
+        function unselectAll() {
+            var btns = document.getElementsByTagName('button')
+            for(var i=0; i<btns.length; i++) {
+                btns[i].className = ''
+            }
+        }
+
+        // 获取所有按钮
+        var btns = document.getElementsByTagName('button')
+        for(var i=0; i<btns.length; i++) {
+            console.log(btns[i]);
+            
+            // 每个按钮都注册点击事件
+            btns[i].addEventListener('click', (e) => {
+                console.log(e);
+                
+                // 先清除样式
+                unselectAll();
+                // 为本身加上选中
+                e.target.className = 'selectd'
+            })
+        }
+    </script> -->
+
+
+
+
+
+    <!-- <input type="password" id="passwd"><button>显示</button>
+    <script>
+        var btn = document.querySelector('button')
+        btn.addEventListener('click', (e)=>{
+            var inp = document.getElementById('passwd')
+            if(e.target.innerText == '显示') {
+                inp.type = 'text'
+                e.target.innerText = '隐藏'
+            } else {
+                inp.type = 'password'
+                e.target.innerText = '显示'
+            }
+        })
+    </script> -->
+
+
+
+    <!-- <h1 id="click_me">点我</h1>
+    <input type="text" placeholder="点我">
+    <script>
+        var ele = document.getElementById('click_me')
+        // 【1】通过改变属性方式来绑定事件
+        ele.onclick = () => {
+            alert('不要点我')
+        }
+
+        ele = document.getElementsByTagName('input')[0]
+        ele.onchange = (e) => {
+            console.log(e);
+            alert('当前内容：' + e.target.value);
+        }
+
+        // 【2】通过addEventListener绑定
+        ele.addEventListener('click', ()=>{
+            alert('点我干嘛')
+        })
+    </script> -->
+
+
+
+
+
+
+
+
+    <!-- <p>厨房物品</p>
+    <ul id="kitchen">
+        <li>
+            <p>厨具</p>
+            <ol>
+                <li>锅</li>
+                <li>铲子</li>
+                <li>过滤勺</li>
+            </ol>
+        </li>
+        <li>
+            <p>餐具</p>
+            <ol>
+                <li>碗</li>
+                <li>筷子</li>
+                <li>汤勺</li>
+            </ol>
+        </li>
+        <li>
+            <p>水果</p>
+            <ol>
+                <li>苹果</li>
+                <li>香蕉</li>
+                <li>葡萄</li>
+            </ol>
+        </li>
+    </ul>
+    <script>
+        // 获取厨房列表
+        var kitchen = document.querySelector("#kitchen")
+        // 获取厨房分类
+        var types = kitchen.querySelectorAll('ul>li') // 子代选择器
+        // 遍历分类
+        for(var i=0; i<types.length; i++) {
+            // 获取类别标题
+            var title = types[i].querySelector('p')
+            console.error(title.innerText)
+            // 获取详情列表
+            var list = types[i].querySelector('ol').querySelectorAll('li')
+            for(var j=0; j<list.length; j++) {
+                console.log(list[j].innerText)
+            }
+        }
+    </script> -->
+
+
+
+
+
+
+    <!-- <h1>大标题</h1>
+    <h3>小标题</h3>
+    <p>这是是正文内容！</p>
+    <input type="checkbox" name="remeber">记住我
+    <script>
+        // 【1】修改标签内容：innerText文本形式
+        var ele = document.querySelector('h1')
+        ele.innerText = '欢迎访问案例'
+
+        // 【2】修改标签内容：innerHTML标签形式
+        ele = document.querySelector('h3')
+        ele.innerHTML = '这里是<u style="color:red">小标题</u>，会显示摘要，来源百度<sup>[1]</sup>'
+
+        // 【3】修改style属性
+        ele = document.querySelector('p')
+        ele.style.color = 'green'
+        ele.style.fontStyle = 'bold'
+        ele.style.fontSize = '30px'
+        ele.style.marginTop = '40px'
+        console.log(ele.style.fontSize) // 30px
+
+        // 【4】修改其他属性
+        ele = document.getElementsByName('remeber')[0]
+        ele.checked = true
+    </script> -->
+
+
+
+
+
+
+
+    <!-- <h1 id="ele1">Ele-1</h1>
+    <h1 name="ele2">Ele-2-1</h1>
+    <h1 name="ele2">Ele-2-2</h1>
+    <h1 class="abc">Ele-3-1</h1>
+    <h1 class="abc def">Ele-3-2</h1>
+    <script>
+        // 通过id属性获取元素（返回1个）
+        var ele1 = document.getElementById("ele1");
+        // <h1 id="ele1">Ele-1</h1>
+
+        // 通过name属性获取元素（返回数组）
+        var ele2s = document.getElementsByName('ele2')
+        /*
+            [<h1 name="ele2">Ele-2-1</h1>, <h1 name="ele2">Ele-2-2</h1>]
+        */
+
+        // 通过class属性获取元素
+        var ele3s = document.getElementsByClassName("abc")
+        /*
+            [<h1 class="abc">Ele-3-1</h1>, <h1 class="abc def">Ele-3-2</h1>]
+        */
+        ele3s = document.getElementsByClassName("abc def")
+        /*
+            [<h1 class="abc def">Ele-3-2</h1>]
+        */
+
+        // 通过tag标签名获取元素
+        var ele4s = document.getElementsByTagName('h1')
+        /* 
+            [ 
+                <h1 id="ele1">Ele-1</h1>,
+                <h1 name="ele2">Ele-2-1</h1>,
+                <h1 name="ele2">Ele-2-2</h1>,
+                <h1 class="abc">Ele-3-1</h1>,
+                <h1 class="abc def">Ele-3-2</h1> 
+            ]
+        */
+
+        // 【5】通过CSS选择器获取元素（返回第1个元素）
+        var ele5 = document.querySelector('#ele1') // id
+        // <h1 id="ele1">Ele-1</h1>
+
+        ele5 = document.querySelector('.abc') // class属性
+        // <h1 class="abc">Ele-3-1</h1>
+
+        ele5 = document.querySelector('h1') // tag
+        // <h1 id="ele1">Ele-1</h1>
+
+        // 【6】通过CSS选择器获取元素（返回数组）
+        var ele5s = document.querySelectorAll('.abc')
+        /*
+            [<h1 class="abc">Ele-3-1</h1>, <h1 class="abc def">Ele-3-2</h1>]
+        */
+
+        ele5s = document.querySelectorAll('h1')
+        /* 
+            [ 
+                <h1 id="ele1">Ele-1</h1>,
+                <h1 name="ele2">Ele-2-1</h1>,
+                <h1 name="ele2">Ele-2-2</h1>,
+                <h1 class="abc">Ele-3-1</h1>,
+                <h1 class="abc def">Ele-3-2</h1> 
+            ]
+        */
+    </script> -->
+
+
+
+
+
+
+    <!-- 促销倒计时 -->
+    <!-- <h1 id="timepanel" align="center"></h1>
+
+    <script>
+        // 设定未来时间
+        var targetTime = '2025-1-1 0:0:0'
+
+
+        // 为元素补0
+        function fullEle(ele) {
+            return ele < 10 ? `0${ele}` : `${ele}`
+        }
+
+        // 获得指定时间的剩余时间
+        function getRestTimeString(targetTime) {
+            targetTime = new Date(targetTime).getTime()
+            nowTime = new Date().getTime()
+
+            // 如果已经过了，返回倒计时结束！
+            if (nowTime > targetTime) {
+                return '倒计时结束！'
+            }
+            // 计算剩下多久
+            var gapTime = targetTime - nowTime;
+            gapTime = Math.floor(gapTime / 1000); // 去除毫秒
+
+            // 将时间戳转为各个元素
+            var s = gapTime % 60 // 秒
+            gapTime = Math.floor(gapTime / 60)
+            var m = gapTime % 60 // 分钟
+            gapTime = Math.floor(gapTime / 60)
+            var h = gapTime % 24 // 小时
+            gapTime = Math.floor(gapTime / 24)
+            var day = gapTime
+
+            // 将时间转为字符串
+            return `${day}天 ${fullEle(h)}时：${fullEle(m)}分：${fullEle(s)}秒`
+        }
+
+        // 循环定时器，每秒都获取一次时间字符串
+        setInterval(() => {
+            document.getElementById('timepanel').innerText = getRestTimeString(targetTime)
+        }, 1000)
+    </script> -->
+
+
+
+
+
+
+    <!-- <script>
+        var stu = {
+            name: '张三',
+            age: 18,
+            speak: () => {
+                alert("Hello");
+            }
+        }
+
+        for (var key in stu) {
+            console.log(key);
+            if (typeof (stu[key]) == 'function') {
+                // 如果是函数，则调用
+                stu[key]();
+            } else {
+                // 是属性则输出值
+                console.log(key + " - " + stu[key]);
+            }
+        }
+
+        if ('name' in stu) {
+            console.log("name - " + stu['name']);
+        }
+    </script> -->
+
+
+
+    <!-- <script>
+        class student {
+            constructor(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+
+            speak() {
+                alert("Hello");
+            }
+
+            work() {
+                alert("Working")
+            }
+        }
+
+        var s1 = new student("张三", 18);
+        var s2 = new student("李四", 20);
+        s1.speak()
+    </script> -->
+
+
+    <!-- <script>
+        function student(name, age) {
+            this.name = name;
+            this.age = age;
+            this.speak = () => {
+                alert("Hello")
+            }
+        }
+
+        var s1 = new student("张三", 18); // 
+        var s2 = new student("李四", 20); // 
+        console.log(JSON.stringify(s1));
+        console.log(JSON.stringify(s2));
+
+
+    </script> -->
+
+
+    <!-- <script>
+        function getStu() {
+            var stu = {}
+            stu.id = 1
+            stu.name = '张三'
+            stu.age = 18
+            stu.speak = function () {
+                alert("Hello")
+            }
+            return stu
+        }
+
+        var s1 = getStu()
+        var s2 = getStu()
+
+        s1.name = '李四'
+        console.log(JSON.stringify(s1))
+        console.log(JSON.stringify(s2))
+    </script> -->
+
+
+    <!-- <script>
+        var stu = {
+            id: 1,
+            name: "张三",
+            age: 18,
+            speak: function () {
+                alert("Hello World");
+            },
+            work: () => {
+                alert("工作中");
+            },
+            run() {
+                alert("跑路中");
+            }
+        }
+
+        alert(stu.name);
+        stu.work()
+        stu.run();
+    </script> -->
+
+    <!-- <script>
+        var stu = {}
+        stu.id = 1
+        stu.name = '张三'
+        stu.age = 18
+        stu.speak = function () {
+            alert("Hello World");
+        }
+        stu.work = () => {
+            alert("工作中");
+        }
+
+
+        alert(stu.name);
+        stu.speak()
+
+        var arr1 = []
+        var arr2 = new Array()
+
+        typeof (arr1) // object
+        typeof (arr2) // object
+    </script> -->
+
+
+
+    <!-- 猜数字游戏 -->
+    <!-- <script>
+        var size = parseInt(prompt('你要几位数？'))
+        var num = Math.random() * Math.pow(10, size)
+        num = Math.floor(num)
+        console.log(num)
+
+        while(true) {
+            var guess = parseInt(prompt('你猜'))
+            if(guess == num) {
+                alert("猜对了");
+                break
+            } else if(guess < num) {
+                alert("小了");
+            } else {
+                alert("大了")
+            }
+        }
+
+    </script> -->
+
+
+
+    <!-- 求九九乘法表 -->
+    <!-- 
+        1x1=1
+        1x2=2 2x2=4
+        1x3=3 2x3=6 3x3=9
+        ...
+     -->
+    <!-- <script>
+        var totalStr = ''
+        for(var i=1; i<=9; i++) {
+            var line = '';
+            for(var j=1; j<=i; j++) {
+                line += `${j}x${i}=${j*i}`
+                line += ' '
+            }
+            totalStr += line;
+            totalStr += '\n'
+        }
+        console.log(totalStr)
+    </script> -->
+
+
+
+
+
+    <!-- 求某范围数字和 -->
+    <!-- <script>
+        var start = Number(prompt("开始值"))
+        var end = Number(prompt("结束值"))
+
+        var sum = 0;
+        for(var i=start; i<=end; i++) {
+            sum += i;
+        }
+        console.log(sum);
+     </script> -->
+
+
+    <!-- 求某范围质数（素数） -->
+    <!-- <script>
+        // 该数是否质数
+        function isPrime(num) {
+            if(num<2) {
+                return false;
+            }
+            for(var i=2; i<=Math.sqrt(num); i++) {
+                if(num % i==0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        var start = parseInt(prompt("开始值"));
+        var end = parseInt(prompt("结束值"));
+
+        for(var i=start; i<=end; i++) {
+            if(isPrime(i)) {
+                console.log(i)
+            }
+        }
+    </script> -->
+
+
+    <!-- <script>
+        var globalVar = 123 // 全局变量
+
+        function func() {
+            console.log(globalVar); // 函数内可以访问全局
+            var a = 3.14; // 函数内以var声明，为局部变量
+            b = 999 // 无前缀为全局变量【但必须运行过函数，才会创建变量】
+        }
+        // a // 无法访问
+        
+        func()
+        console.log(b) // 999
+
+
+        var globalVar = 456 // var可以重复声明
+
+        let e = 2.7
+        // let e = 3 // let无法重复声明
+    </script> -->
+
+
+    <!-- <script>
+        function func(num, sum) {
+            if (num > 0) {
+                return func(num - 1, sum += num)
+            } else {
+                return sum
+            }
+        }
+        // 1 + 2 + 3
+        var res = func(3, 0) // 6
+    </script> -->
+
+
+    <!-- <script>
+        var func1 = function (a, b) {
+            return a + b;
+        }
+        console.log(func1(1, 2));
+        var func2 = func1
+        console.log(func2(1, 2));
+
+        var func3 = (a, b) => {
+            return a + b
+        }
+        console.log(func3(1, 2));
+
+        function work(a, b, func) {
+            return func(a, b)
+        }
+
+        var res = work(1, 2, (a, b) => {
+            return a + b
+        }) // 3
+
+        res = work(1, 2, function (a, b) {
+            return a + b
+        })
+    </script> -->
+
+
+    <!-- <script>
+        function func(name='张三') {
+            alert(`你好${name}`)
+        }
+        func('李四')
+    </script> -->
+
+    <!-- 
+    <script>
+        function sum(a, b) {
+            console.log(arguments.length);
+            var s = 0
+            for (var i = 0; i < arguments.length; i++) {
+                s += arguments[i]
+            }
+            
+            return s
+        }
+
+        var res = sum(1, 2, 3, 4, 5) // 3
+        console.log(s);
+        
+    </script> -->
+
+
+    <!-- <script>
+        console.log(typeof [1,'3.14', true, [1,2,3]]);
+        var arr = [1,'3.14', true, [1,2,3]]
+        typeof(arr) // object
+    </script> -->
+
+
+    <!-- <script>
+        var s = 'abcd'
+        console.log(s.length, s[1]);
+        console.log(s[100], s + true)
+        
+    </script> -->
+
+
+    <!-- <script>
+        var a = Number.MAX_VALUE * 2 * -1
+        alert(a)
+
+        a = 'abc' - 1
+        alert(a)
+        alert(isNaN(a))
+        alert(isNaN('123'))
+    </script> -->
+
+
+
+    <!-- <script>
+        var name = "张三"
+        var a = `你好${name}`
+        alert(a)
+        var a = 3.14
+        alert(typeof(a))
+        a = "张三"
+        alert(typeof(a))
+    </script> -->
+
+
+    <!-- <script>
+        var res = confirm("是否关机？");
+        if(res) {
+            alert("关机");
+        } else {
+            alert("不关机");
+        }
+    </script> -->
+
+
+    <!-- <script>
+        var name = prompt("请输入姓名")
+        window.alert(name)
+    </script> -->
+
+</body>
+
+</html>
